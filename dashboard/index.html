@@ -534,11 +534,18 @@
         // Source filter
         if (activeSource !== 'all' && a.source !== activeSource) return false;
         // Time filter
-        const pubDate = new Date(a.published_at);
-        if (pubDate < cutoff) return false;
+        const pubDate = parseDate(a.published_at);
+        if (pubDate && pubDate < cutoff) return false;
         // Issue filter
         if (activeIssue && !a.issues.includes(activeIssue)) return false;
         return true;
+      }).sort((a, b) => {
+        const da = parseDate(a.published_at);
+        const db = parseDate(b.published_at);
+        if (!da && !db) return 0;
+        if (!da) return 1;
+        if (!db) return -1;
+        return db - da;
       });
     }
 
@@ -550,8 +557,8 @@
 
       const articles = dashData.recent_articles.filter(a => {
         if (activeSource !== 'all' && a.source !== activeSource) return false;
-        const pubDate = new Date(a.published_at);
-        if (pubDate < cutoff) return false;
+        const pubDate = parseDate(a.published_at);
+        if (pubDate && pubDate < cutoff) return false;
         return true;
       });
 
@@ -580,8 +587,8 @@
 
       const articles = dashData.recent_articles.filter(a => {
         if (activeSource !== 'all' && a.source !== activeSource) return false;
-        const pubDate = new Date(a.published_at);
-        if (pubDate < cutoff) return false;
+        const pubDate = parseDate(a.published_at);
+        if (pubDate && pubDate < cutoff) return false;
         if (activeIssue && !a.issues.includes(activeIssue)) return false;
         return true;
       });
@@ -764,8 +771,21 @@
     }
 
     // ── Utilities ────────────────────────────────────
+    function parseDate(dateStr) {
+      if (!dateStr) return null;
+      // Handle "2026-03-06 10:45:16 -0700" (Durango Herald format)
+      const isoish = dateStr.match(/^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2})\s*([+-]\d{4})?/);
+      if (isoish) {
+        return new Date(isoish[1] + 'T' + isoish[2] + (isoish[3] || ''));
+      }
+      // RFC 2822 and other formats handled natively
+      const d = new Date(dateStr);
+      return isNaN(d.getTime()) ? null : d;
+    }
+
     function formatDate(dateStr) {
-      const d = new Date(dateStr + 'T00:00:00');
+      const d = parseDate(dateStr);
+      if (!d) return '';
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       return months[d.getMonth()] + ' ' + d.getDate();

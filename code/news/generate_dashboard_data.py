@@ -48,12 +48,10 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
         for region, count in sorted(region_counts.items(), key=lambda x: -x[1])
     ]
 
-    # Recent articles with issue tags
+    # All articles with issue tags (sorted client-side for correct date ordering)
     rows = conn.execute(
         "SELECT a.id, a.title, a.url, a.source, a.published_at "
-        "FROM articles a "
-        "ORDER BY a.published_at DESC "
-        "LIMIT 100"
+        "FROM articles a"
     ).fetchall()
 
     recent_articles = []

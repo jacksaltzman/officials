@@ -7,7 +7,26 @@ from re import sub as re_sub
 
 import anthropic
 
+from db import BASE_DIR
+
 log = logging.getLogger(__name__)
+
+# -- Read API key from Environment.txt (same pattern as db.py) ----------------
+_ANTHROPIC_API_KEY = ""
+_cursor = BASE_DIR
+for _ in range(6):
+    _env_path = _cursor / "Environment.txt"
+    if _env_path.exists():
+        for _line in _env_path.read_text().strip().splitlines():
+            if _line.startswith("ANTHROPIC_API_KEY="):
+                _ANTHROPIC_API_KEY = _line.split("=", 1)[1].strip()
+                break
+    if _ANTHROPIC_API_KEY:
+        break
+    _cursor = _cursor.parent
+
+if not _ANTHROPIC_API_KEY:
+    log.warning("No ANTHROPIC_API_KEY found in Environment.txt")
 
 ISSUE_TAXONOMY = [
     "Water Rights", "Housing", "Public Safety", "Education",
@@ -52,16 +71,22 @@ def extract_issues_for_article(conn: sqlite3.Connection, article_id: int) -> Non
     title, body = row
     article_text = f"Title: {title}\n\n{body or ''}"
 
-    client = anthropic.Anthropic()
+    client = anthropic.Anthropic(api_key=_ANTHROPIC_API_KEY)
     response = client.messages.create(
-        model="claude-haiku-4-20250414",
+        model="claude-haiku-4-5-20251001",
         max_tokens=300,
         system=_SYSTEM_PROMPT.format(taxonomy=", ".join(ISSUE_TAXONOMY)),
         messages=[{"role": "user", "content": article_text}],
     )
 
     try:
-        result = json.loads(response.content[0].text)
+        raw = response.content[0].text.strip()
+        # Strip markdown code fences if present
+        if raw.startswith("```"):
+            raw = raw.split("\n", 1)[1] if "\n" in raw else raw[3:]
+            if raw.endswith("```"):
+                raw = raw[:-3].strip()
+        result = json.loads(raw)
     except (json.JSONDecodeError, IndexError) as e:
         log.error("Failed to parse LLM response for article %d: %s", article_id, e)
         return
