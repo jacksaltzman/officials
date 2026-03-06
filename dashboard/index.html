@@ -100,7 +100,9 @@
 
     /* ── Main Content ─────────────────────────────── */
     #main {
-      display: flex;
+      display: grid;
+      grid-template-columns: 38% 1fr;
+      grid-template-rows: auto 1fr;
       gap: 24px;
       padding: 24px;
       flex: 1;
@@ -109,10 +111,35 @@
       margin: 0 auto;
     }
 
-    /* ── Left Panel ───────────────────────────────── */
-    #left-panel {
-      flex: 0 0 38%;
+    /* ── Top Row: Issues + Map (aligned bottoms) ── */
+    #top-left {
+      grid-column: 1;
+      grid-row: 1;
       min-width: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+    #top-left .chart-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    #top-right {
+      grid-column: 2;
+      grid-row: 1;
+      min-width: 0;
+    }
+
+    /* ── Bottom Row: Trends + Feed ── */
+    #bottom-left {
+      grid-column: 1;
+      grid-row: 2;
+      min-width: 320px;
+    }
+    #bottom-right {
+      grid-column: 2;
+      grid-row: 2;
+      min-width: 0;
     }
 
     .section-header {
@@ -200,15 +227,6 @@
       font-weight: 600;
       color: #4C6971;
       text-align: left;
-    }
-
-    /* ── Right Panel ──────────────────────────────── */
-    #right-panel {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
     }
 
     /* ── Article Feed ──────────────────────────────── */
@@ -391,6 +409,22 @@
         flex-shrink: 0;
     }
 
+    /* ── Bar Chart Toggle ──────────────────────────── */
+    .bar-chart-toggle {
+        padding: 8px 0 2px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #4C6971;
+        cursor: pointer;
+        text-align: center;
+        transition: color 0.15s;
+    }
+    .bar-chart-toggle:hover {
+        color: #3a555c;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
     /* ── Sentiment Dots ─────────────────────────────── */
     .sentiment-dot {
       display: inline-block;
@@ -459,10 +493,12 @@
     /* ── Responsive ───────────────────────────────── */
     @media (max-width: 960px) {
       #main {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
       }
-      #left-panel {
-        flex: none;
+      #top-left, #top-right, #bottom-left, #bottom-right {
+        grid-column: 1;
+        grid-row: auto;
         min-width: unset;
       }
     }
@@ -497,9 +533,9 @@
         <option value="summit_daily">Summit Daily</option>
       </select>
       <div class="time-pills">
-        <button class="time-pill active" data-days="7">7d</button>
+        <button class="time-pill" data-days="7">7d</button>
         <button class="time-pill" data-days="30">30d</button>
-        <button class="time-pill" data-days="90">90d</button>
+        <button class="time-pill active" data-days="90">90d</button>
       </div>
     </div>
 
@@ -508,25 +544,17 @@
 
     <!-- Main Content -->
     <div id="main" style="display:none;">
-      <!-- Left: Bar Chart -->
-      <div id="left-panel">
+      <!-- Top-Left: Issues Bar Chart -->
+      <div id="top-left">
         <div class="section-header">
           <span>Top Issues</span>
           <span class="filter-clear" id="clear-filter" style="display:none;">Clear filter</span>
         </div>
         <div class="chart-card" id="chart-container"></div>
-        <div class="section-header" style="margin-top:20px;">
-            <span>Trends (30 days)</span>
-        </div>
-        <div class="chart-card" id="trend-container" style="height:180px;"></div>
-        <button id="toggle-cooccurrence" style="margin-top:12px; font-size:12px; cursor:pointer; background:none; border:1px solid #ccc; padding:4px 10px; border-radius:4px; font-family:'DM Sans',sans-serif;">
-            Show Co-occurrence
-        </button>
-        <div id="cooccurrence-container" class="chart-card" style="display:none; margin-top:12px; overflow-x:auto;"></div>
       </div>
 
-      <!-- Right: Region + Feed -->
-      <div id="right-panel">
+      <!-- Top-Right: Colorado Coverage Map -->
+      <div id="top-right">
         <div id="map-container" style="width:100%; position:relative;">
             <div class="section-header">
                 <span>Colorado Coverage Map</span>
@@ -534,6 +562,22 @@
             </div>
             <div class="chart-card" id="map-card" style="padding:0; overflow:hidden;"></div>
         </div>
+      </div>
+
+      <!-- Bottom-Left: Trends + Co-occurrence -->
+      <div id="bottom-left">
+        <div class="section-header">
+            <span>Trends (30 days)</span>
+        </div>
+        <div class="chart-card" id="trend-container" style="min-height:280px;"></div>
+        <button id="toggle-cooccurrence" style="margin-top:12px; font-size:12px; cursor:pointer; background:none; border:1px solid #ccc; padding:4px 10px; border-radius:4px; font-family:'DM Sans',sans-serif;">
+            Show Co-occurrence
+        </button>
+        <div id="cooccurrence-container" class="chart-card" style="display:none; margin-top:12px; overflow-x:auto;"></div>
+      </div>
+
+      <!-- Bottom-Right: Article Feed -->
+      <div id="bottom-right">
         <div class="feed-section">
           <div class="section-header">
             <span id="feed-title">Recent Articles</span>
@@ -573,7 +617,7 @@
     let dashData = null;
     let activeIssue = null;
     let activeSource = 'all';
-    let activeDays = 7;
+    let activeDays = 90;
     let activeCounty = null;
 
     const ISSUE_COLORS = {
@@ -598,7 +642,7 @@
         .then(data => {
           dashData = data;
           document.getElementById('loading').classList.add('hidden');
-          document.getElementById('main').style.display = 'flex';
+          document.getElementById('main').style.display = 'grid';
           renderAll();
           loadMap();
         })
@@ -723,18 +767,23 @@
     }
 
     // ── Bar Chart ────────────────────────────────────
+    const ISSUES_COLLAPSED_LIMIT = 15;
+    let issuesExpanded = false;
+
     function renderBarChart() {
       const container = document.getElementById('chart-container');
-      const issues = getFilteredIssues();
-      const maxCount = issues.length > 0 ? issues[0].count : 1;
+      const allIssues = getFilteredIssues();
+      const maxCount = allIssues.length > 0 ? allIssues[0].count : 1;
 
       container.innerHTML = '';
 
-      if (issues.length === 0) {
+      if (allIssues.length === 0) {
         container.innerHTML = '<div class="empty-state">No issues match current filters</div>';
         return;
       }
 
+      const hasMore = allIssues.length > ISSUES_COLLAPSED_LIMIT;
+      const issues = issuesExpanded ? allIssues : allIssues.slice(0, ISSUES_COLLAPSED_LIMIT);
       const filteredArticles = getFilteredArticles();
 
       issues.forEach(issue => {
@@ -779,9 +828,22 @@
           });
         });
       });
+
+      // Show more / show less toggle
+      if (hasMore) {
+        const toggle = document.createElement('div');
+        toggle.className = 'bar-chart-toggle';
+        const remaining = allIssues.length - ISSUES_COLLAPSED_LIMIT;
+        toggle.textContent = issuesExpanded ? 'Show fewer' : `Show ${remaining} more`;
+        toggle.addEventListener('click', () => {
+          issuesExpanded = !issuesExpanded;
+          renderBarChart();
+        });
+        container.appendChild(toggle);
+      }
     }
 
-    // ── Trend Lines ─────────────────────────────────────
+    // ── Trend Lines (Small Multiples) ───────────────────
     function renderTrends() {
       const container = document.getElementById('trend-container');
       container.innerHTML = '';
@@ -822,64 +884,213 @@
       articles.forEach(a => a.issues.forEach(i => { totals[i] = (totals[i] || 0) + 1; }));
       const topIssues = Object.entries(totals).sort((a, b) => b[1] - a[1]).slice(0, 5).map(e => e[0]);
 
-      // Build series
-      const series = topIssues.map(issue => ({
-        issue,
-        values: weeks.map(w => ({ week: w, count: (weekBuckets[w] || {})[issue] || 0 })),
-      }));
+      // Build series (each with its own max for independent y-scales)
+      const series = topIssues.map(issue => {
+        const values = weeks.map(w => ({ week: w, count: (weekBuckets[w] || {})[issue] || 0 }));
+        return { issue, values, peak: Math.max(...values.map(v => v.count)) };
+      });
 
-      // D3 line chart
-      const margin = { top: 10, right: 100, bottom: 30, left: 30 };
-      const width = container.clientWidth - margin.left - margin.right;
-      const height = 150 - margin.top - margin.bottom;
+      const colors = ['#4C6971', '#C0392B', '#27AE60', '#8E44AD', '#E67E22'];
+      const color = d3.scaleOrdinal().domain(topIssues).range(colors);
 
-      const svg = d3.select(container).append('svg')
-        .attr('width', width + margin.left + margin.right)
-        .attr('height', height + margin.top + margin.bottom)
-        .append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+      // Layout
+      const labelWidth = 110;
+      const peakWidth = 32;
+      const rowHeight = 44;
+      const rowGap = 6;
+      const xAxisHeight = 22;
+      const totalHeight = series.length * (rowHeight + rowGap) - rowGap + xAxisHeight;
+      const sparkWidth = container.clientWidth - labelWidth - peakWidth - 40;
 
-      const x = d3.scalePoint().domain(weeks).range([0, width]);
-      const y = d3.scaleLinear()
-        .domain([0, d3.max(series, s => d3.max(s.values, v => v.count)) || 1])
-        .range([height, 0]);
+      // Shared x-scale
+      const x = d3.scalePoint().domain(weeks).range([0, sparkWidth]).padding(0.15);
 
-      const color = d3.scaleOrdinal()
-        .domain(topIssues)
-        .range(['#4C6971', '#C0392B', '#27AE60', '#8E44AD', '#E67E22']);
+      // Wrapper
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'position:relative;';
+      container.appendChild(wrap);
 
-      // Axes
-      svg.append('g').attr('transform', `translate(0,${height})`)
-        .call(d3.axisBottom(x).tickFormat(d => {
-          const dt = new Date(d);
-          return (dt.getMonth() + 1) + '/' + dt.getDate();
-        }))
-        .selectAll('text').style('font-size', '10px');
+      // Tooltip
+      const tip = document.createElement('div');
+      tip.style.cssText = 'position:absolute;background:rgba(17,17,17,0.92);color:#fff;padding:6px 12px;border-radius:5px;font-size:12px;font-weight:500;pointer-events:none;z-index:100;white-space:nowrap;display:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);';
+      wrap.appendChild(tip);
 
-      svg.append('g').call(d3.axisLeft(y).ticks(4)).selectAll('text').style('font-size', '10px');
+      // SVG
+      const svgWidth = container.clientWidth - 8;
+      const svg = d3.select(wrap).append('svg')
+        .attr('width', svgWidth)
+        .attr('height', totalHeight);
 
-      // Lines
-      const line = d3.line().x(d => x(d.week)).y(d => y(d.count)).curve(d3.curveMonotoneX);
+      const chartLeft = labelWidth + 12;
 
-      series.forEach(s => {
-        const opacity = (activeIssue && activeIssue !== s.issue) ? 0.15 : 1;
-        svg.append('path')
+      // Draw each row
+      series.forEach((s, i) => {
+        const isActive = activeIssue === s.issue;
+        const isDimmed = activeIssue && !isActive;
+        const rowY = i * (rowHeight + rowGap);
+        const g = svg.append('g').attr('transform', `translate(${chartLeft}, ${rowY})`);
+
+        // Per-row y-scale (independent — each issue fills its own lane)
+        const yMax = s.peak || 1;
+        const y = d3.scaleLinear().domain([0, yMax]).range([rowHeight - 2, 2]);
+
+        // Subtle fill area
+        const area = d3.area()
+          .x(d => x(d.week)).y0(rowHeight).y1(d => y(d.count))
+          .curve(d3.curveMonotoneX);
+
+        g.append('path')
+          .datum(s.values)
+          .attr('fill', color(s.issue))
+          .attr('opacity', isDimmed ? 0.04 : 0.1)
+          .attr('d', area);
+
+        // Line
+        const line = d3.line().x(d => x(d.week)).y(d => y(d.count)).curve(d3.curveMonotoneX);
+
+        g.append('path')
           .datum(s.values)
           .attr('fill', 'none')
           .attr('stroke', color(s.issue))
-          .attr('stroke-width', activeIssue === s.issue ? 3 : 1.5)
-          .attr('opacity', opacity)
+          .attr('stroke-width', isActive ? 2.5 : 1.8)
+          .attr('opacity', isDimmed ? 0.2 : 1)
           .attr('d', line);
 
-        // Label at end
-        const last = s.values[s.values.length - 1];
-        svg.append('text')
-          .attr('x', width + 5)
-          .attr('y', y(last.count))
-          .attr('font-size', '10px')
+        // Dots
+        g.selectAll(null).data(s.values).enter().append('circle')
+          .attr('cx', d => x(d.week))
+          .attr('cy', d => y(d.count))
+          .attr('r', isActive ? 3.5 : 2)
           .attr('fill', color(s.issue))
-          .attr('opacity', opacity)
-          .attr('dominant-baseline', 'middle')
-          .text(s.issue.length > 15 ? s.issue.slice(0, 13) + '\u2026' : s.issue);
+          .attr('opacity', isDimmed ? 0.2 : 1);
+
+        // Issue label (left)
+        svg.append('text')
+          .attr('x', labelWidth)
+          .attr('y', rowY + rowHeight / 2)
+          .attr('text-anchor', 'end')
+          .attr('font-size', '12px')
+          .attr('font-family', 'DM Sans')
+          .attr('font-weight', isActive ? 600 : 500)
+          .attr('fill', isDimmed ? '#bbb' : '#333')
+          .attr('dominant-baseline', 'central')
+          .text(s.issue.length > 16 ? s.issue.slice(0, 14) + '\u2026' : s.issue);
+
+        // Colored dot before label
+        svg.append('circle')
+          .attr('cx', 6)
+          .attr('cy', rowY + rowHeight / 2)
+          .attr('r', 4)
+          .attr('fill', color(s.issue))
+          .attr('opacity', isDimmed ? 0.2 : 1);
+
+        // Peak value (right)
+        svg.append('text')
+          .attr('x', chartLeft + sparkWidth + 8)
+          .attr('y', rowY + rowHeight / 2)
+          .attr('font-size', '12px')
+          .attr('font-family', 'DM Sans')
+          .attr('font-weight', 600)
+          .attr('fill', isDimmed ? '#ccc' : color(s.issue))
+          .attr('dominant-baseline', 'central')
+          .text(s.peak);
+
+        // Bottom border
+        g.append('line')
+          .attr('x1', 0).attr('x2', sparkWidth)
+          .attr('y1', rowHeight).attr('y2', rowHeight)
+          .attr('stroke', '#E8E5E1').attr('stroke-width', 0.5);
+      });
+
+      // Shared x-axis at bottom
+      const axisG = svg.append('g')
+        .attr('transform', `translate(${chartLeft}, ${series.length * (rowHeight + rowGap) - rowGap + 4})`);
+      axisG.call(d3.axisBottom(x).tickSize(0).tickFormat(d => {
+        const dt = new Date(d);
+        return (dt.getMonth() + 1) + '/' + dt.getDate();
+      }))
+      .selectAll('text').style('font-size', '10px').style('font-family', 'DM Sans').attr('dy', '0.5em');
+      axisG.select('.domain').attr('stroke', '#E8E5E1');
+
+      // Vertical hover crosshair + tooltip
+      const crosshair = svg.append('line')
+        .attr('y1', 0).attr('y2', series.length * (rowHeight + rowGap) - rowGap)
+        .attr('stroke', '#999').attr('stroke-width', 0.8)
+        .attr('stroke-dasharray', '3,3').style('display', 'none');
+
+      // Hover dots (one per series)
+      const hoverDots = series.map((s, i) => {
+        return svg.append('circle')
+          .attr('r', 4).attr('fill', color(s.issue))
+          .attr('stroke', '#fff').attr('stroke-width', 1.5)
+          .style('display', 'none');
+      });
+
+      // Invisible overlay for mouse tracking
+      const overlay = svg.append('rect')
+        .attr('x', chartLeft).attr('y', 0)
+        .attr('width', sparkWidth)
+        .attr('height', series.length * (rowHeight + rowGap))
+        .attr('fill', 'transparent')
+        .style('cursor', 'crosshair');
+
+      const weekPositions = weeks.map(w => x(w));
+
+      overlay.on('mousemove', function(event) {
+        const [mx] = d3.pointer(event);
+        const localX = mx - chartLeft;
+
+        // Find nearest week
+        let minDist = Infinity, nearestIdx = 0;
+        weekPositions.forEach((px, i) => {
+          const dist = Math.abs(localX - px);
+          if (dist < minDist) { minDist = dist; nearestIdx = i; }
+        });
+        const week = weeks[nearestIdx];
+        const weekX = chartLeft + weekPositions[nearestIdx];
+
+        crosshair.attr('x1', weekX).attr('x2', weekX).style('display', null);
+
+        // Build tooltip and position hover dots
+        const dt = new Date(week);
+        const weekLabel = 'Week of ' + (dt.getMonth() + 1) + '/' + dt.getDate();
+        let tipRows = `<div style="font-weight:600;margin-bottom:4px;">${weekLabel}</div>`;
+
+        series.forEach((s, i) => {
+          const val = s.values[nearestIdx].count;
+          const yScale = d3.scaleLinear().domain([0, s.peak || 1]).range([rowHeight - 2, 2]);
+          const rowY = i * (rowHeight + rowGap);
+
+          hoverDots[i]
+            .attr('cx', weekX)
+            .attr('cy', rowY + yScale(val))
+            .style('display', null);
+
+          tipRows += `<div style="display:flex;align-items:center;gap:5px;">` +
+            `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${color(s.issue)};"></span>` +
+            `<span>${s.issue}:</span><span style="font-weight:600;">${val}</span></div>`;
+        });
+
+        tip.innerHTML = tipRows;
+        tip.style.display = 'block';
+
+        // Position tooltip
+        const rect = wrap.getBoundingClientRect();
+        const tipX = weekX + 16;
+        const tipY = event.clientY - rect.top - 20;
+        const tipRight = tipX + tip.offsetWidth;
+        if (tipRight > svgWidth) {
+          tip.style.left = (weekX - tip.offsetWidth - 12) + 'px';
+        } else {
+          tip.style.left = tipX + 'px';
+        }
+        tip.style.top = Math.max(0, tipY) + 'px';
+      });
+
+      overlay.on('mouseleave', function() {
+        crosshair.style('display', 'none');
+        hoverDots.forEach(d => d.style('display', 'none'));
+        tip.style.display = 'none';
       });
     }
 
@@ -904,14 +1115,15 @@
       const container = document.getElementById('map-card');
       container.innerHTML = '';
 
-      const pad = 16;
-      const width = container.clientWidth - pad * 2;
+      const padX = 16;
+      const padY = 14;
+      const width = container.clientWidth - padX * 2;
       const height = Math.max(340, width * 0.62);
       const svg = d3.select(container).append('svg')
-          .attr('width', width + pad * 2).attr('height', height)
+          .attr('width', width + padX * 2).attr('height', height + padY * 2)
           .style('display', 'block');
 
-      const g = svg.append('g').attr('transform', `translate(${pad},0)`);
+      const g = svg.append('g').attr('transform', `translate(${padX},${padY})`);
 
       const objectKey = Object.keys(mapData.objects)[0];
       const geojson = topojson.feature(mapData, mapData.objects[objectKey]);
