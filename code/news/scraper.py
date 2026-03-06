@@ -46,8 +46,8 @@ def scrape_article_body(url: str) -> str | None:
             headers={"User-Agent": _USER_AGENT},
         )
         response.raise_for_status()
-    except Exception:
-        log.warning("Failed to fetch %s", url)
+    except Exception as exc:
+        log.warning("Failed to fetch %s: %s", url, exc)
         return None
 
     try:
@@ -56,8 +56,8 @@ def scrape_article_body(url: str) -> str | None:
         soup = BeautifulSoup(html_content, "lxml")
         text = soup.get_text(separator=" ", strip=True)
         return text if text else None
-    except Exception:
-        log.warning("Failed to extract content from %s", url)
+    except Exception as exc:
+        log.warning("Failed to extract content from %s: %s", url, exc)
         return None
 
 
