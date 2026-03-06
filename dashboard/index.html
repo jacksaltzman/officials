@@ -323,21 +323,72 @@
     }
 
     /* ── Map ─────────────────────────────────────── */
+    #map-card {
+        position: relative;
+        background: #F5F3F0;
+        border-radius: 8px;
+    }
     #map-card svg {
         display: block;
         margin: 0 auto;
     }
+    .county-path {
+        transition: fill 0.15s, stroke-width 0.15s;
+    }
+    .county-path:hover {
+        stroke: #111 !important;
+        stroke-width: 1.5 !important;
+        filter: brightness(0.92);
+    }
+    .county-label {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 8px;
+        font-weight: 600;
+        fill: #555;
+        text-anchor: middle;
+        pointer-events: none;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+    .county-label--small {
+        font-size: 6.5px;
+        font-weight: 500;
+    }
     .county-tooltip {
         position: absolute;
-        background: rgba(0,0,0,0.85);
+        background: rgba(17,17,17,0.92);
         color: #fff;
-        padding: 8px 12px;
+        padding: 8px 14px;
         border-radius: 6px;
         font-size: 12px;
+        font-weight: 500;
         pointer-events: none;
         z-index: 100;
         white-space: nowrap;
         display: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .map-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 12px;
+        padding: 10px 16px 6px;
+        justify-content: center;
+    }
+    .map-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 10px;
+        font-weight: 500;
+        color: #666;
+        white-space: nowrap;
+    }
+    .map-legend-swatch {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        flex-shrink: 0;
     }
 
     /* ── Sentiment Dots ─────────────────────────────── */
@@ -481,7 +532,7 @@
                 <span>Colorado Coverage Map</span>
                 <span class="filter-clear" id="clear-county" style="display:none;">Clear county</span>
             </div>
-            <div class="chart-card" id="map-card" style="padding:12px;"></div>
+            <div class="chart-card" id="map-card" style="padding:0; overflow:hidden;"></div>
         </div>
         <div class="feed-section">
           <div class="section-header">
@@ -844,64 +895,147 @@
       }
     }
 
+    // County area threshold for showing labels (sq pixels)
+    const LABEL_AREA_THRESHOLD = 1800;
+    const SMALL_LABEL_THRESHOLD = 3500;
+
     function renderMap() {
       if (!mapData || !dashData) return;
       const container = document.getElementById('map-card');
       container.innerHTML = '';
 
-      const width = container.clientWidth - 24;
-      const height = 300;
+      const pad = 16;
+      const width = container.clientWidth - pad * 2;
+      const height = Math.max(340, width * 0.62);
       const svg = d3.select(container).append('svg')
-          .attr('width', width).attr('height', height);
+          .attr('width', width + pad * 2).attr('height', height)
+          .style('display', 'block');
+
+      const g = svg.append('g').attr('transform', `translate(${pad},0)`);
 
       const objectKey = Object.keys(mapData.objects)[0];
       const geojson = topojson.feature(mapData, mapData.objects[objectKey]);
-      const projection = d3.geoMercator().fitSize([width, height], geojson);
-      const path = d3.geoPath().projection(projection);
+
+      // Use Albers projection optimized for Colorado
+      const projection = d3.geoAlbers()
+          .rotate([105.5, 0])
+          .center([0, 39])
+          .fitSize([width, height], geojson);
+      const pathGen = d3.geoPath().projection(projection);
 
       // Build county lookup from dashData
       const countyLookup = {};
-      (dashData.county_data || []).forEach(c => {
-        const key = c.county.toUpperCase().replace(/ COUNTY$/, '');
-        countyLookup[key] = c;
-      });
+      if (dashData.county_data && dashData.county_data.length > 0) {
+        dashData.county_data.forEach(c => {
+          const key = c.county.toUpperCase().replace(/ COUNTY$/, '');
+          countyLookup[key] = c;
+        });
+      } else {
+        // Derive county data from article location tags
+        const filteredArticles = getFilteredArticles();
+        const countyAgg = {};
+        filteredArticles.forEach(a => {
+          (a.locations || []).forEach(loc => {
+            if (loc.type !== 'county') return;
+            const key = loc.name.toUpperCase().replace(/ COUNTY$/, '').trim();
+            if (!key) return;
+            if (!countyAgg[key]) countyAgg[key] = { total: 0, issues: {} };
+            countyAgg[key].total += 1;
+            (a.issues || []).forEach(issue => {
+              countyAgg[key].issues[issue] = (countyAgg[key].issues[issue] || 0) + 1;
+            });
+          });
+        });
+        // Also map well-known municipalities to counties
+        const MUNI_TO_COUNTY = {
+          'DENVER': 'DENVER', 'AURORA': 'ARAPAHOE', 'BOULDER': 'BOULDER',
+          'DURANGO': 'LA PLATA', 'GRAND JUNCTION': 'MESA', 'PUEBLO': 'PUEBLO',
+          'CORTEZ': 'MONTEZUMA', 'COLORADO SPRINGS': 'EL PASO', 'FORT COLLINS': 'LARIMER',
+          'STEAMBOAT SPRINGS': 'ROUTT', 'TELLURIDE': 'SAN MIGUEL', 'SILVERTON': 'SAN JUAN',
+          'MONTROSE': 'MONTROSE', 'GLENWOOD SPRINGS': 'GARFIELD', 'ASPEN': 'PITKIN',
+          'VAIL': 'EAGLE', 'BRECKENRIDGE': 'SUMMIT', 'FRISCO': 'SUMMIT',
+          'GREELEY': 'WELD', 'LONGMONT': 'BOULDER', 'LOVELAND': 'LARIMER',
+          'LAKEWOOD': 'JEFFERSON', 'THORNTON': 'ADAMS', 'ARVADA': 'JEFFERSON',
+          'WESTMINSTER': 'ADAMS', 'CENTENNIAL': 'ARAPAHOE', 'BRIGHTON': 'ADAMS',
+          'CASTLE ROCK': 'DOUGLAS', 'PARKER': 'DOUGLAS', 'LITTLETON': 'ARAPAHOE',
+          'GOLDEN': 'JEFFERSON', 'BAYFIELD': 'LA PLATA', 'PAGOSA SPRINGS': 'ARCHULETA',
+          'DOLORES': 'MONTEZUMA', 'MANCOS': 'MONTEZUMA', 'RICO': 'DOLORES',
+          'TRINIDAD': 'LAS ANIMAS', 'WALSENBURG': 'HUERFANO', 'ALAMOSA': 'ALAMOSA',
+          'SALIDA': 'CHAFFEE', 'BUENA VISTA': 'CHAFFEE', 'CANON CITY': 'FREMONT',
+          'CRAIG': 'MOFFAT', 'MEEKER': 'RIO BLANCO', 'RIFLE': 'GARFIELD',
+          'DELTA': 'DELTA', 'OURAY': 'OURAY', 'HENDERSON': 'ADAMS',
+        };
+        filteredArticles.forEach(a => {
+          (a.locations || []).forEach(loc => {
+            if (loc.type !== 'municipality') return;
+            const muniKey = loc.name.toUpperCase().trim();
+            const county = MUNI_TO_COUNTY[muniKey];
+            if (!county) return;
+            if (!countyAgg[county]) countyAgg[county] = { total: 0, issues: {} };
+            countyAgg[county].total += 1;
+            (a.issues || []).forEach(issue => {
+              countyAgg[county].issues[issue] = (countyAgg[county].issues[issue] || 0) + 1;
+            });
+          });
+        });
+        Object.entries(countyAgg).forEach(([key, data]) => {
+          // Find top issue by count
+          let topIssue = null, topCount = 0;
+          Object.entries(data.issues).forEach(([issue, cnt]) => {
+            if (cnt > topCount) { topIssue = issue; topCount = cnt; }
+          });
+          countyLookup[key] = { county: key, total_articles: data.total, top_issue: topIssue, issues: data.issues };
+        });
+      }
+
+      // Collect active issues for legend
+      const activeIssues = new Set();
 
       // Tooltip
       const tooltip = d3.select(container).append('div').attr('class', 'county-tooltip');
 
-      svg.selectAll('path')
+      // Draw county paths
+      g.selectAll('path')
           .data(geojson.features)
           .join('path')
-          .attr('d', path)
+          .attr('class', 'county-path')
+          .attr('d', pathGen)
           .attr('fill', d => {
             const name = (d.properties.NAME || '').toUpperCase();
             const data = countyLookup[name];
-            if (activeCounty && name !== activeCounty.toUpperCase()) return '#F5F3F0';
-            if (data && data.top_issue) return ISSUE_COLORS[data.top_issue] || '#4C6971';
+            if (activeCounty && name !== activeCounty.toUpperCase()) return '#ECEAE6';
+            if (data && data.top_issue) {
+              activeIssues.add(data.top_issue);
+              return ISSUE_COLORS[data.top_issue] || '#4C6971';
+            }
             return DEFAULT_COUNTY_COLOR;
           })
           .attr('stroke', d => {
             const name = (d.properties.NAME || '').toUpperCase();
-            return activeCounty && name === activeCounty.toUpperCase() ? '#111' : '#fff';
+            return activeCounty && name === activeCounty.toUpperCase() ? '#111' : '#C8C4BE';
           })
           .attr('stroke-width', d => {
             const name = (d.properties.NAME || '').toUpperCase();
-            return activeCounty && name === activeCounty.toUpperCase() ? 2 : 0.5;
+            return activeCounty && name === activeCounty.toUpperCase() ? 2.5 : 0.8;
           })
           .attr('cursor', 'pointer')
           .on('mouseover', (event, d) => {
             const name = (d.properties.NAME || '').toUpperCase();
             const data = countyLookup[name];
-            let text = d.properties.NAME + ' County';
-            if (data) text += ': ' + data.top_issue + ' (' + data.total_articles + ' articles)';
-            else text += ': No coverage';
-            tooltip.style('display', 'block').html(text);
+            let html = '<strong>' + esc(d.properties.NAME) + ' County</strong>';
+            if (data) {
+              html += '<br>' + esc(data.top_issue);
+              html += ' &middot; ' + data.total_articles + ' article' + (data.total_articles !== 1 ? 's' : '');
+            } else {
+              html += '<br><span style="color:#999;">No coverage</span>';
+            }
+            tooltip.style('display', 'block').html(html);
           })
           .on('mousemove', (event) => {
             const rect = container.getBoundingClientRect();
             tooltip
-                .style('left', (event.clientX - rect.left + 12) + 'px')
-                .style('top', (event.clientY - rect.top - 20) + 'px');
+                .style('left', (event.clientX - rect.left + 14) + 'px')
+                .style('top', (event.clientY - rect.top - 28) + 'px');
           })
           .on('mouseout', () => tooltip.style('display', 'none'))
           .on('click', (event, d) => {
@@ -914,6 +1048,46 @@
                 hideOfficialsDrawer();
             }
           });
+
+      // Draw county labels for counties large enough to read
+      g.selectAll('.county-label')
+          .data(geojson.features)
+          .join('text')
+          .each(function(d) {
+            const bounds = pathGen.bounds(d);
+            const area = (bounds[1][0] - bounds[0][0]) * (bounds[1][1] - bounds[0][1]);
+            if (area < LABEL_AREA_THRESHOLD) {
+              d3.select(this).remove();
+              return;
+            }
+            const centroid = pathGen.centroid(d);
+            const isSmall = area < SMALL_LABEL_THRESHOLD;
+            d3.select(this)
+              .attr('class', 'county-label' + (isSmall ? ' county-label--small' : ''))
+              .attr('x', centroid[0])
+              .attr('y', centroid[1])
+              .attr('dy', '0.35em')
+              .text(d.properties.NAME);
+          });
+
+      // Draw legend below the map
+      const legendDiv = document.createElement('div');
+      legendDiv.className = 'map-legend';
+
+      // No-coverage swatch
+      legendDiv.innerHTML = `<span class="map-legend-item"><span class="map-legend-swatch" style="background:${DEFAULT_COUNTY_COLOR};border:1px solid #C8C4BE;"></span>No coverage</span>`;
+
+      // Issue swatches — only show issues that appear on the map
+      const sortedIssues = [...activeIssues].sort();
+      sortedIssues.forEach(issue => {
+        const color = ISSUE_COLORS[issue] || '#4C6971';
+        const item = document.createElement('span');
+        item.className = 'map-legend-item';
+        item.innerHTML = `<span class="map-legend-swatch" style="background:${color};"></span>${esc(issue)}`;
+        legendDiv.appendChild(item);
+      });
+
+      container.appendChild(legendDiv);
     }
 
     // ── Article Feed ─────────────────────────────────
