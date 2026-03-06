@@ -43,7 +43,7 @@ _SYSTEM_PROMPT = """You are a local news analyst for Colorado. Given a news arti
 4. The best-guess Colorado county this article is primarily about.
 
 Respond with JSON only, no other text:
-{{"issues": ["Topic 1", "Topic 2"], "regions": [{{"name": "City Name", "type": "municipality"}}], "sentiment": "neutral", "county": "County Name"}}
+{{"issues": ["Topic 1", "Topic 2"], "regions": [{{"name": "City Name", "type": "municipality"}}, {{"name": "County Name", "type": "county"}}], "sentiment": "neutral", "county": "County Name"}}
 """
 
 

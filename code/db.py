@@ -180,15 +180,14 @@ def get_connection() -> sqlite3.Connection:
     for stmt in _NEWS_SCHEMAS:
         conn.execute(stmt)
 
-    # Schema migrations for v2
-    try:
+    # Schema migrations for v2 — only needed for pre-v2 databases
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(articles)").fetchall()}
+    if "sentiment" not in cols:
         conn.execute("ALTER TABLE articles ADD COLUMN sentiment TEXT")
-    except sqlite3.OperationalError:
-        pass  # column already exists
-    try:
+
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(article_regions)").fetchall()}
+    if "county" not in cols:
         conn.execute("ALTER TABLE article_regions ADD COLUMN county TEXT")
-    except sqlite3.OperationalError:
-        pass  # column already exists
 
     log.info("Database ready at %s", DB_PATH)
     return conn
