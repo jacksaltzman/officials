@@ -1,4 +1,4 @@
-"""Google News RSS ingestion adapter for Pueblo Chieftain and GJ Sentinel."""
+"""Google News RSS ingestion adapter for Colorado news sources."""
 
 import logging
 import sqlite3

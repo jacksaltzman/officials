@@ -1,4 +1,4 @@
-"""RSS feed ingestion adapter for Denver Post and Durango Herald."""
+"""RSS feed ingestion adapter for Colorado news sources."""
 
 import logging
 import sqlite3
