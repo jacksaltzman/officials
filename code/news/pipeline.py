@@ -6,6 +6,7 @@ import sqlite3
 from news.rss_adapter import fetch_rss_articles
 from news.google_news_adapter import fetch_google_news_articles
 from news.extract_issues import extract_issues_for_article
+from news.scraper import scrape_missing_bodies
 
 log = logging.getLogger(__name__)
 
@@ -25,6 +26,10 @@ def run_news_pipeline(conn: sqlite3.Connection) -> None:
         total += fetch_google_news_articles(conn, source)
 
     log.info("Ingested %d new articles total", total)
+
+    # Phase 1.5: Scrape full bodies for title-only articles
+    scraped = scrape_missing_bodies(conn)
+    log.info("Scraped %d article bodies", scraped)
 
     # Phase 2: Extract issues for unprocessed articles
     unprocessed = conn.execute(

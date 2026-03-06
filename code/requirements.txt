@@ -5,5 +5,7 @@ pandas>=2.1
 openpyxl>=3.1
 pdfplumber>=0.11
 lxml>=5.1
+readability-lxml>=0.8
+lxml-html-clean>=0.4
 feedparser>=6.0
 anthropic>=0.40
