@@ -436,6 +436,10 @@
             <span>Trends (30 days)</span>
         </div>
         <div class="chart-card" id="trend-container" style="height:180px;"></div>
+        <button id="toggle-cooccurrence" style="margin-top:12px; font-size:12px; cursor:pointer; background:none; border:1px solid #ccc; padding:4px 10px; border-radius:4px; font-family:'DM Sans',sans-serif;">
+            Show Co-occurrence
+        </button>
+        <div id="cooccurrence-container" class="chart-card" style="display:none; margin-top:12px; overflow-x:auto;"></div>
       </div>
 
       <!-- Right: Region + Feed -->
@@ -958,6 +962,45 @@
       const div = document.createElement('div');
       div.textContent = String(str);
       return div.innerHTML;
+    }
+
+    // ── Co-occurrence Toggle ──────────────────────────
+    document.getElementById('toggle-cooccurrence').addEventListener('click', () => {
+        const container = document.getElementById('cooccurrence-container');
+        const btn = document.getElementById('toggle-cooccurrence');
+        if (container.style.display === 'none') {
+            container.style.display = 'block';
+            btn.textContent = 'Hide Co-occurrence';
+            renderCooccurrence();
+        } else {
+            container.style.display = 'none';
+            btn.textContent = 'Show Co-occurrence';
+        }
+    });
+
+    function renderCooccurrence() {
+        const container = document.getElementById('cooccurrence-container');
+        container.innerHTML = '';
+        const data = dashData.cooccurrence || [];
+        if (data.length === 0) {
+            container.innerHTML = '<div class="empty-state">No co-occurrence data available</div>';
+            return;
+        }
+
+        // Show top 15 pairs as a simple HTML table
+        const top = data.slice(0, 15);
+        let html = '<table style="width:100%;border-collapse:collapse;font-size:12px;">';
+        html += '<tr style="border-bottom:1px solid #eee;"><th style="text-align:left;padding:6px;">Issue A</th><th style="text-align:left;padding:6px;">Issue B</th><th style="text-align:right;padding:6px;">Count</th></tr>';
+        top.forEach(row => {
+            const bgWidth = Math.min(row.count / (top[0].count || 1) * 100, 100);
+            html += `<tr style="border-bottom:1px solid #f5f5f5;">`;
+            html += `<td style="padding:6px;">${esc(row.issue_a)}</td>`;
+            html += `<td style="padding:6px;">${esc(row.issue_b)}</td>`;
+            html += `<td style="padding:6px;text-align:right;"><span style="display:inline-block;background:#EDF2F3;border-radius:3px;padding:2px 6px;min-width:${bgWidth}%;">${row.count}</span></td>`;
+            html += `</tr>`;
+        });
+        html += '</table>';
+        container.innerHTML = html;
     }
   </script>
 </body>

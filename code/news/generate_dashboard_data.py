@@ -121,11 +121,32 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
             "sentiment": sentiment,
         })
 
+    # Issue co-occurrence
+    cooccurrence = {}
+    article_issue_map = {}
+    for row in conn.execute(
+        "SELECT ai.article_id, i.name FROM article_issues ai "
+        "JOIN issues i ON ai.issue_id = i.id"
+    ).fetchall():
+        article_issue_map.setdefault(row[0], []).append(row[1])
+
+    for issues_list in article_issue_map.values():
+        for i, a in enumerate(issues_list):
+            for b in issues_list[i + 1:]:
+                pair = tuple(sorted([a, b]))
+                cooccurrence[pair] = cooccurrence.get(pair, 0) + 1
+
+    cooccurrence_data = [
+        {"issue_a": pair[0], "issue_b": pair[1], "count": count}
+        for pair, count in sorted(cooccurrence.items(), key=lambda x: -x[1])
+    ]
+
     return {
         "issues_by_count": issues_by_count,
         "articles_by_region": articles_by_region,
         "recent_articles": recent_articles,
         "county_data": county_data,
+        "cooccurrence": cooccurrence_data,
     }
 
 
