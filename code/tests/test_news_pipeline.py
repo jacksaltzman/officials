@@ -22,15 +22,17 @@ def conn():
     c.close()
 
 
+@patch("news.pipeline.find_duplicates")
 @patch("news.pipeline.scrape_missing_bodies")
 @patch("news.pipeline.extract_issues_for_article")
 @patch("news.pipeline.fetch_google_news_articles")
 @patch("news.pipeline.fetch_rss_articles")
-def test_pipeline_calls_all_sources(mock_rss, mock_gnews, mock_extract, mock_scrape, conn):
+def test_pipeline_calls_all_sources(mock_rss, mock_gnews, mock_extract, mock_scrape, mock_dedup, conn):
     """Pipeline should call both adapters, scraper, and extractor."""
     mock_rss.return_value = 2
     mock_gnews.return_value = 1
     mock_scrape.return_value = 0
+    mock_dedup.return_value = 0
 
     # Insert fake articles so extraction has something to process
     conn.execute(
@@ -58,3 +60,6 @@ def test_pipeline_calls_all_sources(mock_rss, mock_gnews, mock_extract, mock_scr
 
     # Scraper called once with connection
     mock_scrape.assert_called_once_with(conn)
+
+    # Dedup called once with connection
+    mock_dedup.assert_called_once_with(conn)

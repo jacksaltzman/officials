@@ -135,11 +135,21 @@ CREATE TABLE IF NOT EXISTS article_regions (
 );
 """
 
+_SCHEMA_ARTICLE_DUPLICATES = """
+CREATE TABLE IF NOT EXISTS article_duplicates (
+    article_id INTEGER REFERENCES articles(id),
+    duplicate_of_id INTEGER REFERENCES articles(id),
+    similarity REAL,
+    PRIMARY KEY (article_id, duplicate_of_id)
+);
+"""
+
 _NEWS_SCHEMAS = [
     _SCHEMA_ARTICLES,
     _SCHEMA_ISSUES,
     _SCHEMA_ARTICLE_ISSUES,
     _SCHEMA_ARTICLE_REGIONS,
+    _SCHEMA_ARTICLE_DUPLICATES,
 ]
 
 # -- Column lists (used for upsert helpers) ---------------------------------
