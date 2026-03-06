@@ -1,6 +1,8 @@
 {
+  "redirects": [
+    { "source": "/", "destination": "/dashboard", "permanent": false }
+  ],
   "rewrites": [
-    { "source": "/", "destination": "/dashboard/index.html" },
     { "source": "/snap", "destination": "/snap/index.html" }
   ],
   "outputDirectory": ".",
