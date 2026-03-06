@@ -33,9 +33,9 @@ def conn():
     c.execute("INSERT INTO issues (name, slug) VALUES (?, ?)", ("Housing", "housing"))
     c.execute("INSERT INTO article_issues VALUES (?, ?)", (1, 1))
     c.execute("INSERT INTO article_issues VALUES (?, ?)", (2, 2))
-    c.execute("INSERT INTO article_regions VALUES (?, ?, ?)", (1, "Durango", "municipality"))
-    c.execute("INSERT INTO article_regions VALUES (?, ?, ?)", (1, "La Plata County", "county"))
-    c.execute("INSERT INTO article_regions VALUES (?, ?, ?)", (2, "Denver", "municipality"))
+    c.execute("INSERT INTO article_regions (article_id, region_name, region_type) VALUES (?, ?, ?)", (1, "Durango", "municipality"))
+    c.execute("INSERT INTO article_regions (article_id, region_name, region_type) VALUES (?, ?, ?)", (1, "La Plata County", "county"))
+    c.execute("INSERT INTO article_regions (article_id, region_name, region_type) VALUES (?, ?, ?)", (2, "Denver", "municipality"))
     c.commit()
     yield c
     c.close()

@@ -39,9 +39,11 @@ _SYSTEM_PROMPT = """You are a local news analyst for Colorado. Given a news arti
 1. 1-3 issue topics the article relates to. Prefer topics from this list: {taxonomy}
    If the article clearly relates to a topic not on the list, create a concise new one.
 2. The specific geographic locations mentioned (city and/or county in Colorado).
+3. The overall sentiment of the article: "positive", "neutral", or "negative".
+4. The best-guess Colorado county this article is primarily about.
 
 Respond with JSON only, no other text:
-{{"issues": ["Topic 1", "Topic 2"], "regions": [{{"name": "City Name", "type": "municipality"}}, {{"name": "County Name", "type": "county"}}]}}
+{{"issues": ["Topic 1", "Topic 2"], "regions": [{{"name": "City Name", "type": "municipality"}}], "sentiment": "neutral", "county": "County Name"}}
 """
 
 
@@ -74,7 +76,7 @@ def extract_issues_for_article(conn: sqlite3.Connection, article_id: int) -> Non
     client = anthropic.Anthropic(api_key=_ANTHROPIC_API_KEY)
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=300,
+        max_tokens=400,
         system=_SYSTEM_PROMPT.format(taxonomy=", ".join(ISSUE_TAXONOMY)),
         messages=[{"role": "user", "content": article_text}],
     )
@@ -109,6 +111,22 @@ def extract_issues_for_article(conn: sqlite3.Connection, article_id: int) -> Non
                 "VALUES (?, ?, ?)",
                 (article_id, name, rtype),
             )
+
+    # Store sentiment
+    sentiment = result.get("sentiment", "neutral")
+    if sentiment in ("positive", "neutral", "negative"):
+        conn.execute(
+            "UPDATE articles SET sentiment = ? WHERE id = ?",
+            (sentiment, article_id),
+        )
+
+    # Store county on regions
+    county = result.get("county", "")
+    if county:
+        conn.execute(
+            "UPDATE article_regions SET county = ? WHERE article_id = ? AND county IS NULL",
+            (county, article_id),
+        )
 
     conn.commit()
     log.info("Article %d: issues=%s", article_id, result.get("issues", []))

@@ -54,7 +54,7 @@ def test_article_regions_junction(conn):
     conn.execute("INSERT INTO article_regions (article_id, region_name, region_type) VALUES (?, ?, ?)", (1, "Durango", "municipality"))
     conn.commit()
     row = conn.execute("SELECT * FROM article_regions").fetchone()
-    assert row == (1, "Durango", "municipality")
+    assert row == (1, "Durango", "municipality", None)
 
 
 def test_url_uniqueness(conn):
@@ -62,3 +62,13 @@ def test_url_uniqueness(conn):
     conn.commit()
     with pytest.raises(sqlite3.IntegrityError):
         conn.execute("INSERT INTO articles (url, title, source) VALUES (?, ?, ?)", ("https://example.com/dup", "Second", "denver_post"))
+
+
+def test_articles_table_has_sentiment_column(conn):
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(articles)").fetchall()}
+    assert "sentiment" in cols
+
+
+def test_article_regions_has_county_column(conn):
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(article_regions)").fetchall()}
+    assert "county" in cols

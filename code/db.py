@@ -104,6 +104,7 @@ CREATE TABLE IF NOT EXISTS articles (
     author TEXT,
     published_at TEXT,
     source TEXT NOT NULL,
+    sentiment TEXT,
     ingested_at TEXT DEFAULT (datetime('now'))
 );
 """
@@ -129,6 +130,7 @@ CREATE TABLE IF NOT EXISTS article_regions (
     article_id INTEGER REFERENCES articles(id),
     region_name TEXT NOT NULL,
     region_type TEXT NOT NULL,
+    county TEXT,
     PRIMARY KEY (article_id, region_name)
 );
 """
@@ -177,6 +179,16 @@ def get_connection() -> sqlite3.Connection:
     conn.commit()
     for stmt in _NEWS_SCHEMAS:
         conn.execute(stmt)
+
+    # Schema migrations for v2
+    try:
+        conn.execute("ALTER TABLE articles ADD COLUMN sentiment TEXT")
+    except sqlite3.OperationalError:
+        pass  # column already exists
+    try:
+        conn.execute("ALTER TABLE article_regions ADD COLUMN county TEXT")
+    except sqlite3.OperationalError:
+        pass  # column already exists
 
     log.info("Database ready at %s", DB_PATH)
     return conn

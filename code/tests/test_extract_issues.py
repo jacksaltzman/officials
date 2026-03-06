@@ -54,6 +54,8 @@ def test_extract_stores_issues_and_regions(mock_anthropic, conn):
             {"name": "Durango", "type": "municipality"},
             {"name": "La Plata County", "type": "county"},
         ],
+        "sentiment": "negative",
+        "county": "La Plata County",
     }))]
     mock_client.messages.create.return_value = mock_response
 
@@ -74,3 +76,11 @@ def test_extract_stores_issues_and_regions(mock_anthropic, conn):
     region_set = {(r[0], r[1]) for r in regions}
     assert ("Durango", "municipality") in region_set
     assert ("La Plata County", "county") in region_set
+
+    # Verify sentiment stored
+    sentiment = conn.execute("SELECT sentiment FROM articles WHERE id = 1").fetchone()
+    assert sentiment[0] == "negative"
+
+    # Verify county stored on regions
+    counties = conn.execute("SELECT county FROM article_regions WHERE article_id = 1").fetchall()
+    assert any(r[0] == "La Plata County" for r in counties)
