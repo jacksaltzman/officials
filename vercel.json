@@ -1,10 +1,11 @@
 {
   "redirects": [
-    { "source": "/", "destination": "/dashboard", "permanent": false }
+    { "source": "/", "destination": "/dashboard/", "permanent": false }
   ],
   "rewrites": [
     { "source": "/snap", "destination": "/snap/index.html" }
   ],
   "outputDirectory": ".",
+  "trailingSlash": true,
   "cleanUrls": true
 }
