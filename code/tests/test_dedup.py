@@ -67,3 +67,29 @@ def test_find_duplicates_no_self_duplication(conn):
     find_duplicates(conn)
     dupes = conn.execute("SELECT * FROM article_duplicates").fetchall()
     assert len(dupes) == 0
+
+
+def test_find_duplicates_skips_same_source(conn):
+    """Nearly identical titles from the same source should not be linked."""
+    conn.execute("INSERT INTO articles (url, title, source) VALUES (?, ?, ?)",
+                 ("https://a.com/1", "Colorado budget shortfall hits schools", "denver_post"))
+    conn.execute("INSERT INTO articles (url, title, source) VALUES (?, ?, ?)",
+                 ("https://a.com/2", "Colorado budget shortfall hits schools hard", "denver_post"))
+    conn.commit()
+    count = find_duplicates(conn)
+    assert count == 0
+
+
+def test_find_duplicates_idempotent(conn):
+    """Calling find_duplicates twice should not create duplicate rows."""
+    conn.execute("INSERT INTO articles (url, title, source) VALUES (?, ?, ?)",
+                 ("https://a.com/1", "Colorado budget shortfall hits schools hard", "denver_post"))
+    conn.execute("INSERT INTO articles (url, title, source) VALUES (?, ?, ?)",
+                 ("https://b.com/2", "Colorado budget shortfall impacts schools", "colorado_sun"))
+    conn.commit()
+    count1 = find_duplicates(conn)
+    count2 = find_duplicates(conn)
+    dupes = conn.execute("SELECT * FROM article_duplicates").fetchall()
+    assert count1 >= 1
+    assert count2 == 0  # no new duplicates on second run
+    assert len(dupes) == 1
