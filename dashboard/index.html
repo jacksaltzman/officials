@@ -352,6 +352,14 @@
     .sentiment-dot--neutral  { background: #BDC3C7; }
     .sentiment-dot--negative { background: #C0392B; }
 
+    /* ── Coverage Badge ───────────────────────────── */
+    .coverage-badge {
+        font-size: 10px;
+        color: #888;
+        font-style: italic;
+        margin-left: 4px;
+    }
+
     /* ── Empty State ──────────────────────────────── */
     .empty-state {
       padding: 48px 24px;
@@ -906,6 +914,11 @@
 
         const locationNames = (a.locations || []).map(l => l.name).join(', ');
 
+        const alsoCovered = (a.also_covered_by || []);
+        const coverageBadge = alsoCovered.length > 0
+            ? `<span class="coverage-badge">Also: ${alsoCovered.map(s => esc(SOURCE_NAMES[s] || s)).join(', ')}</span>`
+            : '';
+
         item.innerHTML = `
           <div class="feed-title">
             <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>
@@ -915,6 +928,7 @@
             <span class="source-pill source-pill--${a.source}">${esc(sourceName)}</span>
             ${issuePills}
             ${locationNames ? `<span class="feed-locations">${esc(locationNames)}</span>` : ''}
+            ${coverageBadge}
           </div>
         `;
 

@@ -121,6 +121,27 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
             "sentiment": sentiment,
         })
 
+    # Add duplicate info
+    for article in recent_articles:
+        article_id_row = conn.execute(
+            "SELECT id FROM articles WHERE url = ?", (article["url"],)
+        ).fetchone()
+        if not article_id_row:
+            article["also_covered_by"] = []
+            continue
+        aid = article_id_row[0]
+        dups = conn.execute(
+            "SELECT a.source FROM article_duplicates ad "
+            "JOIN articles a ON a.id = ad.article_id "
+            "WHERE ad.duplicate_of_id = ? "
+            "UNION "
+            "SELECT a.source FROM article_duplicates ad "
+            "JOIN articles a ON a.id = ad.duplicate_of_id "
+            "WHERE ad.article_id = ?",
+            (aid, aid),
+        ).fetchall()
+        article["also_covered_by"] = [r[0] for r in dups if r[0] != article["source"]]
+
     # Issue co-occurrence
     cooccurrence = {}
     article_issue_map = {}
