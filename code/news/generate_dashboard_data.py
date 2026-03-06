@@ -162,12 +162,30 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
         for pair, count in sorted(cooccurrence.items(), key=lambda x: -x[1])
     ]
 
+    # Officials by county
+    officials_rows = conn.execute(
+        "SELECT name, title, office_level, party, county, municipality, email, website "
+        "FROM officials WHERE county IS NOT NULL AND county != '' "
+        "ORDER BY county, office_level, name"
+    ).fetchall()
+
+    officials_by_county = {}
+    for name, title, level, party, county, municipality, email, website in officials_rows:
+        county_key = county.strip()
+        if county_key not in officials_by_county:
+            officials_by_county[county_key] = []
+        officials_by_county[county_key].append({
+            "name": name, "title": title, "level": level,
+            "party": party, "email": email, "website": website,
+        })
+
     return {
         "issues_by_count": issues_by_count,
         "articles_by_region": articles_by_region,
         "recent_articles": recent_articles,
         "county_data": county_data,
         "cooccurrence": cooccurrence_data,
+        "officials_by_county": officials_by_county,
     }
 
 

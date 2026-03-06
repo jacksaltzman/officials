@@ -352,6 +352,30 @@
     .sentiment-dot--neutral  { background: #BDC3C7; }
     .sentiment-dot--negative { background: #C0392B; }
 
+    /* ── Drawer ───────────────────────────────────── */
+    .drawer {
+        position: fixed; right: 0; top: 56px; bottom: 0;
+        width: 360px; background: #fff;
+        border-left: 1px solid #E8E5E1;
+        box-shadow: -4px 0 12px rgba(0,0,0,0.08);
+        z-index: 20; overflow-y: auto;
+        padding: 20px;
+        transition: transform 0.2s;
+    }
+    .drawer-header {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 16px;
+        font-family: 'Oswald', sans-serif; font-weight: 600;
+        font-size: 16px; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .official-card { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    .official-name { font-weight: 600; font-size: 14px; }
+    .official-title { font-size: 12px; color: #666; }
+    .official-party { font-size: 11px; color: #999; }
+    .official-contact { font-size: 11px; color: #4C6971; }
+    .official-contact a { color: #4C6971; text-decoration: none; }
+    .official-contact a:hover { text-decoration: underline; }
+
     /* ── Coverage Badge ───────────────────────────── */
     .coverage-badge {
         font-size: 10px;
@@ -466,6 +490,13 @@
           <div class="feed-list" id="feed-list"></div>
         </div>
       </div>
+    </div>
+    <div id="officials-drawer" class="drawer" style="display:none;">
+        <div class="drawer-header">
+            <span id="drawer-county-name"></span>
+            <button id="drawer-close" style="background:none; border:none; font-size:18px; cursor:pointer; color:#666;">&times;</button>
+        </div>
+        <div id="drawer-content"></div>
     </div>
   </div>
 
@@ -877,6 +908,11 @@
             const name = d.properties.NAME || '';
             activeCounty = (activeCounty === name) ? null : name;
             renderAll();
+            if (activeCounty) {
+                showOfficialsDrawer(activeCounty);
+            } else {
+                hideOfficialsDrawer();
+            }
           });
     }
 
@@ -976,6 +1012,40 @@
       const div = document.createElement('div');
       div.textContent = String(str);
       return div.innerHTML;
+    }
+
+    // ── Officials Drawer ───────────────────────────────
+    document.getElementById('drawer-close').addEventListener('click', () => {
+        document.getElementById('officials-drawer').style.display = 'none';
+    });
+
+    function showOfficialsDrawer(countyName) {
+        const drawer = document.getElementById('officials-drawer');
+        const content = document.getElementById('drawer-content');
+        document.getElementById('drawer-county-name').textContent = countyName + ' County';
+
+        const officials = (dashData.officials_by_county || {})[countyName] ||
+                          (dashData.officials_by_county || {})[countyName + ' County'] || [];
+
+        if (officials.length === 0) {
+            content.innerHTML = '<div class="empty-state">No officials on file for this county</div>';
+        } else {
+            content.innerHTML = officials.map(o => `
+                <div class="official-card">
+                    <div class="official-name">${esc(o.name)}</div>
+                    <div class="official-title">${esc(o.title || '')}</div>
+                    <div class="official-party">${esc(o.party || '')} · ${esc(o.level || '')}</div>
+                    ${o.email ? `<div class="official-contact"><a href="mailto:${esc(o.email)}">${esc(o.email)}</a></div>` : ''}
+                    ${o.website ? `<div class="official-contact"><a href="${esc(o.website)}" target="_blank">Website</a></div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        drawer.style.display = 'block';
+    }
+
+    function hideOfficialsDrawer() {
+        document.getElementById('officials-drawer').style.display = 'none';
     }
 
     // ── Co-occurrence Toggle ──────────────────────────
