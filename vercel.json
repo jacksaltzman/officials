@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/snap", "destination": "/snap/index.html" }
+  ],
+  "outputDirectory": ".",
+  "cleanUrls": true
+}

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colorado Officials</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: #FDFBF9;
+      color: #111111;
+    }
+
+    /* ── Layout ───────────────────────────────────── */
+    #app {
+      display: flex;
+      flex-direction: column;
+      width: 100%; height: 100%;
+    }
+
+    /* ── Top Bar ──────────────────────────────────── */
+    #topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      height: 56px;
+      min-height: 56px;
+      background: #111111;
+      color: #FFFFFF;
+      z-index: 10;
+    }
+
+    #topbar h1 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      white-space: nowrap;
+      margin-right: 8px;
+    }
+
+    #search {
+      flex: 0 1 280px;
+      padding: 7px 12px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background: #222;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    #search::placeholder { color: #888; }
+    #search:focus { border-color: #4C6971; }
+
+    .bar-btn {
+      padding: 6px 14px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background: transparent;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .bar-btn:hover { background: #333; border-color: #666; }
+
+    .zoom-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0;
+      font-size: 18px; font-weight: 600;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .zoom-btn:hover { background: #333; }
+
+    .spacer { flex: 1; }
+
+    /* ── SVG Area ─────────────────────────────────── */
+    #canvas {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+    #canvas svg { display: block; width: 100%; height: 100%; }
+
+    /* ── Tree Nodes ───────────────────────────────── */
+    .node { cursor: pointer; }
+    .node rect { transition: stroke 0.2s, stroke-width 0.2s; }
+    .node text { pointer-events: none; }
+
+    .node--category rect {
+      fill: #111111;
+      rx: 8; ry: 8;
+    }
+    .node--category text {
+      fill: #FFFFFF;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .node--category .badge {
+      fill: #4C6971;
+      rx: 8; ry: 8;
+    }
+    .node--category .badge-text {
+      fill: #FFFFFF;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .node--official rect {
+      fill: #FFFFFF;
+      stroke: #E5E5E5;
+      stroke-width: 1;
+      rx: 8; ry: 8;
+    }
+    .node--official .name-text {
+      fill: #111111;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .node--official .title-text {
+      fill: #666666;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+    }
+
+    .node--highlight rect {
+      stroke: #FE4F40 !important;
+      stroke-width: 2.5 !important;
+    }
+
+    .link {
+      fill: none;
+      stroke: #4C6971;
+      stroke-width: 1.5;
+    }
+
+    /* ── Detail Panel ─────────────────────────────── */
+    #detail {
+      position: fixed;
+      top: 0; right: 0;
+      width: 360px;
+      height: 100%;
+      background: #FFFFFF;
+      box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 20;
+      overflow-y: auto;
+      padding: 28px 24px;
+    }
+    #detail.active { transform: translateX(0); }
+
+    #detail .close-btn {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 32px; height: 32px;
+      border: none;
+      background: #F3F3F3;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #333;
+      transition: background 0.15s;
+    }
+    #detail .close-btn:hover { background: #E0E0E0; }
+
+    #detail .detail-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      padding-right: 40px;
+    }
+    #detail .detail-title {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 16px;
+    }
+
+    #detail .detail-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-top: 1px solid #F0F0F0;
+      font-size: 14px;
+    }
+    #detail .detail-label {
+      flex: 0 0 80px;
+      color: #999;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding-top: 2px;
+    }
+    #detail .detail-value {
+      flex: 1;
+      color: #222;
+      word-break: break-word;
+    }
+    #detail .detail-value a {
+      color: #2563EB;
+      text-decoration: none;
+    }
+    #detail .detail-value a:hover { text-decoration: underline; }
+
+    .party-dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .party-dot--dem { background: #2563EB; }
+    .party-dot--rep { background: #DC2626; }
+    .party-dot--other { background: #9CA3AF; }
+
+    .source-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      background: #F0F0F0;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #777;
+      margin-top: 12px;
+    }
+
+    /* ── Loading ──────────────────────────────────── */
+    #loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      color: #888;
+      background: #FDFBF9;
+      z-index: 5;
+    }
+    #loading.hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="topbar">
+      <h1>Colorado Officials</h1>
+      <input id="search" type="text" placeholder="Search officials..." autocomplete="off">
+      <div class="spacer"></div>
+      <button class="bar-btn" id="btn-expand">Expand All</button>
+      <button class="bar-btn" id="btn-collapse">Collapse All</button>
+      <button class="zoom-btn" id="btn-zoom-in" title="Zoom in">+</button>
+      <button class="zoom-btn" id="btn-zoom-out" title="Zoom out">&minus;</button>
+    </div>
+    <div id="canvas">
+      <div id="loading">Loading data...</div>
+    </div>
+  </div>
+
+  <!-- Detail Panel -->
+  <div id="detail">
+    <button class="close-btn" id="detail-close">&times;</button>
+    <div id="detail-body"></div>
+  </div>
+
+  <script>
+    /* ============================================================
+       Colorado Officials — D3 Collapsible Tree
+       ============================================================ */
+
+    // ── Constants ─────────────────────────────────
+    const CATEGORY_W = 160;
+    const CATEGORY_H = 36;
+    const OFFICIAL_W = 180;
+    const OFFICIAL_H = 50;
+    const NODE_H_SPACING = 210;   // horizontal distance between sibling nodes
+    const NODE_V_SPACING = 120;   // vertical distance between levels
+    const DURATION = 400;
+
+    const PARTY_COLORS = {
+      'Democratic':  '#2563EB',
+      'Republican':  '#DC2626',
+    };
+    const PARTY_DEFAULT = '#9CA3AF';
+
+    function partyColor(party) {
+      return PARTY_COLORS[party] || PARTY_DEFAULT;
+    }
+
+    function partyDotClass(party) {
+      if (party === 'Democratic') return 'party-dot--dem';
+      if (party === 'Republican') return 'party-dot--rep';
+      return 'party-dot--other';
+    }
+
+    // ── Globals ───────────────────────────────────
+    let root, treeLayout, svg, gLinks, gNodes, zoomBehavior;
+    let nodeId = 0;
+    let highlightedNames = new Set();
+
+    // ── Data Load ─────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('data/tree.json')
+        .then(r => {
+          if (!r.ok) throw new Error('Failed to load data/tree.json');
+          return r.json();
+        })
+        .then(data => {
+          document.getElementById('loading').classList.add('hidden');
+          init(data);
+        })
+        .catch(err => {
+          document.getElementById('loading').textContent = 'Error: ' + err.message;
+        });
+    });
+
+    // ── Init ──────────────────────────────────────
+    function init(data) {
+      root = d3.hierarchy(data);
+
+      // Assign unique IDs for object constancy
+      root.each(d => { d.id = ++nodeId; });
+
+      treeLayout = d3.tree().nodeSize([NODE_H_SPACING, NODE_V_SPACING]);
+
+      // Start with root expanded showing categories, everything else collapsed
+      root.children.forEach(collapse);
+
+      // Store the initial position for the root
+      root.x0 = 0;
+      root.y0 = 0;
+
+      // SVG setup
+      const container = document.getElementById('canvas');
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+
+      zoomBehavior = d3.zoom()
+        .scaleExtent([0.05, 3])
+        .on('zoom', (event) => {
+          gMain.attr('transform', event.transform);
+        });
+
+      svg = d3.select(container)
+        .append('svg')
+        .attr('width', w)
+        .attr('height', h)
+        .call(zoomBehavior);
+
+      const gMain = svg.append('g');
+
+      gLinks = gMain.append('g').attr('class', 'links-layer');
+      gNodes = gMain.append('g').attr('class', 'nodes-layer');
+
+      // Initial render
+      update(root);
+
+      // Center the tree
+      const initialX = w / 2;
+      const initialY = 60;
+      svg.call(zoomBehavior.transform,
+        d3.zoomIdentity.translate(initialX, initialY).scale(0.9)
+      );
+
+      // ── Button Handlers ──────────────────────────
+      document.getElementById('btn-expand').addEventListener('click', () => {
+        expandAll(root);
+        update(root);
+      });
+
+      document.getElementById('btn-collapse').addEventListener('click', () => {
+        root.children.forEach(collapse);
+        update(root);
+      });
+
+      document.getElementById('btn-zoom-in').addEventListener('click', () => {
+        svg.transition().duration(300).call(zoomBehavior.scaleBy, 1.3);
+      });
+
+      document.getElementById('btn-zoom-out').addEventListener('click', () => {
+        svg.transition().duration(300).call(zoomBehavior.scaleBy, 0.7);
+      });
+
+      // ── Search ──────────────────────────────────
+      const searchInput = document.getElementById('search');
+      let searchTimeout;
+      searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          performSearch(searchInput.value.trim());
+        }, 150);
+      });
+
+      // ── Detail Panel Close ──────────────────────
+      document.getElementById('detail-close').addEventListener('click', hideDetail);
+
+      // Close detail on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') hideDetail();
+      });
+
+      // Resize handler
+      window.addEventListener('resize', () => {
+        const w2 = container.clientWidth;
+        const h2 = container.clientHeight;
+        svg.attr('width', w2).attr('height', h2);
+      });
+    }
+
+    // ── Collapse / Expand Helpers ─────────────────
+    function collapse(d) {
+      if (d.children) {
+        d._children = d.children;
+        d._children.forEach(collapse);
+        d.children = null;
+      }
+    }
+
+    function expandAll(d) {
+      if (d._children) {
+        d.children = d._children;
+        d._children = null;
+      }
+      if (d.children) {
+        d.children.forEach(expandAll);
+      }
+    }
+
+    function expandAncestors(d) {
+      if (d.parent) {
+        expandAncestors(d.parent);
+        if (d.parent._children) {
+          d.parent.children = d.parent._children;
+          d.parent._children = null;
+        }
+      }
+    }
+
+    // ── Search ────────────────────────────────────
+    // Walk ALL nodes including collapsed _children
+    function walkAll(node, fn) {
+      fn(node);
+      if (node.children) node.children.forEach(c => walkAll(c, fn));
+      if (node._children) node._children.forEach(c => walkAll(c, fn));
+    }
+
+    function performSearch(query) {
+      highlightedNames.clear();
+
+      if (!query) {
+        update(root);
+        return;
+      }
+
+      const lower = query.toLowerCase();
+
+      // Find all matching officials (including in collapsed branches)
+      const matches = [];
+      walkAll(root, d => {
+        if (d.data.type === 'official' &&
+            d.data.name.toLowerCase().includes(lower)) {
+          matches.push(d);
+        }
+      });
+
+      if (matches.length === 0) {
+        update(root);
+        return;
+      }
+
+      // Auto-expand branches containing matches
+      matches.forEach(d => {
+        highlightedNames.add(d.data.name + '|' + (d.data.title || ''));
+        expandAncestors(d);
+      });
+
+      update(root);
+    }
+
+    function isHighlighted(d) {
+      return highlightedNames.has(d.data.name + '|' + (d.data.title || ''));
+    }
+
+    // ── Update (core render) ──────────────────────
+    function update(source) {
+      treeLayout(root);
+
+      const nodes = root.descendants();
+      const links = root.links();
+
+      // ── LINKS ───────────────────────────────────
+      const linkSel = gLinks.selectAll('path.link')
+        .data(links, d => d.target.id);
+
+      const linkEnter = linkSel.enter()
+        .append('path')
+        .attr('class', 'link')
+        .attr('d', () => {
+          const o = { x: source.x0, y: source.y0 };
+          return linkPath({ source: o, target: o });
+        });
+
+      const linkUpdate = linkEnter.merge(linkSel);
+      linkUpdate.transition().duration(DURATION)
+        .attr('d', d => linkPath(d));
+
+      linkSel.exit()
+        .transition().duration(DURATION)
+        .attr('d', () => {
+          const o = { x: source.x, y: source.y };
+          return linkPath({ source: o, target: o });
+        })
+        .remove();
+
+      // ── NODES ───────────────────────────────────
+      const nodeSel = gNodes.selectAll('g.node')
+        .data(nodes, d => d.id);
+
+      const nodeEnter = nodeSel.enter()
+        .append('g')
+        .attr('class', d => 'node ' + (d.data.type === 'category' ? 'node--category' : 'node--official'))
+        .attr('transform', `translate(${source.x0},${source.y0})`)
+        .style('opacity', 0)
+        .on('click', (event, d) => {
+          event.stopPropagation();
+          if (d.data.type === 'category') {
+            toggleChildren(d);
+            update(d);
+          } else {
+            showDetail(d.data);
+          }
+        });
+
+      // Render category nodes
+      nodeEnter.filter(d => d.data.type === 'category').each(function(d) {
+        const g = d3.select(this);
+        const hasChildren = d.children || d._children;
+        const count = d.data.count || (d._children ? d._children.length : (d.children ? d.children.length : 0));
+
+        // Measure text to size the node
+        const label = d.data.name;
+        const textWidth = measureText(label, '13px Oswald') + 24;
+        const badgeW = count > 0 ? measureText(String(count), '10px DM Sans') + 16 : 0;
+        const totalW = Math.max(CATEGORY_W, textWidth + badgeW + 12);
+
+        g.append('rect')
+          .attr('x', -totalW / 2)
+          .attr('y', -CATEGORY_H / 2)
+          .attr('width', totalW)
+          .attr('height', CATEGORY_H);
+
+        g.append('text')
+          .attr('x', badgeW > 0 ? -(totalW / 2) + 12 : 0)
+          .attr('y', 1)
+          .attr('dy', '0.35em')
+          .attr('text-anchor', badgeW > 0 ? 'start' : 'middle')
+          .text(label);
+
+        if (count > 0) {
+          const badgeX = (totalW / 2) - badgeW - 6;
+          g.append('rect')
+            .attr('class', 'badge')
+            .attr('x', badgeX)
+            .attr('y', -10)
+            .attr('width', badgeW)
+            .attr('height', 20);
+          g.append('text')
+            .attr('class', 'badge-text')
+            .attr('x', badgeX + badgeW / 2)
+            .attr('y', 1)
+            .attr('dy', '0.35em')
+            .attr('text-anchor', 'middle')
+            .text(count);
+        }
+      });
+
+      // Render official nodes
+      nodeEnter.filter(d => d.data.type === 'official').each(function(d) {
+        const g = d3.select(this);
+        const nameW = measureText(d.data.name, '12px DM Sans') + 40;
+        const titleW = measureText(d.data.title || '', '11px DM Sans') + 40;
+        const w = Math.max(OFFICIAL_W, nameW, titleW);
+
+        g.append('rect')
+          .attr('x', -w / 2)
+          .attr('y', -OFFICIAL_H / 2)
+          .attr('width', w)
+          .attr('height', OFFICIAL_H);
+
+        // Party color dot
+        g.append('circle')
+          .attr('cx', -w / 2 + 14)
+          .attr('cy', -6)
+          .attr('r', 5)
+          .attr('fill', partyColor(d.data.party));
+
+        // Name
+        g.append('text')
+          .attr('class', 'name-text')
+          .attr('x', -w / 2 + 26)
+          .attr('y', -5)
+          .attr('dy', '0.35em')
+          .attr('text-anchor', 'start')
+          .text(truncateText(d.data.name, w - 34));
+
+        // Title
+        g.append('text')
+          .attr('class', 'title-text')
+          .attr('x', -w / 2 + 14)
+          .attr('y', 12)
+          .attr('dy', '0.35em')
+          .attr('text-anchor', 'start')
+          .text(truncateText(d.data.title || '', w - 22));
+      });
+
+      // ── Update existing + entered ──────────────
+      const nodeUpdate = nodeEnter.merge(nodeSel);
+
+      nodeUpdate.transition().duration(DURATION)
+        .attr('transform', d => `translate(${d.x},${d.y})`)
+        .style('opacity', 1);
+
+      // Update highlight class
+      nodeUpdate
+        .classed('node--highlight', d => d.data.type === 'official' && isHighlighted(d));
+
+      // ── Exit ────────────────────────────────────
+      nodeSel.exit()
+        .transition().duration(DURATION)
+        .attr('transform', `translate(${source.x},${source.y})`)
+        .style('opacity', 0)
+        .remove();
+
+      // Store old positions for transitions
+      nodes.forEach(d => {
+        d.x0 = d.x;
+        d.y0 = d.y;
+      });
+    }
+
+    // ── Link Path Generator ───────────────────────
+    function linkPath(d) {
+      return `M${d.source.x},${d.source.y}
+              C${d.source.x},${(d.source.y + d.target.y) / 2}
+               ${d.target.x},${(d.source.y + d.target.y) / 2}
+               ${d.target.x},${d.target.y}`;
+    }
+
+    // ── Toggle Children ───────────────────────────
+    function toggleChildren(d) {
+      if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else if (d._children) {
+        d.children = d._children;
+        d._children = null;
+      }
+    }
+
+    // ── Text Measurement (cached) ─────────────────
+    const _textCanvas = document.createElement('canvas');
+    const _textCtx = _textCanvas.getContext('2d');
+    const _measureCache = new Map();
+
+    function measureText(text, font) {
+      const key = text + '|' + font;
+      if (_measureCache.has(key)) return _measureCache.get(key);
+      _textCtx.font = font;
+      const w = _textCtx.measureText(text).width;
+      _measureCache.set(key, w);
+      return w;
+    }
+
+    function truncateText(text, maxW) {
+      if (!text) return '';
+      // Quick check: if text fits, return as-is
+      if (measureText(text, '12px DM Sans') <= maxW) return text;
+      // Truncate
+      for (let i = text.length - 1; i > 0; i--) {
+        const trunc = text.slice(0, i) + '...';
+        if (measureText(trunc, '12px DM Sans') <= maxW) return trunc;
+      }
+      return text.slice(0, 3) + '...';
+    }
+
+    // ── Detail Panel ──────────────────────────────
+    function showDetail(data) {
+      const panel = document.getElementById('detail');
+      const body = document.getElementById('detail-body');
+
+      let html = '';
+      html += `<div class="detail-name">${esc(data.name)}</div>`;
+      if (data.title) {
+        html += `<div class="detail-title">${esc(data.title)}</div>`;
+      }
+
+      const rows = [];
+
+      if (data.party) {
+        const dotClass = partyDotClass(data.party);
+        rows.push(['Party', `<span class="party-dot ${dotClass}"></span>${esc(data.party)}`]);
+      }
+      if (data.district) rows.push(['District', esc(data.district)]);
+      if (data.county) rows.push(['County', esc(data.county)]);
+      if (data.municipality) rows.push(['Municipality', esc(data.municipality)]);
+      if (data.email) {
+        rows.push(['Email', `<a href="mailto:${esc(data.email)}">${esc(data.email)}</a>`]);
+      }
+      if (data.phone) rows.push(['Phone', esc(data.phone)]);
+      if (data.website) {
+        const display = data.website.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+        rows.push(['Website', `<a href="${esc(data.website)}" target="_blank" rel="noopener">${esc(display)}</a>`]);
+      }
+      if (data.twitter_handle) {
+        const handle = data.twitter_handle.replace(/^@/, '');
+        rows.push(['Twitter', `<a href="https://x.com/${esc(handle)}" target="_blank" rel="noopener">@${esc(handle)}</a>`]);
+      }
+      if (data.facebook_url) {
+        rows.push(['Facebook', `<a href="${esc(data.facebook_url)}" target="_blank" rel="noopener">Facebook Profile</a>`]);
+      }
+
+      for (const [label, value] of rows) {
+        html += `<div class="detail-row">
+          <div class="detail-label">${label}</div>
+          <div class="detail-value">${value}</div>
+        </div>`;
+      }
+
+      if (data.source) {
+        html += `<div class="source-badge">Source: ${esc(data.source)}</div>`;
+      }
+
+      body.innerHTML = html;
+      panel.classList.add('active');
+    }
+
+    function hideDetail() {
+      document.getElementById('detail').classList.remove('active');
+    }
+
+    function esc(str) {
+      if (str == null) return '';
+      const div = document.createElement('div');
+      div.textContent = String(str);
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
