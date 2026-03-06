@@ -683,8 +683,7 @@
 
       const objectKey = Object.keys(mapData.objects)[0];
       const geojson = topojson.feature(mapData, mapData.objects[objectKey]);
-      const projection = d3.geoMercator().fitSize([width - 20, height - 20], geojson);
-      projection.translate([width / 2, height / 2]);
+      const projection = d3.geoMercator().fitSize([width, height], geojson);
       const path = d3.geoPath().projection(projection);
 
       // Build county lookup from dashData

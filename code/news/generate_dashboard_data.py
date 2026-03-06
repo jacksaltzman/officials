@@ -83,13 +83,13 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
 
     # All articles with issue tags (sorted client-side for correct date ordering)
     rows = conn.execute(
-        "SELECT a.id, a.title, a.url, a.source, a.published_at "
+        "SELECT a.id, a.title, a.url, a.source, a.published_at, a.sentiment "
         "FROM articles a"
     ).fetchall()
 
     recent_articles = []
     for row in rows:
-        article_id, title, url, source, published_at = row
+        article_id, title, url, source, published_at, sentiment = row
         issue_rows = conn.execute(
             "SELECT i.name FROM article_issues ai "
             "JOIN issues i ON ai.issue_id = i.id "
@@ -109,10 +109,6 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
             (article_id,),
         ).fetchone()
 
-        sentiment_row = conn.execute(
-            "SELECT sentiment FROM articles WHERE id = ?", (article_id,)
-        ).fetchone()
-
         recent_articles.append({
             "title": title,
             "url": url,
@@ -122,7 +118,7 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
             "issues": issue_names,
             "locations": regions,
             "county": county_row[0] if county_row else None,
-            "sentiment": sentiment_row[0] if sentiment_row else None,
+            "sentiment": sentiment,
         })
 
     return {
