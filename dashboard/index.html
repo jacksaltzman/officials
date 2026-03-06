@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colorado Issues Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: #FDFBF9;
+      color: #111111;
+    }
+
+    /* ── Layout ───────────────────────────────────── */
+    #app {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    /* ── Top Bar ──────────────────────────────────── */
+    #topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 24px;
+      height: 56px;
+      min-height: 56px;
+      background: #111111;
+      color: #FFFFFF;
+      z-index: 10;
+    }
+
+    #topbar h1 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      white-space: nowrap;
+      margin-right: 8px;
+    }
+
+    .spacer { flex: 1; }
+
+    .bar-select {
+      padding: 6px 12px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background: #222;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+    }
+    .bar-select:focus { border-color: #4C6971; }
+
+    .time-pills {
+      display: flex;
+      gap: 2px;
+      background: #222;
+      border-radius: 6px;
+      border: 1px solid #444;
+      overflow: hidden;
+    }
+    .time-pill {
+      padding: 6px 14px;
+      border: none;
+      background: transparent;
+      color: #888;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .time-pill:hover { color: #ccc; }
+    .time-pill.active {
+      background: #4C6971;
+      color: #fff;
+    }
+
+    /* ── Main Content ─────────────────────────────── */
+    #main {
+      display: flex;
+      gap: 24px;
+      padding: 24px;
+      flex: 1;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* ── Left Panel ───────────────────────────────── */
+    #left-panel {
+      flex: 0 0 38%;
+      min-width: 320px;
+    }
+
+    .section-header {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #111;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-header .filter-clear {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #4C6971;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.15s;
+    }
+    .section-header .filter-clear:hover { color: #3a555c; }
+
+    .chart-card {
+      background: #FFFFFF;
+      border: 1px solid #E8E5E1;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    /* ── Bar Chart ─────────────────────────────────── */
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 0;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.12s;
+    }
+    .bar-row:hover { background: #F5F3F0; }
+    .bar-row.active { background: #EDF2F3; }
+    .bar-row.dimmed { opacity: 0.35; }
+
+    .bar-label {
+      flex: 0 0 120px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #333;
+      text-align: right;
+      padding-right: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 22px;
+      background: #F0EDEA;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: #4C6971;
+      border-radius: 3px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+      min-width: 2px;
+    }
+
+    .bar-count {
+      flex: 0 0 32px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4C6971;
+      text-align: left;
+    }
+
+    /* ── Right Panel ──────────────────────────────── */
+    #right-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── Region Cards ─────────────────────────────── */
+    .region-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .region-card {
+      background: #FFFFFF;
+      border: 1px solid #E8E5E1;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .region-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #4C6971;
+      opacity: 0.3;
+      transition: opacity 0.2s;
+    }
+    .region-card:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.08); }
+    .region-card:hover::before { opacity: 0.7; }
+
+    .region-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .region-count {
+      font-size: 28px;
+      font-weight: 600;
+      color: #4C6971;
+      line-height: 1.1;
+    }
+
+    .region-label {
+      font-size: 11px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    /* ── Article Feed ──────────────────────────────── */
+    .feed-section {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feed-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: #E8E5E1;
+      border: 1px solid #E8E5E1;
+      border-radius: 8px;
+    }
+
+    .feed-item {
+      background: #FFFFFF;
+      padding: 14px 16px;
+      transition: background 0.12s;
+    }
+    .feed-item:first-child { border-radius: 8px 8px 0 0; }
+    .feed-item:last-child { border-radius: 0 0 8px 8px; }
+    .feed-item:only-child { border-radius: 8px; }
+    .feed-item:hover { background: #FDFBF9; }
+
+    .feed-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .feed-title a {
+      color: #111;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .feed-title a:hover { color: #4C6971; }
+
+    .feed-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .feed-date {
+      font-size: 12px;
+      color: #999;
+      margin-right: 4px;
+    }
+
+    .feed-locations {
+      font-size: 11px;
+      color: #777;
+      margin-left: 2px;
+    }
+    .feed-locations::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 3px;
+      background: #ccc;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    /* ── Pills ────────────────────────────────────── */
+    .source-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+    .source-pill--denver_post     { background: #1A1A2E; }
+    .source-pill--durango_herald  { background: #4C6971; }
+    .source-pill--pueblo_chieftain { background: #8B4513; }
+    .source-pill--gj_sentinel     { background: #2D5F2D; }
+
+    .issue-pill {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #4C6971;
+      background: #EDF2F3;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+    }
+    .issue-pill:hover { background: #D9E4E7; }
+    .issue-pill.active-issue {
+      background: #4C6971;
+      color: #fff;
+    }
+
+    /* ── Empty State ──────────────────────────────── */
+    .empty-state {
+      padding: 48px 24px;
+      text-align: center;
+      color: #999;
+      font-size: 14px;
+      background: #fff;
+      border-radius: 8px;
+    }
+
+    /* ── Loading ──────────────────────────────────── */
+    #loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px;
+      font-size: 16px;
+      color: #888;
+    }
+    #loading.hidden { display: none; }
+
+    /* ── Responsive ───────────────────────────────── */
+    @media (max-width: 960px) {
+      #main {
+        flex-direction: column;
+      }
+      #left-panel {
+        flex: none;
+        min-width: unset;
+      }
+      .region-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      #topbar {
+        padding: 0 12px;
+        gap: 8px;
+      }
+      #topbar h1 { font-size: 16px; }
+      #main { padding: 12px; gap: 16px; }
+      .region-row { grid-template-columns: 1fr 1fr; }
+      .bar-label { flex: 0 0 90px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Top Bar -->
+    <div id="topbar">
+      <h1>Colorado Issues</h1>
+      <div class="spacer"></div>
+      <select class="bar-select" id="source-filter">
+        <option value="all">All Sources</option>
+        <option value="denver_post">Denver Post</option>
+        <option value="durango_herald">Durango Herald</option>
+        <option value="pueblo_chieftain">Pueblo Chieftain</option>
+        <option value="gj_sentinel">GJ Sentinel</option>
+      </select>
+      <div class="time-pills">
+        <button class="time-pill active" data-days="7">7d</button>
+        <button class="time-pill" data-days="30">30d</button>
+        <button class="time-pill" data-days="90">90d</button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading">Loading dashboard data...</div>
+
+    <!-- Main Content -->
+    <div id="main" style="display:none;">
+      <!-- Left: Bar Chart -->
+      <div id="left-panel">
+        <div class="section-header">
+          <span>Top Issues</span>
+          <span class="filter-clear" id="clear-filter" style="display:none;">Clear filter</span>
+        </div>
+        <div class="chart-card" id="chart-container"></div>
+      </div>
+
+      <!-- Right: Region + Feed -->
+      <div id="right-panel">
+        <div class="region-row" id="region-cards"></div>
+        <div class="feed-section">
+          <div class="section-header">
+            <span id="feed-title">Recent Articles</span>
+          </div>
+          <div class="feed-list" id="feed-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ============================================================
+       Colorado Issues Dashboard
+       ============================================================ */
+
+    // ── Source Display Names ──────────────────────────
+    const SOURCE_NAMES = {
+      'denver_post':      'Denver Post',
+      'durango_herald':   'Durango Herald',
+      'pueblo_chieftain': 'Pueblo Chieftain',
+      'gj_sentinel':      'GJ Sentinel',
+    };
+
+    // ── State ────────────────────────────────────────
+    let dashData = null;
+    let activeIssue = null;
+    let activeSource = 'all';
+    let activeDays = 7;
+
+    // ── Data Load ────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('data/dashboard_data.json')
+        .then(r => {
+          if (!r.ok) throw new Error('Failed to load data/dashboard_data.json');
+          return r.json();
+        })
+        .then(data => {
+          dashData = data;
+          document.getElementById('loading').classList.add('hidden');
+          document.getElementById('main').style.display = 'flex';
+          renderAll();
+        })
+        .catch(err => {
+          document.getElementById('loading').textContent = 'Error: ' + err.message;
+        });
+    });
+
+    // ── Filter Controls ──────────────────────────────
+    document.getElementById('source-filter').addEventListener('change', (e) => {
+      activeSource = e.target.value;
+      renderAll();
+    });
+
+    document.querySelectorAll('.time-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.time-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeDays = parseInt(btn.dataset.days);
+        renderAll();
+      });
+    });
+
+    document.getElementById('clear-filter').addEventListener('click', () => {
+      activeIssue = null;
+      renderAll();
+    });
+
+    // ── Filtering Logic ──────────────────────────────
+    function getFilteredArticles() {
+      const now = new Date();
+      const cutoff = new Date(now);
+      cutoff.setDate(cutoff.getDate() - activeDays);
+
+      return dashData.recent_articles.filter(a => {
+        // Source filter
+        if (activeSource !== 'all' && a.source !== activeSource) return false;
+        // Time filter
+        const pubDate = new Date(a.published_at);
+        if (pubDate < cutoff) return false;
+        // Issue filter
+        if (activeIssue && !a.issues.includes(activeIssue)) return false;
+        return true;
+      });
+    }
+
+    function getFilteredIssues() {
+      // Recount issues from filtered articles (minus issue filter itself)
+      const now = new Date();
+      const cutoff = new Date(now);
+      cutoff.setDate(cutoff.getDate() - activeDays);
+
+      const articles = dashData.recent_articles.filter(a => {
+        if (activeSource !== 'all' && a.source !== activeSource) return false;
+        const pubDate = new Date(a.published_at);
+        if (pubDate < cutoff) return false;
+        return true;
+      });
+
+      // If source/time filters reduce the data, show recomputed counts
+      // Otherwise show the original counts from the data
+      if (activeSource === 'all' && activeDays >= 90) {
+        return dashData.issues_by_count;
+      }
+
+      const counts = {};
+      articles.forEach(a => {
+        a.issues.forEach(issue => {
+          counts[issue] = (counts[issue] || 0) + 1;
+        });
+      });
+
+      return Object.entries(counts)
+        .map(([name, count]) => ({ name, slug: name.toLowerCase().replace(/[\/\s]+/g, '-'), count }))
+        .sort((a, b) => b.count - a.count);
+    }
+
+    function getFilteredRegions() {
+      const now = new Date();
+      const cutoff = new Date(now);
+      cutoff.setDate(cutoff.getDate() - activeDays);
+
+      const articles = dashData.recent_articles.filter(a => {
+        if (activeSource !== 'all' && a.source !== activeSource) return false;
+        const pubDate = new Date(a.published_at);
+        if (pubDate < cutoff) return false;
+        if (activeIssue && !a.issues.includes(activeIssue)) return false;
+        return true;
+      });
+
+      const counts = {};
+      articles.forEach(a => {
+        counts[a.region] = (counts[a.region] || 0) + 1;
+      });
+
+      // Always show all 4 regions
+      return dashData.articles_by_region.map(r => ({
+        region: r.region,
+        count: counts[r.region] || 0,
+        originalCount: r.count,
+      }));
+    }
+
+    // ── Render All ───────────────────────────────────
+    function renderAll() {
+      renderBarChart();
+      renderRegionCards();
+      renderFeed();
+      updateFilterUI();
+    }
+
+    function updateFilterUI() {
+      const clearBtn = document.getElementById('clear-filter');
+      clearBtn.style.display = activeIssue ? 'inline' : 'none';
+
+      const feedTitle = document.getElementById('feed-title');
+      if (activeIssue) {
+        feedTitle.textContent = activeIssue + ' Articles';
+      } else {
+        feedTitle.textContent = 'Recent Articles';
+      }
+    }
+
+    // ── Bar Chart ────────────────────────────────────
+    function renderBarChart() {
+      const container = document.getElementById('chart-container');
+      const issues = getFilteredIssues();
+      const maxCount = issues.length > 0 ? issues[0].count : 1;
+
+      container.innerHTML = '';
+
+      if (issues.length === 0) {
+        container.innerHTML = '<div class="empty-state">No issues match current filters</div>';
+        return;
+      }
+
+      issues.forEach(issue => {
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        if (activeIssue === issue.name) row.classList.add('active');
+        if (activeIssue && activeIssue !== issue.name) row.classList.add('dimmed');
+
+        row.innerHTML = `
+          <span class="bar-label" title="${esc(issue.name)}">${esc(issue.name)}</span>
+          <span class="bar-track">
+            <span class="bar-fill" style="width: 0%"></span>
+          </span>
+          <span class="bar-count">${issue.count}</span>
+        `;
+
+        row.addEventListener('click', () => {
+          if (activeIssue === issue.name) {
+            activeIssue = null;
+          } else {
+            activeIssue = issue.name;
+          }
+          renderAll();
+        });
+
+        container.appendChild(row);
+
+        // Animate the bar fill
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const fill = row.querySelector('.bar-fill');
+            fill.style.width = ((issue.count / maxCount) * 100) + '%';
+          });
+        });
+      });
+    }
+
+    // ── Region Cards ─────────────────────────────────
+    function renderRegionCards() {
+      const container = document.getElementById('region-cards');
+      const regions = getFilteredRegions();
+      const maxCount = Math.max(...regions.map(r => r.originalCount), 1);
+
+      container.innerHTML = '';
+
+      regions.forEach(r => {
+        const intensity = 0.15 + (r.originalCount / maxCount) * 0.85;
+        const card = document.createElement('div');
+        card.className = 'region-card';
+        card.style.setProperty('--intensity', intensity);
+        card.querySelector?.('::before')?.style;
+
+        card.innerHTML = `
+          <div class="region-name">${esc(r.region)}</div>
+          <div class="region-count">${r.count}</div>
+          <div class="region-label">articles</div>
+        `;
+
+        // Dynamic top bar intensity
+        const topBar = document.createElement('div');
+        topBar.style.cssText = `
+          position: absolute; top: 0; left: 0; right: 0; height: 3px;
+          background: #4C6971; opacity: ${intensity};
+        `;
+        card.style.position = 'relative';
+        card.style.overflow = 'hidden';
+        card.insertBefore(topBar, card.firstChild);
+
+        container.appendChild(card);
+      });
+    }
+
+    // ── Article Feed ─────────────────────────────────
+    function renderFeed() {
+      const container = document.getElementById('feed-list');
+      const articles = getFilteredArticles();
+
+      container.innerHTML = '';
+
+      if (articles.length === 0) {
+        container.innerHTML = '<div class="empty-state">No articles match current filters</div>';
+        container.style.background = 'transparent';
+        container.style.border = 'none';
+        return;
+      }
+
+      container.style.background = '';
+      container.style.border = '';
+
+      articles.forEach(a => {
+        const item = document.createElement('div');
+        item.className = 'feed-item';
+
+        const dateStr = formatDate(a.published_at);
+        const sourceName = SOURCE_NAMES[a.source] || a.source;
+
+        let issuePills = a.issues.map(issue => {
+          const cls = (activeIssue === issue) ? 'issue-pill active-issue' : 'issue-pill';
+          return `<span class="${cls}" data-issue="${esc(issue)}">${esc(issue)}</span>`;
+        }).join('');
+
+        const locationNames = (a.locations || []).map(l => l.name).join(', ');
+
+        item.innerHTML = `
+          <div class="feed-title">
+            <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>
+          </div>
+          <div class="feed-meta">
+            <span class="feed-date">${dateStr}</span>
+            <span class="source-pill source-pill--${a.source}">${esc(sourceName)}</span>
+            ${issuePills}
+            ${locationNames ? `<span class="feed-locations">${esc(locationNames)}</span>` : ''}
+          </div>
+        `;
+
+        // Click issue pills to filter
+        item.querySelectorAll('.issue-pill').forEach(pill => {
+          pill.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const issue = pill.dataset.issue;
+            if (activeIssue === issue) {
+              activeIssue = null;
+            } else {
+              activeIssue = issue;
+            }
+            renderAll();
+          });
+        });
+
+        container.appendChild(item);
+      });
+    }
+
+    // ── Utilities ────────────────────────────────────
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + 'T00:00:00');
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return months[d.getMonth()] + ' ' + d.getDate();
+    }
+
+    function esc(str) {
+      if (str == null) return '';
+      const div = document.createElement('div');
+      div.textContent = String(str);
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

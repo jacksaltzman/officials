@@ -1,0 +1,34 @@
+{
+  "issues_by_count": [
+    {"name": "Housing", "slug": "housing", "count": 24},
+    {"name": "Water Rights", "slug": "water-rights", "count": 18},
+    {"name": "Education", "slug": "education", "count": 15},
+    {"name": "Public Safety", "slug": "public-safety", "count": 12},
+    {"name": "Transportation", "slug": "transportation", "count": 11},
+    {"name": "Healthcare", "slug": "healthcare", "count": 9},
+    {"name": "Environment", "slug": "environment", "count": 8},
+    {"name": "Economy/Jobs", "slug": "economy-jobs", "count": 7},
+    {"name": "Taxes/Budget", "slug": "taxes-budget", "count": 6},
+    {"name": "Infrastructure", "slug": "infrastructure", "count": 5},
+    {"name": "Agriculture", "slug": "agriculture", "count": 4},
+    {"name": "Recreation/Tourism", "slug": "recreation-tourism", "count": 3}
+  ],
+  "articles_by_region": [
+    {"region": "Front Range", "count": 38},
+    {"region": "Southwest", "count": 22},
+    {"region": "Southern", "count": 15},
+    {"region": "Western Slope", "count": 12}
+  ],
+  "recent_articles": [
+    {"title": "Denver city council approves new affordable housing ordinance", "url": "https://denverpost.com/1", "source": "denver_post", "region": "Front Range", "published_at": "2026-03-06", "issues": ["Housing", "Taxes/Budget"], "locations": [{"name": "Denver", "type": "municipality"}]},
+    {"title": "Durango water district warns of summer restrictions", "url": "https://durangoherald.com/1", "source": "durango_herald", "region": "Southwest", "published_at": "2026-03-05", "issues": ["Water Rights", "Environment"], "locations": [{"name": "Durango", "type": "municipality"}, {"name": "La Plata County", "type": "county"}]},
+    {"title": "Pueblo school district faces $5M budget shortfall", "url": "https://chieftain.com/1", "source": "pueblo_chieftain", "region": "Southern", "published_at": "2026-03-05", "issues": ["Education", "Taxes/Budget"], "locations": [{"name": "Pueblo", "type": "municipality"}]},
+    {"title": "Grand Junction approves new bike trail network", "url": "https://gjsentinel.com/1", "source": "gj_sentinel", "region": "Western Slope", "published_at": "2026-03-04", "issues": ["Transportation", "Recreation/Tourism"], "locations": [{"name": "Grand Junction", "type": "municipality"}]},
+    {"title": "Aurora police department expands community policing program", "url": "https://denverpost.com/2", "source": "denver_post", "region": "Front Range", "published_at": "2026-03-04", "issues": ["Public Safety"], "locations": [{"name": "Aurora", "type": "municipality"}]},
+    {"title": "Southwest Colorado ranchers face drought challenges", "url": "https://durangoherald.com/2", "source": "durango_herald", "region": "Southwest", "published_at": "2026-03-03", "issues": ["Agriculture", "Water Rights"], "locations": [{"name": "Montezuma County", "type": "county"}]},
+    {"title": "New hospital expansion breaks ground in Pueblo West", "url": "https://chieftain.com/2", "source": "pueblo_chieftain", "region": "Southern", "published_at": "2026-03-03", "issues": ["Healthcare", "Infrastructure"], "locations": [{"name": "Pueblo West", "type": "municipality"}]},
+    {"title": "Mesa County commissioners debate oil and gas regulations", "url": "https://gjsentinel.com/2", "source": "gj_sentinel", "region": "Western Slope", "published_at": "2026-03-02", "issues": ["Energy", "Environment"], "locations": [{"name": "Mesa County", "type": "county"}]},
+    {"title": "I-70 corridor expansion project secures federal funding", "url": "https://denverpost.com/3", "source": "denver_post", "region": "Front Range", "published_at": "2026-03-02", "issues": ["Transportation", "Infrastructure"], "locations": [{"name": "Denver", "type": "municipality"}]},
+    {"title": "Silverton avalanche preparedness program launches", "url": "https://durangoherald.com/3", "source": "durango_herald", "region": "Southwest", "published_at": "2026-03-01", "issues": ["Public Safety", "Recreation/Tourism"], "locations": [{"name": "Silverton", "type": "municipality"}, {"name": "San Juan County", "type": "county"}]}
+  ]
+}
