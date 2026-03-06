@@ -95,6 +95,51 @@ CREATE TABLE IF NOT EXISTS key_staff (
 );
 """
 
+_SCHEMA_ARTICLES = """
+CREATE TABLE IF NOT EXISTS articles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    url TEXT UNIQUE NOT NULL,
+    title TEXT NOT NULL,
+    body TEXT,
+    author TEXT,
+    published_at TEXT,
+    source TEXT NOT NULL,
+    ingested_at TEXT DEFAULT (datetime('now'))
+);
+"""
+
+_SCHEMA_ISSUES = """
+CREATE TABLE IF NOT EXISTS issues (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL,
+    slug TEXT UNIQUE NOT NULL
+);
+"""
+
+_SCHEMA_ARTICLE_ISSUES = """
+CREATE TABLE IF NOT EXISTS article_issues (
+    article_id INTEGER REFERENCES articles(id),
+    issue_id INTEGER REFERENCES issues(id),
+    PRIMARY KEY (article_id, issue_id)
+);
+"""
+
+_SCHEMA_ARTICLE_REGIONS = """
+CREATE TABLE IF NOT EXISTS article_regions (
+    article_id INTEGER REFERENCES articles(id),
+    region_name TEXT NOT NULL,
+    region_type TEXT NOT NULL,
+    PRIMARY KEY (article_id, region_name)
+);
+"""
+
+_NEWS_SCHEMAS = [
+    _SCHEMA_ARTICLES,
+    _SCHEMA_ISSUES,
+    _SCHEMA_ARTICLE_ISSUES,
+    _SCHEMA_ARTICLE_REGIONS,
+]
+
 # -- Column lists (used for upsert helpers) ---------------------------------
 _OFFICIALS_COLS = [
     "id", "name", "first_name", "last_name", "title",
@@ -130,6 +175,8 @@ def get_connection() -> sqlite3.Connection:
     conn.execute(_SCHEMA_OFFICIALS)
     conn.execute(_SCHEMA_KEY_STAFF)
     conn.commit()
+    for stmt in _NEWS_SCHEMAS:
+        conn.execute(stmt)
 
     log.info("Database ready at %s", DB_PATH)
     return conn
