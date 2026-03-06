@@ -340,6 +340,18 @@
         display: none;
     }
 
+    /* ── Sentiment Dots ─────────────────────────────── */
+    .sentiment-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+    .sentiment-dot--positive { background: #27AE60; }
+    .sentiment-dot--neutral  { background: #BDC3C7; }
+    .sentiment-dot--negative { background: #C0392B; }
+
     /* ── Empty State ──────────────────────────────── */
     .empty-state {
       padding: 48px 24px;
@@ -629,9 +641,20 @@
         return;
       }
 
+      const filteredArticles = getFilteredArticles();
+
       issues.forEach(issue => {
+        const sentCounts = {positive: 0, neutral: 0, negative: 0};
+        filteredArticles.forEach(a => {
+          if (a.issues.includes(issue.name) && a.sentiment) {
+            sentCounts[a.sentiment] = (sentCounts[a.sentiment] || 0) + 1;
+          }
+        });
+        const sentTitle = `${issue.name}: ${sentCounts.positive} positive, ${sentCounts.neutral} neutral, ${sentCounts.negative} negative`;
+
         const row = document.createElement('div');
         row.className = 'bar-row';
+        row.setAttribute('title', sentTitle);
         if (activeIssue === issue.name) row.classList.add('active');
         if (activeIssue && activeIssue !== issue.name) row.classList.add('dimmed');
 
@@ -868,6 +891,9 @@
 
         const dateStr = formatDate(a.published_at);
         const sourceName = SOURCE_NAMES[a.source] || a.source;
+        const sentimentDot = a.sentiment
+          ? `<span class="sentiment-dot sentiment-dot--${a.sentiment}" title="${a.sentiment}"></span>`
+          : '';
 
         let issuePills = a.issues.map(issue => {
           const cls = (activeIssue === issue) ? 'issue-pill active-issue' : 'issue-pill';
@@ -881,7 +907,7 @@
             <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>
           </div>
           <div class="feed-meta">
-            <span class="feed-date">${dateStr}</span>
+            ${sentimentDot}<span class="feed-date">${dateStr}</span>
             <span class="source-pill source-pill--${a.source}">${esc(sourceName)}</span>
             ${issuePills}
             ${locationNames ? `<span class="feed-locations">${esc(locationNames)}</span>` : ''}
