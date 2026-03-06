@@ -53,6 +53,34 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
         for region, count in sorted(region_counts.items(), key=lambda x: -x[1])
     ]
 
+    # County-level data for choropleth
+    county_rows = conn.execute(
+        "SELECT ar.county, i.name, COUNT(*) as cnt "
+        "FROM article_regions ar "
+        "JOIN article_issues ai ON ar.article_id = ai.article_id "
+        "JOIN issues i ON ai.issue_id = i.id "
+        "WHERE ar.county IS NOT NULL AND ar.county != '' "
+        "GROUP BY ar.county, i.name "
+        "ORDER BY ar.county, cnt DESC"
+    ).fetchall()
+
+    counties = {}
+    for county, issue, cnt in county_rows:
+        if county not in counties:
+            counties[county] = {"total": 0, "top_issue": issue, "issues": {}}
+        counties[county]["total"] += cnt
+        counties[county]["issues"][issue] = cnt
+
+    county_data = [
+        {
+            "county": name,
+            "total_articles": data["total"],
+            "top_issue": data["top_issue"],
+            "issues": data["issues"],
+        }
+        for name, data in sorted(counties.items())
+    ]
+
     # All articles with issue tags (sorted client-side for correct date ordering)
     rows = conn.execute(
         "SELECT a.id, a.title, a.url, a.source, a.published_at "
@@ -76,6 +104,15 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
         ).fetchall()
         regions = [{"name": r[0], "type": r[1]} for r in region_rows]
 
+        county_row = conn.execute(
+            "SELECT county FROM article_regions WHERE article_id = ? AND county IS NOT NULL LIMIT 1",
+            (article_id,),
+        ).fetchone()
+
+        sentiment_row = conn.execute(
+            "SELECT sentiment FROM articles WHERE id = ?", (article_id,)
+        ).fetchone()
+
         recent_articles.append({
             "title": title,
             "url": url,
@@ -84,12 +121,15 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
             "published_at": published_at,
             "issues": issue_names,
             "locations": regions,
+            "county": county_row[0] if county_row else None,
+            "sentiment": sentiment_row[0] if sentiment_row else None,
         })
 
     return {
         "issues_by_count": issues_by_count,
         "articles_by_region": articles_by_region,
         "recent_articles": recent_articles,
+        "county_data": county_data,
     }
 
 

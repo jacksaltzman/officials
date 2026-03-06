@@ -33,9 +33,9 @@ def conn():
     c.execute("INSERT INTO issues (name, slug) VALUES (?, ?)", ("Housing", "housing"))
     c.execute("INSERT INTO article_issues VALUES (?, ?)", (1, 1))
     c.execute("INSERT INTO article_issues VALUES (?, ?)", (2, 2))
-    c.execute("INSERT INTO article_regions (article_id, region_name, region_type) VALUES (?, ?, ?)", (1, "Durango", "municipality"))
-    c.execute("INSERT INTO article_regions (article_id, region_name, region_type) VALUES (?, ?, ?)", (1, "La Plata County", "county"))
-    c.execute("INSERT INTO article_regions (article_id, region_name, region_type) VALUES (?, ?, ?)", (2, "Denver", "municipality"))
+    c.execute("INSERT INTO article_regions (article_id, region_name, region_type, county) VALUES (?, ?, ?, ?)", (1, "Durango", "municipality", "La Plata"))
+    c.execute("INSERT INTO article_regions (article_id, region_name, region_type, county) VALUES (?, ?, ?, ?)", (1, "La Plata County", "county", "La Plata"))
+    c.execute("INSERT INTO article_regions (article_id, region_name, region_type, county) VALUES (?, ?, ?, ?)", (2, "Denver", "municipality", "Denver"))
     c.commit()
     yield c
     c.close()
@@ -46,6 +46,7 @@ def test_generate_returns_valid_structure(conn):
     assert "issues_by_count" in data
     assert "articles_by_region" in data
     assert "recent_articles" in data
+    assert "county_data" in data
 
 
 def test_issues_ranked_by_count(conn):
@@ -65,3 +66,29 @@ def test_recent_articles_include_issue_tags(conn):
         assert "issues" in article
         assert "title" in article
         assert "source" in article
+        assert "county" in article
+        assert "sentiment" in article
+
+
+def test_county_data_aggregation(conn):
+    data = generate_dashboard_json(conn)
+    county_data = data["county_data"]
+    # We have two counties: La Plata (article 1 with Water Rights) and Denver (article 2 with Housing)
+    assert len(county_data) == 2
+    names = [c["county"] for c in county_data]
+    assert "La Plata" in names
+    assert "Denver" in names
+    for c in county_data:
+        assert "total_articles" in c
+        assert "top_issue" in c
+        assert "issues" in c
+        assert c["total_articles"] > 0
+
+
+def test_article_county_field(conn):
+    data = generate_dashboard_json(conn)
+    articles = data["recent_articles"]
+    durango_article = [a for a in articles if a["source"] == "durango_herald"][0]
+    assert durango_article["county"] == "La Plata"
+    denver_article = [a for a in articles if a["source"] == "denver_post"][0]
+    assert denver_article["county"] == "Denver"

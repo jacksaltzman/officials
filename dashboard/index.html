@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson-client@3"></script>
   <style>
     /* ── Reset & Base ─────────────────────────────── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -210,64 +211,6 @@
       gap: 20px;
     }
 
-    /* ── Region Cards ─────────────────────────────── */
-    .region-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .region-card {
-      background: #FFFFFF;
-      border: 1px solid #E8E5E1;
-      border-radius: 8px;
-      padding: 16px;
-      text-align: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-      transition: transform 0.15s, box-shadow 0.15s;
-      cursor: default;
-      position: relative;
-      overflow: hidden;
-    }
-    .region-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: #4C6971;
-      opacity: 0.3;
-      transition: opacity 0.2s;
-    }
-    .region-card:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.08); }
-    .region-card:hover::before { opacity: 0.7; }
-
-    .region-name {
-      font-family: 'Oswald', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #333;
-      margin-bottom: 4px;
-    }
-
-    .region-count {
-      font-size: 28px;
-      font-weight: 600;
-      color: #4C6971;
-      line-height: 1.1;
-    }
-
-    .region-label {
-      font-size: 11px;
-      color: #999;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 2px;
-    }
-
     /* ── Article Feed ──────────────────────────────── */
     .feed-section {
       flex: 1;
@@ -379,6 +322,24 @@
       color: #fff;
     }
 
+    /* ── Map ─────────────────────────────────────── */
+    #map-card svg {
+        display: block;
+        margin: 0 auto;
+    }
+    .county-tooltip {
+        position: absolute;
+        background: rgba(0,0,0,0.85);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        pointer-events: none;
+        z-index: 100;
+        white-space: nowrap;
+        display: none;
+    }
+
     /* ── Empty State ──────────────────────────────── */
     .empty-state {
       padding: 48px 24px;
@@ -409,9 +370,6 @@
         flex: none;
         min-width: unset;
       }
-      .region-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
     }
 
     @media (max-width: 600px) {
@@ -421,7 +379,6 @@
       }
       #topbar h1 { font-size: 16px; }
       #main { padding: 12px; gap: 16px; }
-      .region-row { grid-template-columns: 1fr 1fr; }
       .bar-label { flex: 0 0 90px; font-size: 12px; }
     }
   </style>
@@ -467,7 +424,13 @@
 
       <!-- Right: Region + Feed -->
       <div id="right-panel">
-        <div class="region-row" id="region-cards"></div>
+        <div id="map-container" style="width:100%; position:relative;">
+            <div class="section-header">
+                <span>Colorado Coverage Map</span>
+                <span class="filter-clear" id="clear-county" style="display:none;">Clear county</span>
+            </div>
+            <div class="chart-card" id="map-card" style="padding:12px;"></div>
+        </div>
         <div class="feed-section">
           <div class="section-header">
             <span id="feed-title">Recent Articles</span>
@@ -501,6 +464,19 @@
     let activeIssue = null;
     let activeSource = 'all';
     let activeDays = 7;
+    let activeCounty = null;
+
+    const ISSUE_COLORS = {
+        'Economy/Jobs': '#4C6971', 'Public Safety': '#C0392B',
+        'Recreation/Tourism': '#27AE60', 'Education': '#8E44AD',
+        'Transportation': '#E67E22', 'Healthcare': '#2980B9',
+        'Housing': '#D4AC0D', 'Environment': '#1ABC9C',
+        'Taxes/Budget': '#7F8C8D', 'Infrastructure': '#E74C3C',
+        'Energy': '#F39C12', 'Agriculture': '#2ECC71',
+        'Immigration': '#9B59B6', 'Gun Policy': '#E91E63',
+        'Water Rights': '#00BCD4',
+    };
+    const DEFAULT_COUNTY_COLOR = '#E8E5E1';
 
     // ── Data Load ────────────────────────────────────
     document.addEventListener('DOMContentLoaded', () => {
@@ -514,6 +490,7 @@
           document.getElementById('loading').classList.add('hidden');
           document.getElementById('main').style.display = 'flex';
           renderAll();
+          loadMap();
         })
         .catch(err => {
           document.getElementById('loading').textContent = 'Error: ' + err.message;
@@ -540,6 +517,11 @@
       renderAll();
     });
 
+    document.getElementById('clear-county').addEventListener('click', () => {
+      activeCounty = null;
+      renderAll();
+    });
+
     // ── Filtering Logic ──────────────────────────────
     function getFilteredArticles() {
       const now = new Date();
@@ -554,6 +536,13 @@
         if (pubDate && pubDate < cutoff) return false;
         // Issue filter
         if (activeIssue && !a.issues.includes(activeIssue)) return false;
+        // County filter
+        if (activeCounty && a.county) {
+          const countyUpper = activeCounty.toUpperCase();
+          if (!a.county.toUpperCase().includes(countyUpper)) return false;
+        } else if (activeCounty && !a.county) {
+          return false;
+        }
         return true;
       }).sort((a, b) => {
         const da = parseDate(a.published_at);
@@ -596,36 +585,10 @@
         .sort((a, b) => b.count - a.count);
     }
 
-    function getFilteredRegions() {
-      const now = new Date();
-      const cutoff = new Date(now);
-      cutoff.setDate(cutoff.getDate() - activeDays);
-
-      const articles = dashData.recent_articles.filter(a => {
-        if (activeSource !== 'all' && a.source !== activeSource) return false;
-        const pubDate = parseDate(a.published_at);
-        if (pubDate && pubDate < cutoff) return false;
-        if (activeIssue && !a.issues.includes(activeIssue)) return false;
-        return true;
-      });
-
-      const counts = {};
-      articles.forEach(a => {
-        counts[a.region] = (counts[a.region] || 0) + 1;
-      });
-
-      // Always show all 4 regions
-      return dashData.articles_by_region.map(r => ({
-        region: r.region,
-        count: counts[r.region] || 0,
-        originalCount: r.count,
-      }));
-    }
-
     // ── Render All ───────────────────────────────────
     function renderAll() {
       renderBarChart();
-      renderRegionCards();
+      renderMap();
       renderFeed();
       updateFilterUI();
     }
@@ -634,8 +597,14 @@
       const clearBtn = document.getElementById('clear-filter');
       clearBtn.style.display = activeIssue ? 'inline' : 'none';
 
+      document.getElementById('clear-county').style.display = activeCounty ? 'inline' : 'none';
+
       const feedTitle = document.getElementById('feed-title');
-      if (activeIssue) {
+      if (activeCounty && activeIssue) {
+        feedTitle.textContent = activeCounty + ' County — ' + activeIssue + ' Articles';
+      } else if (activeCounty) {
+        feedTitle.textContent = activeCounty + ' County Articles';
+      } else if (activeIssue) {
         feedTitle.textContent = activeIssue + ' Articles';
       } else {
         feedTitle.textContent = 'Recent Articles';
@@ -690,39 +659,84 @@
       });
     }
 
-    // ── Region Cards ─────────────────────────────────
-    function renderRegionCards() {
-      const container = document.getElementById('region-cards');
-      const regions = getFilteredRegions();
-      const maxCount = Math.max(...regions.map(r => r.originalCount), 1);
+    // ── County Choropleth Map ──────────────────────────
+    let mapData = null;
 
+    async function loadMap() {
+      try {
+        mapData = await d3.json('data/co-counties.json');
+        renderMap();
+      } catch(e) {
+        console.error('Failed to load map:', e);
+      }
+    }
+
+    function renderMap() {
+      if (!mapData || !dashData) return;
+      const container = document.getElementById('map-card');
       container.innerHTML = '';
 
-      regions.forEach(r => {
-        const intensity = 0.15 + (r.originalCount / maxCount) * 0.85;
-        const card = document.createElement('div');
-        card.className = 'region-card';
-        card.style.setProperty('--intensity', intensity);
-        card.querySelector?.('::before')?.style;
+      const width = container.clientWidth - 24;
+      const height = 300;
+      const svg = d3.select(container).append('svg')
+          .attr('width', width).attr('height', height);
 
-        card.innerHTML = `
-          <div class="region-name">${esc(r.region)}</div>
-          <div class="region-count">${r.count}</div>
-          <div class="region-label">articles</div>
-        `;
+      const objectKey = Object.keys(mapData.objects)[0];
+      const geojson = topojson.feature(mapData, mapData.objects[objectKey]);
+      const projection = d3.geoMercator().fitSize([width - 20, height - 20], geojson);
+      projection.translate([width / 2, height / 2]);
+      const path = d3.geoPath().projection(projection);
 
-        // Dynamic top bar intensity
-        const topBar = document.createElement('div');
-        topBar.style.cssText = `
-          position: absolute; top: 0; left: 0; right: 0; height: 3px;
-          background: #4C6971; opacity: ${intensity};
-        `;
-        card.style.position = 'relative';
-        card.style.overflow = 'hidden';
-        card.insertBefore(topBar, card.firstChild);
-
-        container.appendChild(card);
+      // Build county lookup from dashData
+      const countyLookup = {};
+      (dashData.county_data || []).forEach(c => {
+        const key = c.county.toUpperCase().replace(/ COUNTY$/, '');
+        countyLookup[key] = c;
       });
+
+      // Tooltip
+      const tooltip = d3.select(container).append('div').attr('class', 'county-tooltip');
+
+      svg.selectAll('path')
+          .data(geojson.features)
+          .join('path')
+          .attr('d', path)
+          .attr('fill', d => {
+            const name = (d.properties.NAME || '').toUpperCase();
+            const data = countyLookup[name];
+            if (activeCounty && name !== activeCounty.toUpperCase()) return '#F5F3F0';
+            if (data && data.top_issue) return ISSUE_COLORS[data.top_issue] || '#4C6971';
+            return DEFAULT_COUNTY_COLOR;
+          })
+          .attr('stroke', d => {
+            const name = (d.properties.NAME || '').toUpperCase();
+            return activeCounty && name === activeCounty.toUpperCase() ? '#111' : '#fff';
+          })
+          .attr('stroke-width', d => {
+            const name = (d.properties.NAME || '').toUpperCase();
+            return activeCounty && name === activeCounty.toUpperCase() ? 2 : 0.5;
+          })
+          .attr('cursor', 'pointer')
+          .on('mouseover', (event, d) => {
+            const name = (d.properties.NAME || '').toUpperCase();
+            const data = countyLookup[name];
+            let text = d.properties.NAME + ' County';
+            if (data) text += ': ' + data.top_issue + ' (' + data.total_articles + ' articles)';
+            else text += ': No coverage';
+            tooltip.style('display', 'block').html(text);
+          })
+          .on('mousemove', (event) => {
+            const rect = container.getBoundingClientRect();
+            tooltip
+                .style('left', (event.clientX - rect.left + 12) + 'px')
+                .style('top', (event.clientY - rect.top - 20) + 'px');
+          })
+          .on('mouseout', () => tooltip.style('display', 'none'))
+          .on('click', (event, d) => {
+            const name = d.properties.NAME || '';
+            activeCounty = (activeCounty === name) ? null : name;
+            renderAll();
+          });
     }
 
     // ── Article Feed ─────────────────────────────────
