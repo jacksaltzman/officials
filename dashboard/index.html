@@ -420,6 +420,10 @@
           <span class="filter-clear" id="clear-filter" style="display:none;">Clear filter</span>
         </div>
         <div class="chart-card" id="chart-container"></div>
+        <div class="section-header" style="margin-top:20px;">
+            <span>Trends (30 days)</span>
+        </div>
+        <div class="chart-card" id="trend-container" style="height:180px;"></div>
       </div>
 
       <!-- Right: Region + Feed -->
@@ -588,6 +592,7 @@
     // ── Render All ───────────────────────────────────
     function renderAll() {
       renderBarChart();
+      renderTrends();
       renderMap();
       renderFeed();
       updateFilterUI();
@@ -656,6 +661,108 @@
             fill.style.width = ((issue.count / maxCount) * 100) + '%';
           });
         });
+      });
+    }
+
+    // ── Trend Lines ─────────────────────────────────────
+    function renderTrends() {
+      const container = document.getElementById('trend-container');
+      container.innerHTML = '';
+
+      // Always show 30d of data for trends, respecting source filter only
+      const now = new Date();
+      const cutoff = new Date(now);
+      cutoff.setDate(cutoff.getDate() - 30);
+
+      const articles = dashData.recent_articles.filter(a => {
+        if (activeSource !== 'all' && a.source !== activeSource) return false;
+        const d = parseDate(a.published_at);
+        return d && d >= cutoff;
+      });
+
+      // Group by week + issue
+      const weekBuckets = {};
+      articles.forEach(a => {
+        const d = parseDate(a.published_at);
+        if (!d) return;
+        const weekStart = new Date(d);
+        weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1);
+        const key = weekStart.toISOString().slice(0, 10);
+        a.issues.forEach(issue => {
+          if (!weekBuckets[key]) weekBuckets[key] = {};
+          weekBuckets[key][issue] = (weekBuckets[key][issue] || 0) + 1;
+        });
+      });
+
+      const weeks = Object.keys(weekBuckets).sort();
+      if (weeks.length < 2) {
+        container.innerHTML = '<div class="empty-state">Need 2+ weeks of data for trends</div>';
+        return;
+      }
+
+      // Top 5 issues by total count
+      const totals = {};
+      articles.forEach(a => a.issues.forEach(i => { totals[i] = (totals[i] || 0) + 1; }));
+      const topIssues = Object.entries(totals).sort((a, b) => b[1] - a[1]).slice(0, 5).map(e => e[0]);
+
+      // Build series
+      const series = topIssues.map(issue => ({
+        issue,
+        values: weeks.map(w => ({ week: w, count: (weekBuckets[w] || {})[issue] || 0 })),
+      }));
+
+      // D3 line chart
+      const margin = { top: 10, right: 100, bottom: 30, left: 30 };
+      const width = container.clientWidth - margin.left - margin.right;
+      const height = 150 - margin.top - margin.bottom;
+
+      const svg = d3.select(container).append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      const x = d3.scalePoint().domain(weeks).range([0, width]);
+      const y = d3.scaleLinear()
+        .domain([0, d3.max(series, s => d3.max(s.values, v => v.count)) || 1])
+        .range([height, 0]);
+
+      const color = d3.scaleOrdinal()
+        .domain(topIssues)
+        .range(['#4C6971', '#C0392B', '#27AE60', '#8E44AD', '#E67E22']);
+
+      // Axes
+      svg.append('g').attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x).tickFormat(d => {
+          const dt = new Date(d);
+          return (dt.getMonth() + 1) + '/' + dt.getDate();
+        }))
+        .selectAll('text').style('font-size', '10px');
+
+      svg.append('g').call(d3.axisLeft(y).ticks(4)).selectAll('text').style('font-size', '10px');
+
+      // Lines
+      const line = d3.line().x(d => x(d.week)).y(d => y(d.count)).curve(d3.curveMonotoneX);
+
+      series.forEach(s => {
+        const opacity = (activeIssue && activeIssue !== s.issue) ? 0.15 : 1;
+        svg.append('path')
+          .datum(s.values)
+          .attr('fill', 'none')
+          .attr('stroke', color(s.issue))
+          .attr('stroke-width', activeIssue === s.issue ? 3 : 1.5)
+          .attr('opacity', opacity)
+          .attr('d', line);
+
+        // Label at end
+        const last = s.values[s.values.length - 1];
+        svg.append('text')
+          .attr('x', width + 5)
+          .attr('y', y(last.count))
+          .attr('font-size', '10px')
+          .attr('fill', color(s.issue))
+          .attr('opacity', opacity)
+          .attr('dominant-baseline', 'middle')
+          .text(s.issue.length > 15 ? s.issue.slice(0, 13) + '\u2026' : s.issue);
       });
     }
 
