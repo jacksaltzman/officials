@@ -3,32 +3,32 @@
     {
       "name": "Economy/Jobs",
       "slug": "economy-jobs",
-      "count": 68
+      "count": 64
     },
     {
       "name": "Public Safety",
       "slug": "public-safety",
-      "count": 56
+      "count": 58
     },
     {
       "name": "Recreation/Tourism",
       "slug": "recreation-tourism",
-      "count": 52
+      "count": 54
     },
     {
       "name": "Education",
       "slug": "education",
-      "count": 50
-    },
-    {
-      "name": "Healthcare",
-      "slug": "healthcare",
-      "count": 18
+      "count": 48
     },
     {
       "name": "Taxes/Budget",
       "slug": "taxes-budget",
-      "count": 18
+      "count": 19
+    },
+    {
+      "name": "Healthcare",
+      "slug": "healthcare",
+      "count": 16
     },
     {
       "name": "Transportation",
@@ -36,48 +36,53 @@
       "count": 12
     },
     {
-      "name": "Infrastructure",
-      "slug": "infrastructure",
-      "count": 11
-    },
-    {
       "name": "Environment",
       "slug": "environment",
-      "count": 10
-    },
-    {
-      "name": "Energy",
-      "slug": "energy",
-      "count": 9
+      "count": 11
     },
     {
       "name": "Housing",
       "slug": "housing",
-      "count": 7
+      "count": 11
+    },
+    {
+      "name": "Energy",
+      "slug": "energy",
+      "count": 10
     },
     {
       "name": "Immigration",
       "slug": "immigration",
+      "count": 10
+    },
+    {
+      "name": "Infrastructure",
+      "slug": "infrastructure",
+      "count": 10
+    },
+    {
+      "name": "Gun Policy",
+      "slug": "gun-policy",
       "count": 6
     },
     {
       "name": "Community Leadership",
       "slug": "community-leadership",
-      "count": 5
+      "count": 4
     },
     {
       "name": "Agriculture",
       "slug": "agriculture",
-      "count": 4
+      "count": 3
     },
     {
-      "name": "Gun Policy",
-      "slug": "gun-policy",
-      "count": 4
+      "name": "Water Rights",
+      "slug": "water-rights",
+      "count": 3
     },
     {
-      "name": "Government/Leadership",
-      "slug": "government-leadership",
+      "name": "Community Development",
+      "slug": "community-development",
       "count": 2
     },
     {
@@ -86,78 +91,63 @@
       "count": 2
     },
     {
-      "name": "Community Development",
-      "slug": "community-development",
-      "count": 1
-    },
-    {
-      "name": "Community Relations",
-      "slug": "community-relations",
-      "count": 1
-    },
-    {
-      "name": "Community Service",
-      "slug": "community-service",
-      "count": 1
-    },
-    {
       "name": "Consumer Protection",
       "slug": "consumer-protection",
       "count": 1
     },
     {
-      "name": "Criminal Justice Reform",
-      "slug": "criminal-justice-reform",
+      "name": "Criminal Justice System",
+      "slug": "criminal-justice-system",
       "count": 1
     },
     {
-      "name": "Drug Enforcement",
-      "slug": "drug-enforcement",
+      "name": "Culture/Community",
+      "slug": "culture-community",
       "count": 1
     },
     {
-      "name": "Government Accountability",
-      "slug": "government-accountability",
+      "name": "Domestic Violence Response",
+      "slug": "domestic-violence-response",
       "count": 1
     },
     {
-      "name": "Government Operations",
-      "slug": "government-operations",
+      "name": "Government/Leadership",
+      "slug": "government-leadership",
       "count": 1
     },
     {
-      "name": "Government/Political Representation",
-      "slug": "government-political-representation",
+      "name": "Government/Representation",
+      "slug": "government-representation",
       "count": 1
     },
     {
-      "name": "Legal/Governance",
-      "slug": "legal-governance",
+      "name": "Insurance/Risk Management",
+      "slug": "insurance-risk-management",
       "count": 1
     },
     {
-      "name": "Media/Arts",
-      "slug": "media-arts",
+      "name": "International Relations",
+      "slug": "international-relations",
       "count": 1
     },
     {
-      "name": "Media/News",
-      "slug": "media-news",
+      "name": "Labor/Workforce",
+      "slug": "labor-workforce",
       "count": 1
     },
     {
-      "name": "Mining/Resource Extraction",
-      "slug": "mining-resource-extraction",
+      "name": "Media/Journalism",
+      "slug": "media-journalism",
       "count": 1
     },
     {
-      "name": "Politics/Media",
-      "slug": "politics-media",
+      "name": "Mining/Resource Development",
+      "slug": "mining-resource-development",
       "count": 1
     },
     {
-      "name": "Politics/National Security",
-      "slug": "politics-national-security",
+      "name": "Native American Affairs",
+      "slug": "native-american-affairs",
       "count": 1
     },
     {
@@ -166,13 +156,8 @@
       "count": 1
     },
     {
-      "name": "Water Rights",
-      "slug": "water-rights",
-      "count": 1
-    },
-    {
-      "name": "Weather/Emergency Response",
-      "slug": "weather-emergency-response",
+      "name": "Wildlife Management",
+      "slug": "wildlife-management",
       "count": 1
     }
   ],
@@ -235,6 +220,10 @@
           "type": "municipality"
         },
         {
+          "name": "Castle Rock",
+          "type": "municipality"
+        },
+        {
           "name": "Denver",
           "type": "municipality"
         },
@@ -245,6 +234,14 @@
         {
           "name": "Douglas County",
           "type": "county"
+        },
+        {
+          "name": "Highlands Ranch",
+          "type": "municipality"
+        },
+        {
+          "name": "Littleton",
+          "type": "municipality"
         }
       ],
       "county": "Denver County",
@@ -287,7 +284,7 @@
           "type": "county"
         }
       ],
-      "county": "Prowers County",
+      "county": "Denver County",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -334,7 +331,7 @@
           "type": "state"
         }
       ],
-      "county": "Multiple",
+      "county": "Multiple/Statewide",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -345,12 +342,17 @@
       "region": "Front Range",
       "published_at": "Fri, 06 Mar 2026 19:01:12 +0000",
       "issues": [
+        "Economy/Jobs",
         "Housing"
       ],
       "locations": [
         {
           "name": "Denver",
           "type": "municipality"
+        },
+        {
+          "name": "Denver Metro",
+          "type": "region"
         }
       ],
       "county": "Denver",
@@ -363,7 +365,10 @@
       "source": "denver_post",
       "region": "Front Range",
       "published_at": "Fri, 06 Mar 2026 18:31:46 +0000",
-      "issues": [],
+      "issues": [
+        "Public Safety",
+        "International Relations"
+      ],
       "locations": [
         {
           "name": "Colorado",
@@ -371,7 +376,7 @@
         }
       ],
       "county": "N/A",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -381,8 +386,8 @@
       "region": "Front Range",
       "published_at": "Fri, 06 Mar 2026 18:25:31 +0000",
       "issues": [
-        "Transportation",
-        "Weather/Emergency Response"
+        "Public Safety",
+        "Transportation"
       ],
       "locations": [
         {
@@ -405,8 +410,8 @@
       "region": "Front Range",
       "published_at": "Fri, 06 Mar 2026 18:23:25 +0000",
       "issues": [
-        "Public Safety",
-        "Criminal Justice Reform"
+        "Gun Policy",
+        "Public Safety"
       ],
       "locations": [
         {
@@ -459,13 +464,9 @@
         {
           "name": "Boulder",
           "type": "municipality"
-        },
-        {
-          "name": "Boulder County",
-          "type": "county"
         }
       ],
-      "county": "Boulder County",
+      "county": "Boulder",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -500,17 +501,13 @@
       "region": "Southwest",
       "published_at": "2026-03-06 10:00:00 -0700",
       "issues": [
-        "Public Safety",
-        "Infrastructure"
+        "Taxes/Budget",
+        "Public Safety"
       ],
       "locations": [
         {
-          "name": "Fort Lewis Mesa",
-          "type": "municipality"
-        },
-        {
-          "name": "La Plata",
-          "type": "county"
+          "name": "Fort Lewis Mesa Fire Protection District",
+          "type": "special district"
         }
       ],
       "county": "La Plata",
@@ -525,9 +522,18 @@
       "published_at": "2026-03-06 05:00:00 -0700",
       "issues": [
         "Environment",
-        "Housing"
+        "Housing",
+        "Insurance/Risk Management"
       ],
       "locations": [
+        {
+          "name": "Cortez",
+          "type": "municipality"
+        },
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
         {
           "name": "La Plata County",
           "type": "county"
@@ -544,8 +550,9 @@
       "region": "Southwest",
       "published_at": "2026-03-05 04:53:57 -0700",
       "issues": [
+        "Environment",
         "Energy",
-        "Education"
+        "Infrastructure"
       ],
       "locations": [
         {
@@ -592,10 +599,20 @@
       "region": "Southwest",
       "published_at": "2026-03-05 03:58:47 -0700",
       "issues": [
-        "Recreation/Tourism"
+        "Recreation/Tourism",
+        "Environment"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
+        }
+      ],
+      "county": "La Plata",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -606,15 +623,24 @@
       "region": "Southwest",
       "published_at": "2026-03-05 10:00:00 -0700",
       "issues": [
-        "Government/Political Representation"
+        "Water Rights",
+        "Government/Representation"
       ],
       "locations": [
         {
-          "name": "Southwest Colorado",
-          "type": "region"
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
+        },
+        {
+          "name": "Mancos",
+          "type": "municipality"
         }
       ],
-      "county": "Unknown",
+      "county": "La Plata",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -625,6 +651,7 @@
       "region": "Southwest",
       "published_at": "2026-03-05 05:00:00 -0700",
       "issues": [
+        "Economy/Jobs",
         "Housing"
       ],
       "locations": [
@@ -648,7 +675,6 @@
       "region": "Southwest",
       "published_at": "2026-03-04 10:26:37 -0700",
       "issues": [
-        "Economy/Jobs",
         "Housing"
       ],
       "locations": [
@@ -680,11 +706,11 @@
           "type": "municipality"
         },
         {
-          "name": "Montezuma",
+          "name": "Montezuma County",
           "type": "county"
         }
       ],
-      "county": "Montezuma",
+      "county": "Montezuma County",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -695,8 +721,8 @@
       "region": "Southwest",
       "published_at": "2026-03-04 05:00:00 -0700",
       "issues": [
-        "Public Safety",
-        "Healthcare"
+        "Immigration",
+        "Public Safety"
       ],
       "locations": [
         {
@@ -743,8 +769,8 @@
       "region": "Southwest",
       "published_at": "2026-03-04 05:00:00 -0700",
       "issues": [
-        "Public Safety",
-        "Government Accountability"
+        "Immigration",
+        "Public Safety"
       ],
       "locations": [
         {
@@ -767,7 +793,8 @@
       "region": "Southwest",
       "published_at": "2026-03-03 05:07:12 -0700",
       "issues": [
-        "Public Safety"
+        "Public Safety",
+        "Domestic Violence Response"
       ],
       "locations": [
         {
@@ -775,11 +802,11 @@
           "type": "municipality"
         },
         {
-          "name": "La Plata",
+          "name": "La Plata County",
           "type": "county"
         }
       ],
-      "county": "La Plata",
+      "county": "La Plata County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -791,16 +818,37 @@
       "published_at": "2026-03-03 05:01:52 -0700",
       "issues": [
         "Environment",
-        "Public Safety"
+        "Public Safety",
+        "Wildlife Management"
       ],
       "locations": [
         {
-          "name": "Colorado",
-          "type": "state"
+          "name": "Archuleta County",
+          "type": "county"
+        },
+        {
+          "name": "Dolores",
+          "type": "municipality"
+        },
+        {
+          "name": "Dolores County",
+          "type": "county"
+        },
+        {
+          "name": "La Plata County",
+          "type": "county"
+        },
+        {
+          "name": "Mancos",
+          "type": "municipality"
+        },
+        {
+          "name": "Montezuma County",
+          "type": "county"
         }
       ],
-      "county": "Statewide",
-      "sentiment": "positive",
+      "county": "Montezuma County",
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -810,16 +858,21 @@
       "region": "Southwest",
       "published_at": "2026-03-03 04:31:14 -0700",
       "issues": [
-        "Public Safety"
+        "Public Safety",
+        "Criminal Justice System"
       ],
       "locations": [
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
         {
           "name": "La Plata County",
           "type": "county"
         }
       ],
       "county": "La Plata County",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -828,12 +881,19 @@
       "source": "durango_herald",
       "region": "Southwest",
       "published_at": "2026-03-03 02:43:55 -0700",
-      "issues": [
-        "Recreation/Tourism"
+      "issues": [],
+      "locations": [
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
+        }
       ],
-      "locations": [],
-      "county": null,
-      "sentiment": "neutral",
+      "county": "La Plata",
+      "sentiment": "positive",
       "also_covered_by": []
     },
     {
@@ -843,7 +903,6 @@
       "region": "Southwest",
       "published_at": "2026-03-03 10:00:00 -0700",
       "issues": [
-        "Economy/Jobs",
         "Education",
         "Healthcare"
       ],
@@ -868,11 +927,25 @@
       "region": "Southwest",
       "published_at": "2026-03-03 05:00:00 -0700",
       "issues": [
+        "Education",
         "Healthcare",
-        "Community Service"
+        "Agriculture"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "Farmington",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata County",
+          "type": "county"
+        }
+      ],
+      "county": "La Plata County",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -885,16 +958,20 @@
       "issues": [
         "Environment",
         "Water Rights",
-        "Mining/Resource Extraction"
+        "Mining/Resource Development"
       ],
       "locations": [
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
         {
           "name": "La Plata County",
           "type": "county"
         }
       ],
       "county": "La Plata",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "also_covered_by": []
     },
     {
@@ -912,11 +989,11 @@
           "type": "municipality"
         },
         {
-          "name": "La Plata",
+          "name": "La Plata County",
           "type": "county"
         }
       ],
-      "county": "La Plata",
+      "county": "La Plata County",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -927,7 +1004,7 @@
       "region": "Southwest",
       "published_at": "2026-03-02 07:32:00 -0700",
       "issues": [
-        "Transportation",
+        "Recreation/Tourism",
         "Infrastructure"
       ],
       "locations": [
@@ -956,11 +1033,15 @@
       ],
       "locations": [
         {
-          "name": "Colorado",
-          "type": "state"
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
         }
       ],
-      "county": "Unknown",
+      "county": "La Plata",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -995,11 +1076,14 @@
       "region": "Southwest",
       "published_at": "2026-03-02 05:00:00 -0700",
       "issues": [
-        "Recreation/Tourism",
         "Economy/Jobs",
         "Infrastructure"
       ],
       "locations": [
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
         {
           "name": "La Plata County",
           "type": "county"
@@ -1021,6 +1105,10 @@
       ],
       "locations": [
         {
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
           "name": "Mancos",
           "type": "municipality"
         },
@@ -1030,7 +1118,7 @@
         }
       ],
       "county": "Montezuma County",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -1044,11 +1132,15 @@
       ],
       "locations": [
         {
-          "name": "Denver",
+          "name": "Durango",
           "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
         }
       ],
-      "county": "Denver",
+      "county": "La Plata",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -1060,6 +1152,7 @@
       "published_at": "2026-02-28 05:00:00 -0700",
       "issues": [
         "Recreation/Tourism",
+        "Economy/Jobs",
         "Infrastructure"
       ],
       "locations": [
@@ -1085,8 +1178,17 @@
       "issues": [
         "Recreation/Tourism"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
+        }
+      ],
+      "county": "La Plata",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -1103,9 +1205,25 @@
         {
           "name": "Colorado",
           "type": "state"
+        },
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "Greeley",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
+        },
+        {
+          "name": "Weld",
+          "type": "county"
         }
       ],
-      "county": "Denver",
+      "county": "Statewide",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -1118,7 +1236,7 @@
       "issues": [],
       "locations": [],
       "county": null,
-      "sentiment": "neutral",
+      "sentiment": null,
       "also_covered_by": []
     },
     {
@@ -1156,11 +1274,15 @@
       ],
       "locations": [
         {
-          "name": "Colorado",
-          "type": "state"
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
         }
       ],
-      "county": "Unknown",
+      "county": "La Plata",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -1173,8 +1295,29 @@
       "issues": [
         "Economy/Jobs"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "California",
+          "type": "other"
+        },
+        {
+          "name": "Florida",
+          "type": "other"
+        },
+        {
+          "name": "Hawaii",
+          "type": "other"
+        },
+        {
+          "name": "Illinois",
+          "type": "other"
+        },
+        {
+          "name": "Washington",
+          "type": "other"
+        }
+      ],
+      "county": "Not primarily about Colorado",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -1188,8 +1331,21 @@
         "Taxes/Budget",
         "Economy/Jobs"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "Nashville",
+          "type": "municipality"
+        },
+        {
+          "name": "New York",
+          "type": "state"
+        },
+        {
+          "name": "Washington",
+          "type": "state"
+        }
+      ],
+      "county": "N/A",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -1200,16 +1356,28 @@
       "region": "Southwest",
       "published_at": "2026-03-04 01:40:27 -0700",
       "issues": [
-        "Recreation/Tourism",
-        "Economy/Jobs"
+        "Economy/Jobs",
+        "Consumer Protection"
       ],
       "locations": [
         {
-          "name": "Colorado",
-          "type": "state"
+          "name": "Adams County",
+          "type": "county"
+        },
+        {
+          "name": "Delta",
+          "type": "municipality"
+        },
+        {
+          "name": "Denver",
+          "type": "municipality"
+        },
+        {
+          "name": "Fort Collins",
+          "type": "municipality"
         }
       ],
-      "county": "Unknown",
+      "county": "Denver",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -1221,15 +1389,48 @@
       "published_at": "2026-02-25 01:31:49 -0700",
       "issues": [
         "Recreation/Tourism",
-        "Taxes/Budget"
+        "Taxes/Budget",
+        "Housing"
       ],
       "locations": [
         {
+          "name": "Breckenridge",
+          "type": "municipality"
+        },
+        {
+          "name": "Cañon City",
+          "type": "municipality"
+        },
+        {
+          "name": "Chaffee County",
+          "type": "county"
+        },
+        {
           "name": "Colorado",
           "type": "state"
+        },
+        {
+          "name": "Leadville",
+          "type": "municipality"
+        },
+        {
+          "name": "Manitou Springs",
+          "type": "municipality"
+        },
+        {
+          "name": "Steamboat Springs",
+          "type": "municipality"
+        },
+        {
+          "name": "Telluride",
+          "type": "municipality"
+        },
+        {
+          "name": "Vail",
+          "type": "municipality"
         }
       ],
-      "county": "Statewide",
+      "county": "Eagle",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -1240,7 +1441,6 @@
       "region": "Southwest",
       "published_at": "2026-02-20 11:38:54 -0700",
       "issues": [
-        "Taxes/Budget",
         "Economy/Jobs"
       ],
       "locations": [],
@@ -1258,8 +1458,17 @@
         "Taxes/Budget",
         "Economy/Jobs"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "Georgia",
+          "type": "other"
+        },
+        {
+          "name": "Washington",
+          "type": "other"
+        }
+      ],
+      "county": "N/A",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -1276,11 +1485,43 @@
       ],
       "locations": [
         {
-          "name": "Colorado",
-          "type": "state"
+          "name": "Boulder",
+          "type": "municipality"
+        },
+        {
+          "name": "Breckenridge",
+          "type": "municipality"
+        },
+        {
+          "name": "Denver",
+          "type": "municipality"
+        },
+        {
+          "name": "Denver County",
+          "type": "county"
+        },
+        {
+          "name": "Englewood",
+          "type": "municipality"
+        },
+        {
+          "name": "Golden",
+          "type": "municipality"
+        },
+        {
+          "name": "Grand County",
+          "type": "county"
+        },
+        {
+          "name": "Kremmling",
+          "type": "municipality"
+        },
+        {
+          "name": "Lakewood",
+          "type": "municipality"
         }
       ],
-      "county": "Unknown",
+      "county": "Denver County",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -1294,8 +1535,13 @@
         "Taxes/Budget",
         "Economy/Jobs"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "Broomfield",
+          "type": "municipality"
+        }
+      ],
+      "county": "Broomfield",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -1308,9 +1554,14 @@
       "issues": [
         "Economy/Jobs"
       ],
-      "locations": [],
-      "county": null,
-      "sentiment": "positive",
+      "locations": [
+        {
+          "name": "United States",
+          "type": "national"
+        }
+      ],
+      "county": "N/A",
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -1320,12 +1571,21 @@
       "region": "Southwest",
       "published_at": "2026-02-11 04:58:13 -0700",
       "issues": [
-        "Economy/Jobs",
-        "Healthcare"
+        "Education",
+        "Public Safety"
       ],
-      "locations": [],
-      "county": null,
-      "sentiment": "neutral",
+      "locations": [
+        {
+          "name": "Los Angeles",
+          "type": "municipality"
+        },
+        {
+          "name": "Los Angeles County",
+          "type": "county"
+        }
+      ],
+      "county": "Not a Colorado county",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -1336,15 +1596,23 @@
       "published_at": "2026-02-11 01:30:55 -0700",
       "issues": [
         "Taxes/Budget",
-        "Economy/Jobs"
+        "Housing"
       ],
       "locations": [
         {
-          "name": "Colorado",
-          "type": "state"
+          "name": "Denver",
+          "type": "municipality"
+        },
+        {
+          "name": "Elbert County",
+          "type": "county"
+        },
+        {
+          "name": "Green Valley Ranch",
+          "type": "municipality"
         }
       ],
-      "county": "Colorado",
+      "county": "Denver",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -1355,6 +1623,7 @@
       "region": "Southwest",
       "published_at": "2026-02-11 12:23:36 -0700",
       "issues": [
+        "Recreation/Tourism",
         "Economy/Jobs"
       ],
       "locations": [
@@ -1381,8 +1650,17 @@
         "Economy/Jobs",
         "Technology/Innovation"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "San Francisco",
+          "type": "municipality"
+        },
+        {
+          "name": "Texas",
+          "type": "state"
+        }
+      ],
+      "county": "Not primarily about Colorado",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -1393,16 +1671,21 @@
       "region": "Southwest",
       "published_at": "2026-02-04 12:37:18 -0700",
       "issues": [
-        "Economy/Jobs"
+        "Healthcare",
+        "Housing"
       ],
       "locations": [
         {
-          "name": "Colorado",
-          "type": "state"
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
         }
       ],
-      "county": "Denver",
-      "sentiment": "neutral",
+      "county": "La Plata",
+      "sentiment": "positive",
       "also_covered_by": []
     },
     {
@@ -1432,11 +1715,39 @@
       ],
       "locations": [
         {
-          "name": "Colorado",
-          "type": "state"
+          "name": "Aurora",
+          "type": "municipality"
+        },
+        {
+          "name": "Broomfield",
+          "type": "municipality"
+        },
+        {
+          "name": "Colorado Springs",
+          "type": "municipality"
+        },
+        {
+          "name": "Denver",
+          "type": "municipality"
+        },
+        {
+          "name": "Denver County",
+          "type": "county"
+        },
+        {
+          "name": "Elbert County",
+          "type": "county"
+        },
+        {
+          "name": "Fort Collins",
+          "type": "municipality"
+        },
+        {
+          "name": "Louisville",
+          "type": "municipality"
         }
       ],
-      "county": "Denver",
+      "county": "Denver County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -1448,9 +1759,14 @@
       "published_at": "2026-01-28 12:16:34 -0700",
       "issues": [
         "Recreation/Tourism",
-        "Economy/Jobs"
+        "Housing",
+        "Water Rights"
       ],
       "locations": [
+        {
+          "name": "Mountain Village",
+          "type": "municipality"
+        },
         {
           "name": "San Miguel County",
           "type": "county"
@@ -1471,12 +1787,16 @@
       "region": "Southwest",
       "published_at": "2026-01-28 11:32:51 -0700",
       "issues": [
-        "Economy/Jobs",
         "Immigration"
       ],
-      "locations": [],
-      "county": null,
-      "sentiment": "neutral",
+      "locations": [
+        {
+          "name": "California",
+          "type": "state"
+        }
+      ],
+      "county": "N/A",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -1485,10 +1805,13 @@
       "source": "durango_herald",
       "region": "Southwest",
       "published_at": "2026-01-28 11:21:15 -0700",
-      "issues": [],
+      "issues": [
+        "Taxes/Budget",
+        "Economy/Jobs"
+      ],
       "locations": [],
       "county": null,
-      "sentiment": null,
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -1501,9 +1824,14 @@
         "Taxes/Budget",
         "Economy/Jobs"
       ],
-      "locations": [],
-      "county": null,
-      "sentiment": "positive",
+      "locations": [
+        {
+          "name": "Washington",
+          "type": "other"
+        }
+      ],
+      "county": "N/A",
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -1528,8 +1856,7 @@
       "region": "Southwest",
       "published_at": "2026-01-21 04:48:43 -0700",
       "issues": [
-        "Economy/Jobs",
-        "Healthcare"
+        "Recreation/Tourism"
       ],
       "locations": [
         {
@@ -1552,15 +1879,20 @@
       "region": "Southwest",
       "published_at": "2026-01-21 01:45:26 -0700",
       "issues": [
+        "Recreation/Tourism",
         "Economy/Jobs"
       ],
       "locations": [
         {
-          "name": "Upper East Side",
-          "type": "neighborhood"
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
         }
       ],
-      "county": "Unknown",
+      "county": "La Plata",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -1574,8 +1906,13 @@
         "Economy/Jobs",
         "Housing"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "United States",
+          "type": "national"
+        }
+      ],
+      "county": "N/A - National Article",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -1602,7 +1939,7 @@
       ],
       "locations": [],
       "county": null,
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "also_covered_by": []
     },
     {
@@ -1613,9 +1950,22 @@
       "published_at": "2026-01-02 03:57:41 -0700",
       "issues": [
         "Recreation/Tourism",
-        "Economy/Jobs"
+        "Economy/Jobs",
+        "Labor/Workforce"
       ],
       "locations": [
+        {
+          "name": "Crested Butte",
+          "type": "municipality"
+        },
+        {
+          "name": "Monarch",
+          "type": "municipality"
+        },
+        {
+          "name": "Mountain Village",
+          "type": "municipality"
+        },
         {
           "name": "San Miguel County",
           "type": "county"
@@ -1626,7 +1976,7 @@
         }
       ],
       "county": "San Miguel County",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -1636,17 +1986,26 @@
       "region": "Southwest",
       "published_at": "2026-01-01 05:55:58 -0700",
       "issues": [
+        "Environment",
         "Economy/Jobs",
         "Energy"
       ],
       "locations": [
         {
-          "name": "Colorado",
-          "type": "state"
+          "name": "Craig",
+          "type": "municipality"
+        },
+        {
+          "name": "Fort Collins",
+          "type": "municipality"
+        },
+        {
+          "name": "Moffat County",
+          "type": "county"
         }
       ],
-      "county": "Unknown",
-      "sentiment": "neutral",
+      "county": "Moffat County",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -1656,10 +2015,28 @@
       "region": "Southwest",
       "published_at": "2025-12-31 12:45:36 -0700",
       "issues": [
+        "Taxes/Budget",
         "Housing"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "Colorado",
+          "type": "state"
+        },
+        {
+          "name": "Denver",
+          "type": "county"
+        },
+        {
+          "name": "Lakewood",
+          "type": "municipality"
+        },
+        {
+          "name": "Littleton",
+          "type": "municipality"
+        }
+      ],
+      "county": "Denver",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -1722,13 +2099,9 @@
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -1740,7 +2113,7 @@
       "published_at": "2025-11-21 03:55:28 -0700",
       "issues": [
         "Education",
-        "Legal/Governance"
+        "Public Safety"
       ],
       "locations": [
         {
@@ -1790,20 +2163,16 @@
       ],
       "locations": [
         {
-          "name": "Cortez",
-          "type": "municipality"
-        },
-        {
           "name": "Montezuma County",
           "type": "county"
         },
         {
           "name": "Montezuma-Cortez",
-          "type": "school district"
+          "type": "municipality"
         }
       ],
       "county": "Montezuma County",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -1817,11 +2186,15 @@
       ],
       "locations": [
         {
-          "name": "Miller Middle School",
-          "type": "school"
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
         }
       ],
-      "county": "Unknown",
+      "county": "La Plata",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -1832,10 +2205,20 @@
       "region": "Southwest",
       "published_at": "2025-08-30 11:31:22 -0700",
       "issues": [
+        "Recreation/Tourism",
         "Education"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
+        }
+      ],
+      "county": "La Plata",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -1855,11 +2238,11 @@
           "type": "municipality"
         },
         {
-          "name": "Montezuma",
+          "name": "Montezuma County",
           "type": "county"
         }
       ],
-      "county": "Montezuma",
+      "county": "Montezuma County",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -1872,8 +2255,17 @@
       "issues": [
         "Education"
       ],
-      "locations": [],
-      "county": null,
+      "locations": [
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
+          "type": "county"
+        }
+      ],
+      "county": "La Plata",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -1931,6 +2323,7 @@
       "region": "Southwest",
       "published_at": "2025-02-28 03:06:39 -0700",
       "issues": [
+        "Taxes/Budget",
         "Education",
         "Housing"
       ],
@@ -1945,7 +2338,7 @@
         }
       ],
       "county": "Montezuma",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -1979,15 +2372,28 @@
       "published_at": "2025-01-29 06:10:12 -0700",
       "issues": [
         "Environment",
+        "Economy/Jobs",
         "Education"
       ],
       "locations": [
+        {
+          "name": "Mancos",
+          "type": "municipality"
+        },
+        {
+          "name": "Montezuma County",
+          "type": "county"
+        },
+        {
+          "name": "Pueblo",
+          "type": "municipality"
+        },
         {
           "name": "Pueblo County",
           "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Montezuma County",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -1998,17 +2404,33 @@
       "region": "Southwest",
       "published_at": "2025-01-29 03:29:47 -0700",
       "issues": [
+        "Recreation/Tourism",
         "Environment",
-        "Economy/Jobs",
         "Education"
       ],
       "locations": [
         {
-          "name": "Southwest Colorado",
-          "type": "region"
+          "name": "Archuleta County",
+          "type": "county"
+        },
+        {
+          "name": "Dolores County",
+          "type": "county"
+        },
+        {
+          "name": "La Plata County",
+          "type": "county"
+        },
+        {
+          "name": "Montezuma County",
+          "type": "county"
+        },
+        {
+          "name": "San Juan County",
+          "type": "county"
         }
       ],
-      "county": "La Plata",
+      "county": "Montezuma County",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -2028,12 +2450,12 @@
           "type": "municipality"
         },
         {
-          "name": "Montezuma County",
-          "type": "county"
+          "name": "Montezuma",
+          "type": "municipality"
         },
         {
-          "name": "Montezuma-Cortez",
-          "type": "municipality"
+          "name": "Montezuma County",
+          "type": "county"
         }
       ],
       "county": "Montezuma County",
@@ -2047,8 +2469,61 @@
       "region": "Southwest",
       "published_at": "2025-01-10 02:53:09 -0700",
       "issues": [
+        "Economy/Jobs",
         "Education",
         "Healthcare"
+      ],
+      "locations": [
+        {
+          "name": "Bayfield",
+          "type": "municipality"
+        },
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata County",
+          "type": "county"
+        }
+      ],
+      "county": "La Plata County",
+      "sentiment": "positive",
+      "also_covered_by": []
+    },
+    {
+      "title": "Navajo Prep student named National STEM Champion",
+      "url": "https://www.durangoherald.com/articles/navajo-prep-student-named-national-stem-champion/",
+      "source": "durango_herald",
+      "region": "Southwest",
+      "published_at": "2024-12-27 11:40:17 -0700",
+      "issues": [
+        "Education",
+        "Healthcare"
+      ],
+      "locations": [
+        {
+          "name": "Navajo Preparatory High School",
+          "type": "school"
+        },
+        {
+          "name": "Washington, D.C.",
+          "type": "other"
+        }
+      ],
+      "county": "San Juan",
+      "sentiment": "positive",
+      "also_covered_by": []
+    },
+    {
+      "title": "Bayfield High School engineering student building drone to aid Upper Pine Fire",
+      "url": "https://www.durangoherald.com/articles/bayfield-high-school-engineering-student-building-drone-to-aid-upper-pine-fire/",
+      "source": "durango_herald",
+      "region": "Southwest",
+      "published_at": "2024-12-21 05:00:00 -0700",
+      "issues": [
+        "Education",
+        "Public Safety"
       ],
       "locations": [
         {
@@ -2061,44 +2536,6 @@
         }
       ],
       "county": "La Plata",
-      "sentiment": "positive",
-      "also_covered_by": []
-    },
-    {
-      "title": "Navajo Prep student named National STEM Champion",
-      "url": "https://www.durangoherald.com/articles/navajo-prep-student-named-national-stem-champion/",
-      "source": "durango_herald",
-      "region": "Southwest",
-      "published_at": "2024-12-27 11:40:17 -0700",
-      "issues": [
-        "Education"
-      ],
-      "locations": [],
-      "county": null,
-      "sentiment": "positive",
-      "also_covered_by": []
-    },
-    {
-      "title": "Bayfield High School engineering student building drone to aid Upper Pine Fire",
-      "url": "https://www.durangoherald.com/articles/bayfield-high-school-engineering-student-building-drone-to-aid-upper-pine-fire/",
-      "source": "durango_herald",
-      "region": "Southwest",
-      "published_at": "2024-12-21 05:00:00 -0700",
-      "issues": [
-        "Environment",
-        "Education"
-      ],
-      "locations": [
-        {
-          "name": "Bayfield",
-          "type": "municipality"
-        },
-        {
-          "name": "La Plata County",
-          "type": "county"
-        }
-      ],
-      "county": "La Plata County",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -2118,11 +2555,11 @@
           "type": "municipality"
         },
         {
-          "name": "La Plata",
+          "name": "La Plata County",
           "type": "county"
         }
       ],
-      "county": "La Plata",
+      "county": "La Plata County",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -2138,6 +2575,14 @@
       "locations": [
         {
           "name": "Bayfield",
+          "type": "municipality"
+        },
+        {
+          "name": "Boulder",
+          "type": "municipality"
+        },
+        {
+          "name": "Colorado Springs",
           "type": "municipality"
         },
         {
@@ -2189,6 +2634,14 @@
         {
           "name": "La Plata",
           "type": "county"
+        },
+        {
+          "name": "Pagosa Springs",
+          "type": "municipality"
+        },
+        {
+          "name": "Silverton",
+          "type": "municipality"
         }
       ],
       "county": "La Plata",
@@ -2202,15 +2655,20 @@
       "region": "Southwest",
       "published_at": "2024-11-22 11:12:06 -0700",
       "issues": [
+        "Recreation/Tourism",
         "Education"
       ],
       "locations": [
         {
-          "name": "Montrose County",
+          "name": "Cortez",
+          "type": "municipality"
+        },
+        {
+          "name": "Montezuma",
           "type": "county"
         }
       ],
-      "county": "Montrose County",
+      "county": "Montezuma",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -2221,7 +2679,6 @@
       "region": "Southwest",
       "published_at": "2024-11-21 06:41:35 -0700",
       "issues": [
-        "Education",
         "Healthcare"
       ],
       "locations": [
@@ -2230,11 +2687,15 @@
           "type": "municipality"
         },
         {
-          "name": "La Plata County",
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata",
           "type": "county"
         }
       ],
-      "county": "La Plata County",
+      "county": "La Plata",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -2249,11 +2710,15 @@
       ],
       "locations": [
         {
-          "name": "Sunflower Theatre",
-          "type": "venue"
+          "name": "Cortez",
+          "type": "municipality"
+        },
+        {
+          "name": "Montezuma",
+          "type": "county"
         }
       ],
-      "county": "Unknown",
+      "county": "Montezuma",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -2264,15 +2729,32 @@
       "region": "Southwest",
       "published_at": "2024-11-17 05:00:00 -0700",
       "issues": [
+        "Economy/Jobs",
         "Education"
       ],
       "locations": [
         {
-          "name": "Southwest Colorado",
-          "type": "region"
+          "name": "Bayfield",
+          "type": "municipality"
+        },
+        {
+          "name": "Durango",
+          "type": "municipality"
+        },
+        {
+          "name": "Ignacio",
+          "type": "municipality"
+        },
+        {
+          "name": "La Plata County",
+          "type": "county"
+        },
+        {
+          "name": "Montezuma County",
+          "type": "county"
         }
       ],
-      "county": "La Plata",
+      "county": "La Plata County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -2297,7 +2779,7 @@
         }
       ],
       "county": "La Plata",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "also_covered_by": []
     },
     {
@@ -2330,7 +2812,8 @@
       "region": "Southern",
       "published_at": "Thu, 05 Mar 2026 00:30:00 GMT",
       "issues": [
-        "Public Safety"
+        "Public Safety",
+        "Transportation"
       ],
       "locations": [
         {
@@ -2455,13 +2938,9 @@
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -2471,20 +2950,14 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Fri, 27 Feb 2026 16:36:28 GMT",
-      "issues": [
-        "Agriculture"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -2512,16 +2985,20 @@
       "region": "Southern",
       "published_at": "Fri, 06 Mar 2026 16:33:39 GMT",
       "issues": [
-        "Education",
-        "Community Leadership"
+        "Economy/Jobs",
+        "Immigration"
       ],
       "locations": [
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -2561,9 +3038,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -2581,9 +3062,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -2676,9 +3161,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -2698,7 +3187,7 @@
         }
       ],
       "county": "Pueblo",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -2733,10 +3222,14 @@
       "locations": [
         {
           "name": "Pueblo",
+          "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
           "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -2766,10 +3259,7 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Fri, 20 Feb 2026 01:43:55 GMT",
-      "issues": [
-        "Economy/Jobs",
-        "Community Leadership"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Pueblo",
@@ -2833,9 +3323,7 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Tue, 03 Mar 2026 12:58:03 GMT",
-      "issues": [
-        "Public Safety"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Pueblo",
@@ -2858,19 +3346,15 @@
       "published_at": "Wed, 25 Feb 2026 15:49:59 GMT",
       "issues": [
         "Public Safety",
-        "Healthcare"
+        "Community Leadership"
       ],
       "locations": [
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -2880,9 +3364,7 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Thu, 26 Feb 2026 22:11:43 GMT",
-      "issues": [
-        "Agriculture"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Pueblo",
@@ -2899,7 +3381,9 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Thu, 05 Mar 2026 23:21:12 GMT",
-      "issues": [],
+      "issues": [
+        "Public Safety"
+      ],
       "locations": [
         {
           "name": "Pueblo",
@@ -2948,9 +3432,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -2961,8 +3449,7 @@
       "region": "Southern",
       "published_at": "Thu, 05 Mar 2026 23:17:53 GMT",
       "issues": [
-        "Public Safety",
-        "Healthcare"
+        "Education"
       ],
       "locations": [
         {
@@ -2989,9 +3476,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3008,14 +3499,10 @@
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
-      "sentiment": "neutral",
+      "county": "Pueblo",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -3047,9 +3534,7 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Fri, 06 Mar 2026 16:18:16 GMT",
-      "issues": [
-        "Education"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Pueblo",
@@ -3072,19 +3557,15 @@
       "published_at": "Fri, 06 Mar 2026 16:23:59 GMT",
       "issues": [
         "Education",
-        "Community Leadership"
+        "Community Development"
       ],
       "locations": [
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3102,13 +3583,9 @@
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -3137,10 +3614,7 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Fri, 20 Feb 2026 01:43:57 GMT",
-      "issues": [
-        "Public Safety",
-        "Community Relations"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Pueblo",
@@ -3163,7 +3637,7 @@
       "locations": [
         {
           "name": "Pueblo",
-          "type": "municipality"
+          "type": "county"
         }
       ],
       "county": "Pueblo",
@@ -3223,9 +3697,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -3243,9 +3721,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3255,9 +3737,7 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Wed, 11 Feb 2026 08:00:00 GMT",
-      "issues": [
-        "Public Safety"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Pueblo",
@@ -3274,20 +3754,14 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Fri, 06 Feb 2026 15:57:03 GMT",
-      "issues": [
-        "Public Safety"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3298,7 +3772,7 @@
       "region": "Southern",
       "published_at": "Wed, 11 Feb 2026 08:00:00 GMT",
       "issues": [
-        "Education"
+        "Healthcare"
       ],
       "locations": [
         {
@@ -3338,8 +3812,7 @@
       "region": "Southern",
       "published_at": "Tue, 24 Feb 2026 11:12:00 GMT",
       "issues": [
-        "Infrastructure",
-        "Government Operations"
+        "Taxes/Budget"
       ],
       "locations": [
         {
@@ -3362,8 +3835,8 @@
       "region": "Southern",
       "published_at": "Wed, 04 Mar 2026 11:01:00 GMT",
       "issues": [
-        "Agriculture",
-        "Consumer Protection"
+        "Economy/Jobs",
+        "Agriculture"
       ],
       "locations": [
         {
@@ -3389,9 +3862,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -3408,9 +3885,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -3421,8 +3902,7 @@
       "region": "Southern",
       "published_at": "Sun, 01 Mar 2026 16:40:00 GMT",
       "issues": [
-        "Public Safety",
-        "Transportation"
+        "Public Safety"
       ],
       "locations": [
         {
@@ -3435,7 +3915,7 @@
         }
       ],
       "county": "Pueblo County",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -3449,9 +3929,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3491,7 +3975,7 @@
           "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -3579,18 +4063,16 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Sat, 13 Aug 2022 00:50:29 GMT",
-      "issues": [],
+      "issues": [
+        "Public Safety"
+      ],
       "locations": [
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3605,9 +4087,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3640,7 +4126,7 @@
       ],
       "locations": [
         {
-          "name": "Pueblo",
+          "name": "Pueblo County",
           "type": "county"
         },
         {
@@ -3648,7 +4134,7 @@
           "type": "municipality"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -3660,7 +4146,7 @@
       "published_at": "Fri, 12 Dec 2025 16:48:38 GMT",
       "issues": [
         "Education",
-        "Healthcare"
+        "Culture/Community"
       ],
       "locations": [
         {
@@ -3673,7 +4159,7 @@
         }
       ],
       "county": "Pueblo County",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "also_covered_by": []
     },
     {
@@ -3682,14 +4168,20 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Fri, 22 Nov 2024 08:00:00 GMT",
-      "issues": [],
+      "issues": [
+        "Public Safety"
+      ],
       "locations": [
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3730,9 +4222,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3764,7 +4260,7 @@
       "region": "Southern",
       "published_at": "Fri, 03 Oct 2025 07:00:00 GMT",
       "issues": [
-        "Media/News"
+        "Media/Journalism"
       ],
       "locations": [
         {
@@ -3782,14 +4278,20 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Sun, 07 Jan 2024 08:00:00 GMT",
-      "issues": [],
+      "issues": [
+        "Public Safety"
+      ],
       "locations": [
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3799,9 +4301,7 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Fri, 06 Jun 2025 15:30:28 GMT",
-      "issues": [
-        "Public Safety"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Pueblo",
@@ -3818,7 +4318,9 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Fri, 12 Apr 2024 22:46:20 GMT",
-      "issues": [],
+      "issues": [
+        "Public Safety"
+      ],
       "locations": [
         {
           "name": "Pueblo",
@@ -3840,21 +4342,16 @@
       "region": "Southern",
       "published_at": "Fri, 10 Oct 2025 14:23:45 GMT",
       "issues": [
-        "Education",
         "Community Leadership"
       ],
       "locations": [
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
-      "sentiment": "positive",
+      "county": "Pueblo",
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -3868,9 +4365,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3887,9 +4388,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -3962,9 +4467,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4013,13 +4522,9 @@
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4030,8 +4535,7 @@
       "region": "Southern",
       "published_at": "Fri, 06 Jun 2025 15:24:30 GMT",
       "issues": [
-        "Recreation/Tourism",
-        "Environment"
+        "Native American Affairs"
       ],
       "locations": [
         {
@@ -4054,13 +4558,9 @@
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4075,13 +4575,9 @@
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4117,9 +4613,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4153,13 +4653,9 @@
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -4191,19 +4687,16 @@
       "region": "Southern",
       "published_at": "Sun, 10 Jan 2021 08:00:00 GMT",
       "issues": [
-        "Politics/Media"
+        "Education",
+        "Public Safety"
       ],
       "locations": [
         {
           "name": "Pueblo",
           "type": "municipality"
-        },
-        {
-          "name": "Pueblo County",
-          "type": "county"
         }
       ],
-      "county": "Pueblo County",
+      "county": "Pueblo",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4213,8 +4706,25 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Sat, 21 Aug 2021 02:50:52 GMT",
+      "issues": [],
+      "locations": [
+        {
+          "name": "Pueblo",
+          "type": "municipality"
+        }
+      ],
+      "county": "Pueblo",
+      "sentiment": "neutral",
+      "also_covered_by": []
+    },
+    {
+      "title": "Judy “GiGi” Salazar - Pueblo Chieftain",
+      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5SVm1uSTIyeGw0TW1vTjcwVnJtbC1jSmFNMmk5TzJ6QzltQllCYWtrNHNvcnpnSjdOUWUtVXhaZHZxdnZQU2hTNWd1X1N2QWFBb0RCYzNUWFQ3UTNF?oc=5",
+      "source": "pueblo_chieftain",
+      "region": "Southern",
+      "published_at": "Mon, 06 Oct 2025 07:00:00 GMT",
       "issues": [
-        "Public Safety"
+        "Community Leadership"
       ],
       "locations": [
         {
@@ -4227,24 +4737,7 @@
         }
       ],
       "county": "Pueblo County",
-      "sentiment": "neutral",
-      "also_covered_by": []
-    },
-    {
-      "title": "Judy “GiGi” Salazar - Pueblo Chieftain",
-      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5SVm1uSTIyeGw0TW1vTjcwVnJtbC1jSmFNMmk5TzJ6QzltQllCYWtrNHNvcnpnSjdOUWUtVXhaZHZxdnZQU2hTNWd1X1N2QWFBb0RCYzNUWFQ3UTNF?oc=5",
-      "source": "pueblo_chieftain",
-      "region": "Southern",
-      "published_at": "Mon, 06 Oct 2025 07:00:00 GMT",
-      "issues": [],
-      "locations": [
-        {
-          "name": "Pueblo",
-          "type": "municipality"
-        }
-      ],
-      "county": "Pueblo",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "also_covered_by": []
     },
     {
@@ -4318,9 +4811,13 @@
         {
           "name": "Pueblo",
           "type": "municipality"
+        },
+        {
+          "name": "Pueblo County",
+          "type": "county"
         }
       ],
-      "county": "Pueblo",
+      "county": "Pueblo County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4330,9 +4827,7 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Sat, 07 Jun 2025 18:26:59 GMT",
-      "issues": [
-        "Government/Leadership"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Pueblo",
@@ -4350,7 +4845,7 @@
       "region": "Western Slope",
       "published_at": "Thu, 05 Mar 2026 21:30:00 GMT",
       "issues": [
-        "Public Safety"
+        "Immigration"
       ],
       "locations": [
         {
@@ -4405,11 +4900,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -4472,11 +4967,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4517,11 +5012,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4541,11 +5036,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -4601,9 +5096,7 @@
       "source": "gj_sentinel",
       "region": "Western Slope",
       "published_at": "Fri, 06 Mar 2026 15:45:06 GMT",
-      "issues": [
-        "Recreation/Tourism"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Grand Junction",
@@ -4656,11 +5149,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "positive",
       "also_covered_by": []
     },
@@ -4731,7 +5224,7 @@
         }
       ],
       "county": "Mesa County",
-      "sentiment": "neutral",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -4740,9 +5233,7 @@
       "source": "gj_sentinel",
       "region": "Western Slope",
       "published_at": "Fri, 06 Mar 2026 15:45:46 GMT",
-      "issues": [
-        "Public Safety"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Grand Junction",
@@ -4817,11 +5308,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4832,7 +5323,6 @@
       "region": "Western Slope",
       "published_at": "Wed, 04 Mar 2026 12:57:59 GMT",
       "issues": [
-        "Economy/Jobs",
         "Technology/Innovation"
       ],
       "locations": [
@@ -4841,11 +5331,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4856,6 +5346,7 @@
       "region": "Western Slope",
       "published_at": "Fri, 06 Mar 2026 14:30:00 GMT",
       "issues": [
+        "Transportation",
         "Infrastructure"
       ],
       "locations": [
@@ -4908,11 +5399,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -4923,7 +5414,7 @@
       "region": "Western Slope",
       "published_at": "Fri, 06 Mar 2026 16:13:36 GMT",
       "issues": [
-        "Economy/Jobs",
+        "Environment",
         "Energy"
       ],
       "locations": [
@@ -4947,7 +5438,6 @@
       "region": "Western Slope",
       "published_at": "Thu, 05 Mar 2026 12:52:09 GMT",
       "issues": [
-        "Immigration",
         "Education"
       ],
       "locations": [
@@ -5018,8 +5508,7 @@
       "region": "Western Slope",
       "published_at": "Wed, 04 Mar 2026 14:45:00 GMT",
       "issues": [
-        "Recreation/Tourism",
-        "Education"
+        "Recreation/Tourism"
       ],
       "locations": [
         {
@@ -5065,7 +5554,6 @@
       "region": "Western Slope",
       "published_at": "Fri, 06 Mar 2026 03:56:53 GMT",
       "issues": [
-        "Public Safety",
         "Healthcare"
       ],
       "locations": [
@@ -5089,8 +5577,7 @@
       "region": "Western Slope",
       "published_at": "Wed, 04 Mar 2026 21:58:00 GMT",
       "issues": [
-        "Recreation/Tourism",
-        "Media/Arts"
+        "Recreation/Tourism"
       ],
       "locations": [
         {
@@ -5098,11 +5585,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -5237,11 +5724,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -5284,11 +5771,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -5322,7 +5809,7 @@
       "region": "Western Slope",
       "published_at": "Thu, 05 Mar 2026 16:00:39 GMT",
       "issues": [
-        "Economy/Jobs"
+        "Healthcare"
       ],
       "locations": [
         {
@@ -5335,7 +5822,7 @@
         }
       ],
       "county": "Mesa",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "also_covered_by": []
     },
     {
@@ -5353,12 +5840,12 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
-      "sentiment": "neutral",
+      "county": "Mesa",
+      "sentiment": "negative",
       "also_covered_by": []
     },
     {
@@ -5374,12 +5861,12 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
-      "sentiment": "negative",
+      "county": "Mesa",
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -5388,9 +5875,7 @@
       "source": "gj_sentinel",
       "region": "Western Slope",
       "published_at": "Fri, 06 Mar 2026 14:30:00 GMT",
-      "issues": [
-        "Recreation/Tourism"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Grand Junction",
@@ -5439,11 +5924,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -5476,18 +5961,20 @@
       "source": "gj_sentinel",
       "region": "Western Slope",
       "published_at": "Fri, 06 Mar 2026 17:14:03 GMT",
-      "issues": [],
+      "issues": [
+        "Recreation/Tourism"
+      ],
       "locations": [
         {
           "name": "Grand Junction",
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -5502,9 +5989,13 @@
         {
           "name": "Grand Junction",
           "type": "municipality"
+        },
+        {
+          "name": "Mesa County",
+          "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -5523,11 +6014,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -5569,11 +6060,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -5583,9 +6074,7 @@
       "source": "gj_sentinel",
       "region": "Western Slope",
       "published_at": "Wed, 04 Mar 2026 23:25:41 GMT",
-      "issues": [
-        "Immigration"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Grand Junction",
@@ -5607,8 +6096,7 @@
       "region": "Western Slope",
       "published_at": "Thu, 05 Mar 2026 02:39:40 GMT",
       "issues": [
-        "Recreation/Tourism",
-        "Economy/Jobs"
+        "Recreation/Tourism"
       ],
       "locations": [
         {
@@ -5621,7 +6109,7 @@
         }
       ],
       "county": "Mesa County",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -5645,7 +6133,7 @@
         }
       ],
       "county": "Mesa County",
-      "sentiment": "positive",
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -5684,11 +6172,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -5747,7 +6235,7 @@
       "issues": [],
       "locations": [],
       "county": null,
-      "sentiment": null,
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -5757,8 +6245,7 @@
       "region": "Western Slope",
       "published_at": "Thu, 05 Mar 2026 10:00:00 GMT",
       "issues": [
-        "Taxes/Budget",
-        "Economy/Jobs"
+        "Immigration"
       ],
       "locations": [
         {
@@ -5825,8 +6312,8 @@
       "region": "Western Slope",
       "published_at": "Thu, 05 Mar 2026 16:21:02 GMT",
       "issues": [
-        "Public Safety",
-        "Drug Enforcement"
+        "Economy/Jobs",
+        "Public Safety"
       ],
       "locations": [
         {
@@ -5839,7 +6326,7 @@
         }
       ],
       "county": "Mesa County",
-      "sentiment": "neutral",
+      "sentiment": "positive",
       "also_covered_by": []
     },
     {
@@ -5896,7 +6383,6 @@
       "published_at": "Wed, 04 Mar 2026 07:15:00 GMT",
       "issues": [
         "Recreation/Tourism",
-        "Taxes/Budget",
         "Infrastructure"
       ],
       "locations": [
@@ -5907,10 +6393,6 @@
         {
           "name": "Mesa County",
           "type": "county"
-        },
-        {
-          "name": "Orchard Mesa",
-          "type": "municipality"
         }
       ],
       "county": "Mesa County",
@@ -5930,11 +6412,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -5965,20 +6447,18 @@
       "source": "gj_sentinel",
       "region": "Western Slope",
       "published_at": "Fri, 06 Mar 2026 02:12:47 GMT",
-      "issues": [
-        "Recreation/Tourism"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Grand Junction",
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -6060,7 +6540,8 @@
       "region": "Western Slope",
       "published_at": "Thu, 05 Mar 2026 20:41:10 GMT",
       "issues": [
-        "Politics/National Security"
+        "Immigration",
+        "Gun Policy"
       ],
       "locations": [
         {
@@ -6092,11 +6573,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "negative",
       "also_covered_by": []
     },
@@ -6183,7 +6664,7 @@
         }
       ],
       "county": "Mesa County",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -6259,11 +6740,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -6365,7 +6846,7 @@
       "region": "Western Slope",
       "published_at": "Fri, 06 Mar 2026 07:15:00 GMT",
       "issues": [
-        "Environment",
+        "Recreation/Tourism",
         "Education"
       ],
       "locations": [
@@ -6400,18 +6881,21 @@
       "source": "gj_sentinel",
       "region": "Western Slope",
       "published_at": "Tue, 03 Mar 2026 19:40:00 GMT",
-      "issues": [],
+      "issues": [
+        "Economy/Jobs",
+        "Education"
+      ],
       "locations": [
         {
           "name": "Grand Junction",
           "type": "municipality"
         },
         {
-          "name": "Mesa",
+          "name": "Mesa County",
           "type": "county"
         }
       ],
-      "county": "Mesa",
+      "county": "Mesa County",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -6449,11 +6933,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -6465,7 +6949,7 @@
       "published_at": "Thu, 05 Mar 2026 01:49:53 GMT",
       "issues": [
         "Environment",
-        "Taxes/Budget"
+        "Energy"
       ],
       "locations": [
         {
@@ -6487,9 +6971,7 @@
       "source": "gj_sentinel",
       "region": "Western Slope",
       "published_at": "Thu, 05 Mar 2026 02:21:46 GMT",
-      "issues": [
-        "Public Safety"
-      ],
+      "issues": [],
       "locations": [
         {
           "name": "Grand Junction",
@@ -6501,7 +6983,7 @@
         }
       ],
       "county": "Mesa County",
-      "sentiment": "negative",
+      "sentiment": "neutral",
       "also_covered_by": []
     },
     {
@@ -6531,7 +7013,9 @@
       "source": "gj_sentinel",
       "region": "Western Slope",
       "published_at": "Fri, 06 Mar 2026 18:18:02 GMT",
-      "issues": [],
+      "issues": [
+        "Public Safety"
+      ],
       "locations": [
         {
           "name": "Grand Junction",
@@ -6559,11 +7043,11 @@
           "type": "municipality"
         },
         {
-          "name": "Mesa County",
+          "name": "Mesa",
           "type": "county"
         }
       ],
-      "county": "Mesa County",
+      "county": "Mesa",
       "sentiment": "neutral",
       "also_covered_by": []
     },
@@ -6597,7 +7081,9 @@
       "source": "pueblo_chieftain",
       "region": "Southern",
       "published_at": "Fri, 11 Feb 2022 20:55:26 GMT",
-      "issues": [],
+      "issues": [
+        "Public Safety"
+      ],
       "locations": [
         {
           "name": "Pueblo",
@@ -6615,15 +7101,15 @@
   ],
   "county_data": [
     {
-      "county": "Boulder County",
-      "total_articles": 2,
+      "county": "Boulder",
+      "total_articles": 1,
       "top_issue": "Recreation/Tourism",
       "issues": {
-        "Recreation/Tourism": 2
+        "Recreation/Tourism": 1
       }
     },
     {
-      "county": "Colorado",
+      "county": "Broomfield",
       "total_articles": 2,
       "top_issue": "Taxes/Budget",
       "issues": {
@@ -6633,136 +7119,153 @@
     },
     {
       "county": "Denver",
-      "total_articles": 12,
-      "top_issue": "Economy/Jobs",
+      "total_articles": 32,
+      "top_issue": "Housing",
       "issues": {
-        "Economy/Jobs": 5,
-        "Public Safety": 3,
-        "Taxes/Budget": 1,
-        "Housing": 1,
-        "Healthcare": 1,
-        "Education": 1
+        "Housing": 9,
+        "Economy/Jobs": 9,
+        "Taxes/Budget": 7,
+        "Consumer Protection": 4,
+        "Public Safety": 3
       }
     },
     {
       "county": "Denver County",
-      "total_articles": 20,
-      "top_issue": "Recreation/Tourism",
+      "total_articles": 81,
+      "top_issue": "Economy/Jobs",
       "issues": {
-        "Recreation/Tourism": 5,
-        "Education": 5,
+        "Economy/Jobs": 26,
+        "Recreation/Tourism": 17,
+        "Environment": 9,
+        "Transportation": 8,
+        "Taxes/Budget": 8,
+        "Education": 8,
         "Immigration": 3,
-        "Economy/Jobs": 3,
-        "Weather/Emergency Response": 2,
-        "Transportation": 2
+        "Public Safety": 2
+      }
+    },
+    {
+      "county": "Eagle",
+      "total_articles": 27,
+      "top_issue": "Taxes/Budget",
+      "issues": {
+        "Taxes/Budget": 9,
+        "Recreation/Tourism": 9,
+        "Housing": 9
       }
     },
     {
       "county": "La Plata",
-      "total_articles": 95,
+      "total_articles": 129,
       "top_issue": "Education",
       "issues": {
-        "Education": 32,
-        "Economy/Jobs": 17,
-        "Public Safety": 8,
-        "Healthcare": 8,
-        "Taxes/Budget": 6,
-        "Infrastructure": 6,
-        "Recreation/Tourism": 4,
-        "Housing": 4,
-        "Transportation": 2,
-        "Government Accountability": 2,
-        "Environment": 2,
-        "Energy": 2,
-        "Water Rights": 1,
-        "Mining/Resource Extraction": 1
-      }
-    },
-    {
-      "county": "La Plata County",
-      "total_articles": 14,
-      "top_issue": "Education",
-      "issues": {
-        "Education": 4,
-        "Environment": 3,
-        "Healthcare": 2,
-        "Recreation/Tourism": 1,
-        "Public Safety": 1,
-        "Infrastructure": 1,
-        "Housing": 1,
-        "Economy/Jobs": 1
-      }
-    },
-    {
-      "county": "Mesa",
-      "total_articles": 32,
-      "top_issue": "Economy/Jobs",
-      "issues": {
+        "Education": 34,
+        "Recreation/Tourism": 16,
         "Economy/Jobs": 14,
-        "Recreation/Tourism": 10,
-        "Technology/Innovation": 2,
-        "Public Safety": 2,
-        "Infrastructure": 2,
+        "Healthcare": 11,
+        "Infrastructure": 8,
+        "Taxes/Budget": 7,
+        "Public Safety": 7,
+        "Housing": 6,
+        "Environment": 6,
+        "Water Rights": 5,
+        "Transportation": 4,
+        "Immigration": 4,
+        "Government/Representation": 3,
+        "Mining/Resource Development": 2,
         "Energy": 2
       }
     },
     {
-      "county": "Mesa County",
-      "total_articles": 171,
+      "county": "La Plata County",
+      "total_articles": 55,
+      "top_issue": "Education",
+      "issues": {
+        "Education": 15,
+        "Economy/Jobs": 12,
+        "Healthcare": 6,
+        "Public Safety": 4,
+        "Insurance/Risk Management": 3,
+        "Housing": 3,
+        "Environment": 3,
+        "Agriculture": 3,
+        "Infrastructure": 2,
+        "Domestic Violence Response": 2,
+        "Criminal Justice System": 2
+      }
+    },
+    {
+      "county": "Mesa",
+      "total_articles": 34,
       "top_issue": "Recreation/Tourism",
       "issues": {
-        "Recreation/Tourism": 49,
-        "Economy/Jobs": 34,
-        "Public Safety": 20,
-        "Energy": 10,
+        "Recreation/Tourism": 12,
+        "Economy/Jobs": 10,
+        "Public Safety": 6,
+        "Transportation": 2,
+        "Infrastructure": 2,
+        "Healthcare": 2
+      }
+    },
+    {
+      "county": "Mesa County",
+      "total_articles": 150,
+      "top_issue": "Recreation/Tourism",
+      "issues": {
+        "Recreation/Tourism": 44,
+        "Economy/Jobs": 32,
+        "Energy": 14,
+        "Public Safety": 10,
         "Transportation": 8,
-        "Taxes/Budget": 7,
-        "Immigration": 6,
+        "Immigration": 8,
+        "Gun Policy": 8,
         "Healthcare": 6,
-        "Gun Policy": 6,
         "Education": 6,
-        "Infrastructure": 5,
+        "Infrastructure": 4,
         "Environment": 4,
+        "Technology/Innovation": 2,
         "Technology/AI Safety": 2,
-        "Politics/National Security": 2,
-        "Media/Arts": 2,
-        "Drug Enforcement": 2,
         "Agriculture": 2
       }
     },
     {
+      "county": "Moffat County",
+      "total_articles": 9,
+      "top_issue": "Environment",
+      "issues": {
+        "Environment": 3,
+        "Energy": 3,
+        "Economy/Jobs": 3
+      }
+    },
+    {
       "county": "Montezuma",
-      "total_articles": 18,
+      "total_articles": 20,
       "top_issue": "Education",
       "issues": {
-        "Education": 8,
-        "Public Safety": 4,
-        "Transportation": 2,
+        "Education": 10,
+        "Recreation/Tourism": 4,
+        "Taxes/Budget": 2,
         "Infrastructure": 2,
         "Housing": 2
       }
     },
     {
       "county": "Montezuma County",
-      "total_articles": 17,
-      "top_issue": "Education",
+      "total_articles": 69,
+      "top_issue": "Public Safety",
       "issues": {
-        "Education": 8,
-        "Public Safety": 5,
-        "Legal/Governance": 2,
-        "Immigration": 2
+        "Public Safety": 18,
+        "Education": 18,
+        "Environment": 15,
+        "Wildlife Management": 6,
+        "Recreation/Tourism": 5,
+        "Economy/Jobs": 4,
+        "Immigration": 3
       }
     },
     {
-      "county": "Montrose County",
-      "total_articles": 1,
-      "top_issue": "Education",
-      "issues": {
-        "Education": 1
-      }
-    },
-    {
-      "county": "Multiple",
+      "county": "Multiple/Statewide",
       "total_articles": 1,
       "top_issue": "Public Safety",
       "issues": {
@@ -6770,115 +7273,147 @@
       }
     },
     {
-      "county": "Prowers County",
-      "total_articles": 12,
-      "top_issue": "Transportation",
+      "county": "N/A",
+      "total_articles": 16,
+      "top_issue": "Economy/Jobs",
       "issues": {
-        "Transportation": 6,
-        "Economy/Jobs": 6
+        "Economy/Jobs": 7,
+        "Taxes/Budget": 6,
+        "Public Safety": 1,
+        "International Relations": 1,
+        "Immigration": 1
+      }
+    },
+    {
+      "county": "N/A - National Article",
+      "total_articles": 2,
+      "top_issue": "Housing",
+      "issues": {
+        "Housing": 1,
+        "Economy/Jobs": 1
+      }
+    },
+    {
+      "county": "Not a Colorado county",
+      "total_articles": 4,
+      "top_issue": "Public Safety",
+      "issues": {
+        "Public Safety": 2,
+        "Education": 2
+      }
+    },
+    {
+      "county": "Not primarily about Colorado",
+      "total_articles": 9,
+      "top_issue": "Economy/Jobs",
+      "issues": {
+        "Economy/Jobs": 7,
+        "Technology/Innovation": 2
       }
     },
     {
       "county": "Pueblo",
-      "total_articles": 53,
+      "total_articles": 39,
       "top_issue": "Public Safety",
       "issues": {
-        "Public Safety": 17,
-        "Recreation/Tourism": 7,
+        "Public Safety": 10,
+        "Economy/Jobs": 7,
+        "Recreation/Tourism": 6,
         "Education": 6,
-        "Economy/Jobs": 6,
-        "Transportation": 2,
-        "Taxes/Budget": 2,
-        "Government/Leadership": 2,
         "Community Leadership": 2,
-        "Agriculture": 2,
-        "Media/News": 1,
-        "Infrastructure": 1,
+        "Transportation": 1,
+        "Taxes/Budget": 1,
+        "Native American Affairs": 1,
+        "Media/Journalism": 1,
+        "Healthcare": 1,
         "Gun Policy": 1,
-        "Environment": 1,
-        "Consumer Protection": 1,
-        "Community Relations": 1,
-        "Community Development": 1
+        "Community Development": 1,
+        "Agriculture": 1
       }
     },
     {
       "county": "Pueblo County",
-      "total_articles": 90,
+      "total_articles": 96,
       "top_issue": "Public Safety",
       "issues": {
-        "Public Safety": 30,
-        "Education": 15,
-        "Healthcare": 12,
+        "Public Safety": 44,
         "Recreation/Tourism": 8,
+        "Education": 8,
+        "Healthcare": 6,
         "Economy/Jobs": 6,
-        "Community Leadership": 6,
-        "Transportation": 2,
-        "Politics/Media": 2,
+        "Transportation": 4,
+        "Taxes/Budget": 4,
+        "Community Leadership": 4,
         "Infrastructure": 2,
-        "Government Operations": 2,
+        "Immigration": 2,
+        "Government/Leadership": 2,
         "Energy": 2,
-        "Agriculture": 2,
-        "Environment": 1
+        "Culture/Community": 2,
+        "Community Development": 2
+      }
+    },
+    {
+      "county": "San Juan",
+      "total_articles": 4,
+      "top_issue": "Healthcare",
+      "issues": {
+        "Healthcare": 2,
+        "Education": 2
       }
     },
     {
       "county": "San Miguel County",
-      "total_articles": 8,
+      "total_articles": 24,
       "top_issue": "Recreation/Tourism",
       "issues": {
-        "Recreation/Tourism": 4,
-        "Economy/Jobs": 4
+        "Recreation/Tourism": 8,
+        "Labor/Workforce": 5,
+        "Economy/Jobs": 5,
+        "Water Rights": 3,
+        "Housing": 3
       }
     },
     {
       "county": "Statewide",
-      "total_articles": 6,
-      "top_issue": "Public Safety",
+      "total_articles": 7,
+      "top_issue": "Education",
       "issues": {
-        "Public Safety": 2,
-        "Taxes/Budget": 1,
-        "Recreation/Tourism": 1,
-        "Environment": 1,
-        "Criminal Justice Reform": 1
-      }
-    },
-    {
-      "county": "Unknown",
-      "total_articles": 14,
-      "top_issue": "Economy/Jobs",
-      "issues": {
-        "Economy/Jobs": 4,
-        "Recreation/Tourism": 2,
-        "Education": 2,
-        "Transportation": 1,
-        "Infrastructure": 1,
-        "Healthcare": 1,
-        "Government/Political Representation": 1,
-        "Environment": 1,
-        "Energy": 1
+        "Education": 5,
+        "Public Safety": 1,
+        "Gun Policy": 1
       }
     }
   ],
   "cooccurrence": [
     {
       "issue_a": "Economy/Jobs",
-      "issue_b": "Taxes/Budget",
-      "count": 12
+      "issue_b": "Recreation/Tourism",
+      "count": 10
     },
     {
       "issue_a": "Economy/Jobs",
-      "issue_b": "Recreation/Tourism",
-      "count": 11
+      "issue_b": "Taxes/Budget",
+      "count": 10
     },
     {
       "issue_a": "Economy/Jobs",
       "issue_b": "Energy",
-      "count": 8
+      "count": 7
     },
     {
-      "issue_a": "Healthcare",
+      "issue_a": "Education",
+      "issue_b": "Recreation/Tourism",
+      "count": 7
+    },
+    {
+      "issue_a": "Economy/Jobs",
+      "issue_b": "Education",
+      "count": 6
+    },
+    {
+      "issue_a": "Education",
       "issue_b": "Public Safety",
-      "count": 5
+      "count": 6
     },
     {
       "issue_a": "Economy/Jobs",
@@ -6886,73 +7421,68 @@
       "count": 5
     },
     {
-      "issue_a": "Education",
-      "issue_b": "Recreation/Tourism",
-      "count": 4
-    },
-    {
-      "issue_a": "Education",
-      "issue_b": "Healthcare",
-      "count": 4
-    },
-    {
-      "issue_a": "Economy/Jobs",
-      "issue_b": "Healthcare",
-      "count": 4
-    },
-    {
-      "issue_a": "Education",
+      "issue_a": "Energy",
       "issue_b": "Environment",
       "count": 4
-    },
-    {
-      "issue_a": "Economy/Jobs",
-      "issue_b": "Education",
-      "count": 4
-    },
-    {
-      "issue_a": "Infrastructure",
-      "issue_b": "Recreation/Tourism",
-      "count": 3
-    },
-    {
-      "issue_a": "Community Leadership",
-      "issue_b": "Education",
-      "count": 3
     },
     {
       "issue_a": "Public Safety",
       "issue_b": "Transportation",
-      "count": 3
+      "count": 4
     },
     {
-      "issue_a": "Recreation/Tourism",
+      "issue_a": "Education",
+      "issue_b": "Healthcare",
+      "count": 4
+    },
+    {
+      "issue_a": "Housing",
       "issue_b": "Taxes/Budget",
-      "count": 2
+      "count": 4
     },
     {
       "issue_a": "Infrastructure",
-      "issue_b": "Taxes/Budget",
-      "count": 2
-    },
-    {
-      "issue_a": "Economy/Jobs",
-      "issue_b": "Technology/Innovation",
-      "count": 2
+      "issue_b": "Recreation/Tourism",
+      "count": 3
     },
     {
       "issue_a": "Economy/Jobs",
       "issue_b": "Public Safety",
-      "count": 2
+      "count": 3
     },
     {
       "issue_a": "Economy/Jobs",
       "issue_b": "Infrastructure",
-      "count": 2
+      "count": 3
+    },
+    {
+      "issue_a": "Economy/Jobs",
+      "issue_b": "Housing",
+      "count": 3
+    },
+    {
+      "issue_a": "Economy/Jobs",
+      "issue_b": "Environment",
+      "count": 3
     },
     {
       "issue_a": "Environment",
       "issue_b": "Recreation/Tourism",
+      "count": 3
+    },
+    {
+      "issue_a": "Immigration",
+      "issue_b": "Public Safety",
+      "count": 3
+    },
+    {
+      "issue_a": "Agriculture",
+      "issue_b": "Economy/Jobs",
+      "count": 2
+    },
+    {
+      "issue_a": "Community Development",
+      "issue_b": "Education",
       "count": 2
     },
     {
@@ -6961,17 +7491,7 @@
       "count": 2
     },
     {
-      "issue_a": "Economy/Jobs",
-      "issue_b": "Housing",
-      "count": 2
-    },
-    {
-      "issue_a": "Economy/Jobs",
-      "issue_b": "Environment",
-      "count": 2
-    },
-    {
-      "issue_a": "Education",
+      "issue_a": "Community Leadership",
       "issue_b": "Public Safety",
       "count": 2
     },
@@ -6981,24 +7501,29 @@
       "count": 2
     },
     {
-      "issue_a": "Environment",
-      "issue_b": "Taxes/Budget",
-      "count": 1
+      "issue_a": "Economy/Jobs",
+      "issue_b": "Healthcare",
+      "count": 2
+    },
+    {
+      "issue_a": "Gun Policy",
+      "issue_b": "Public Safety",
+      "count": 2
+    },
+    {
+      "issue_a": "Housing",
+      "issue_b": "Recreation/Tourism",
+      "count": 2
     },
     {
       "issue_a": "Education",
-      "issue_b": "Immigration",
-      "count": 1
+      "issue_b": "Taxes/Budget",
+      "count": 2
     },
     {
-      "issue_a": "Drug Enforcement",
-      "issue_b": "Public Safety",
-      "count": 1
-    },
-    {
-      "issue_a": "Agriculture",
-      "issue_b": "Economy/Jobs",
-      "count": 1
+      "issue_a": "Education",
+      "issue_b": "Environment",
+      "count": 2
     },
     {
       "issue_a": "Healthcare",
@@ -7006,13 +7531,8 @@
       "count": 1
     },
     {
-      "issue_a": "Community Leadership",
-      "issue_b": "Economy/Jobs",
-      "count": 1
-    },
-    {
-      "issue_a": "Community Relations",
-      "issue_b": "Public Safety",
+      "issue_a": "Culture/Community",
+      "issue_b": "Education",
       "count": 1
     },
     {
@@ -7021,58 +7541,63 @@
       "count": 1
     },
     {
-      "issue_a": "Community Development",
-      "issue_b": "Education",
-      "count": 1
-    },
-    {
-      "issue_a": "Community Leadership",
+      "issue_a": "Healthcare",
       "issue_b": "Public Safety",
       "count": 1
     },
     {
-      "issue_a": "Government Operations",
-      "issue_b": "Infrastructure",
+      "issue_a": "Infrastructure",
+      "issue_b": "Taxes/Budget",
       "count": 1
     },
     {
       "issue_a": "Gun Policy",
+      "issue_b": "Immigration",
+      "count": 1
+    },
+    {
+      "issue_a": "International Relations",
       "issue_b": "Public Safety",
       "count": 1
     },
     {
-      "issue_a": "Media/Arts",
-      "issue_b": "Recreation/Tourism",
+      "issue_a": "Consumer Protection",
+      "issue_b": "Economy/Jobs",
       "count": 1
     },
     {
       "issue_a": "Agriculture",
-      "issue_b": "Consumer Protection",
-      "count": 1
-    },
-    {
-      "issue_a": "Criminal Justice Reform",
-      "issue_b": "Public Safety",
-      "count": 1
-    },
-    {
-      "issue_a": "Transportation",
-      "issue_b": "Weather/Emergency Response",
-      "count": 1
-    },
-    {
-      "issue_a": "Community Service",
       "issue_b": "Healthcare",
       "count": 1
     },
     {
-      "issue_a": "Immigration",
-      "issue_b": "Public Safety",
+      "issue_a": "Agriculture",
+      "issue_b": "Education",
       "count": 1
     },
     {
-      "issue_a": "Mining/Resource Extraction",
+      "issue_a": "Recreation/Tourism",
       "issue_b": "Water Rights",
+      "count": 1
+    },
+    {
+      "issue_a": "Housing",
+      "issue_b": "Water Rights",
+      "count": 1
+    },
+    {
+      "issue_a": "Economy/Jobs",
+      "issue_b": "Technology/Innovation",
+      "count": 1
+    },
+    {
+      "issue_a": "Labor/Workforce",
+      "issue_b": "Recreation/Tourism",
+      "count": 1
+    },
+    {
+      "issue_a": "Economy/Jobs",
+      "issue_b": "Labor/Workforce",
       "count": 1
     },
     {
@@ -7081,8 +7606,13 @@
       "count": 1
     },
     {
+      "issue_a": "Mining/Resource Development",
+      "issue_b": "Water Rights",
+      "count": 1
+    },
+    {
       "issue_a": "Environment",
-      "issue_b": "Mining/Resource Extraction",
+      "issue_b": "Mining/Resource Development",
       "count": 1
     },
     {
@@ -7091,48 +7621,83 @@
       "count": 1
     },
     {
+      "issue_a": "Domestic Violence Response",
+      "issue_b": "Public Safety",
+      "count": 1
+    },
+    {
       "issue_a": "Environment",
       "issue_b": "Public Safety",
       "count": 1
     },
     {
-      "issue_a": "Education",
+      "issue_a": "Environment",
+      "issue_b": "Wildlife Management",
+      "count": 1
+    },
+    {
+      "issue_a": "Public Safety",
+      "issue_b": "Wildlife Management",
+      "count": 1
+    },
+    {
+      "issue_a": "Criminal Justice System",
+      "issue_b": "Public Safety",
+      "count": 1
+    },
+    {
+      "issue_a": "Energy",
+      "issue_b": "Infrastructure",
+      "count": 1
+    },
+    {
+      "issue_a": "Environment",
+      "issue_b": "Infrastructure",
+      "count": 1
+    },
+    {
+      "issue_a": "Environment",
+      "issue_b": "Housing",
+      "count": 1
+    },
+    {
+      "issue_a": "Housing",
+      "issue_b": "Insurance/Risk Management",
+      "count": 1
+    },
+    {
+      "issue_a": "Environment",
+      "issue_b": "Insurance/Risk Management",
+      "count": 1
+    },
+    {
+      "issue_a": "Healthcare",
+      "issue_b": "Housing",
+      "count": 1
+    },
+    {
+      "issue_a": "Public Safety",
       "issue_b": "Taxes/Budget",
       "count": 1
     },
     {
       "issue_a": "Education",
-      "issue_b": "Energy",
-      "count": 1
-    },
-    {
-      "issue_a": "Government Accountability",
-      "issue_b": "Public Safety",
-      "count": 1
-    },
-    {
-      "issue_a": "Environment",
       "issue_b": "Housing",
       "count": 1
     },
     {
-      "issue_a": "Education",
-      "issue_b": "Legal/Governance",
-      "count": 1
-    },
-    {
-      "issue_a": "Infrastructure",
-      "issue_b": "Public Safety",
-      "count": 1
-    },
-    {
-      "issue_a": "Education",
-      "issue_b": "Housing",
+      "issue_a": "Government/Representation",
+      "issue_b": "Water Rights",
       "count": 1
     },
     {
       "issue_a": "Taxes/Budget",
       "issue_b": "Transportation",
+      "count": 1
+    },
+    {
+      "issue_a": "Recreation/Tourism",
+      "issue_b": "Taxes/Budget",
       "count": 1
     }
   ],
