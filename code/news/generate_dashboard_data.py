@@ -16,6 +16,11 @@ SOURCE_TO_REGION = {
     "durango_herald": "Southwest",
     "pueblo_chieftain": "Southern",
     "gj_sentinel": "Western Slope",
+    "colorado_sun": "Statewide",
+    "co_springs_gazette": "Pikes Peak",
+    "fort_collins_coloradoan": "Northern",
+    "steamboat_pilot": "Northwest",
+    "summit_daily": "Mountain",
 }
 
 

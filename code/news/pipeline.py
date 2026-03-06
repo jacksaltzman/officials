@@ -19,10 +19,11 @@ def run_news_pipeline(conn: sqlite3.Connection) -> None:
 
     # Phase 1: Ingest articles
     total = 0
-    for source in ["denver_post", "durango_herald"]:
+    for source in ["denver_post", "durango_herald", "colorado_sun"]:
         total += fetch_rss_articles(conn, source)
 
-    for source in ["pueblo_chieftain", "gj_sentinel"]:
+    for source in ["pueblo_chieftain", "gj_sentinel", "co_springs_gazette",
+                    "fort_collins_coloradoan", "steamboat_pilot", "summit_daily"]:
         total += fetch_google_news_articles(conn, source)
 
     log.info("Ingested %d new articles total", total)

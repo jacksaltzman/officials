@@ -41,15 +41,20 @@ def test_pipeline_calls_all_sources(mock_rss, mock_gnews, mock_extract, mock_scr
 
     run_news_pipeline(conn)
 
-    # RSS called for denver_post and durango_herald
+    # RSS called for denver_post, durango_herald, and colorado_sun
     rss_calls = [c[0][1] for c in mock_rss.call_args_list]
     assert "denver_post" in rss_calls
     assert "durango_herald" in rss_calls
+    assert "colorado_sun" in rss_calls
 
-    # Google News called for pueblo_chieftain and gj_sentinel
+    # Google News called for all 6 sources
     gnews_calls = [c[0][1] for c in mock_gnews.call_args_list]
     assert "pueblo_chieftain" in gnews_calls
     assert "gj_sentinel" in gnews_calls
+    assert "co_springs_gazette" in gnews_calls
+    assert "fort_collins_coloradoan" in gnews_calls
+    assert "steamboat_pilot" in gnews_calls
+    assert "summit_daily" in gnews_calls
 
     # Scraper called once with connection
     mock_scrape.assert_called_once_with(conn)

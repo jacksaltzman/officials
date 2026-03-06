@@ -25,6 +25,10 @@ def conn():
 def test_google_news_sources_defined():
     assert "pueblo_chieftain" in GOOGLE_NEWS_SOURCES
     assert "gj_sentinel" in GOOGLE_NEWS_SOURCES
+    assert "co_springs_gazette" in GOOGLE_NEWS_SOURCES
+    assert "fort_collins_coloradoan" in GOOGLE_NEWS_SOURCES
+    assert "steamboat_pilot" in GOOGLE_NEWS_SOURCES
+    assert "summit_daily" in GOOGLE_NEWS_SOURCES
 
 
 def _make_rss_entry(title, link, snippet, published="2026-03-06"):

@@ -19,6 +19,9 @@ RSS_SOURCES: dict[str, list[str]] = {
         "https://www.durangoherald.com/feeds/business",
         "https://www.durangoherald.com/feeds/education",
     ],
+    "colorado_sun": [
+        "https://coloradosun.com/feed/",
+    ],
 }
 
 

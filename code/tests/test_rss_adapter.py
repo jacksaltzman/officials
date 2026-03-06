@@ -40,9 +40,10 @@ def conn():
 
 
 def test_rss_sources_defined():
-    """RSS_SOURCES should have entries for denver_post and durango_herald."""
+    """RSS_SOURCES should have entries for denver_post, durango_herald, and colorado_sun."""
     assert "denver_post" in RSS_SOURCES
     assert "durango_herald" in RSS_SOURCES
+    assert "colorado_sun" in RSS_SOURCES
 
 
 @patch("news.rss_adapter.feedparser.parse")

@@ -13,6 +13,10 @@ log = logging.getLogger(__name__)
 GOOGLE_NEWS_SOURCES: dict[str, str] = {
     "pueblo_chieftain": "site:chieftain.com",
     "gj_sentinel": "site:gjsentinel.com",
+    "co_springs_gazette": "site:gazette.com Colorado",
+    "fort_collins_coloradoan": "site:coloradoan.com Colorado",
+    "steamboat_pilot": "site:steamboatpilot.com",
+    "summit_daily": "site:summitdaily.com",
 }
 
 _GOOGLE_NEWS_RSS = "https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en"
