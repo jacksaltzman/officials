@@ -16,9 +16,15 @@ from news.generate_dashboard_data import run as run_dashboard_export
 
 def main() -> None:
     """Run news ingestion, extraction, and dashboard export."""
+    reextract = "--reextract" in sys.argv
+
     conn = get_connection()
     try:
-        run_news_pipeline(conn)
+        if reextract:
+            from news.pipeline import reextract_all
+            reextract_all(conn)
+        else:
+            run_news_pipeline(conn)
     finally:
         conn.close()
 

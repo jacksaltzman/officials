@@ -48,3 +48,23 @@ def run_news_pipeline(conn: sqlite3.Connection) -> None:
     log.info("=" * 60)
     log.info("News pipeline complete!")
     log.info("=" * 60)
+
+
+def reextract_all(conn: sqlite3.Connection) -> None:
+    """Re-run extraction on all articles to populate sentiment and county."""
+    # Clear existing extractions so they get re-processed
+    conn.execute("DELETE FROM article_issues")
+    conn.execute("DELETE FROM article_regions")
+    conn.execute("UPDATE articles SET sentiment = NULL")
+    conn.commit()
+    log.info("Cleared existing extractions, re-processing all articles")
+
+    rows = conn.execute("SELECT id FROM articles").fetchall()
+    log.info("Re-extracting %d articles", len(rows))
+    for i, (article_id,) in enumerate(rows):
+        try:
+            extract_issues_for_article(conn, article_id)
+        except Exception as e:
+            log.error("Failed to re-extract article %d: %s", article_id, e)
+        if (i + 1) % 50 == 0:
+            log.info("Progress: %d / %d", i + 1, len(rows))
