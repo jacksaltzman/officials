@@ -8,4 +8,5 @@ lxml>=5.1
 readability-lxml>=0.8
 lxml-html-clean>=0.4
 feedparser>=6.0
+googlenewsdecoder>=0.1.7
 anthropic>=0.40

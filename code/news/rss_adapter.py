@@ -22,6 +22,21 @@ RSS_SOURCES: dict[str, list[str]] = {
     "colorado_sun": [
         "https://coloradosun.com/feed/",
     ],
+    "co_springs_gazette": [
+        "https://gazette.com/feed/",
+    ],
+    "steamboat_pilot": [
+        "https://www.steamboatpilot.com/feed",
+    ],
+    "summit_daily": [
+        "https://www.summitdaily.com/feed",
+    ],
+    "vail_daily": [
+        "https://www.vaildaily.com/feed",
+    ],
+    "post_independent": [
+        "https://www.postindependent.com/feed",
+    ],
 }
 
 

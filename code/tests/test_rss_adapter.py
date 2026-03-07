@@ -40,10 +40,16 @@ def conn():
 
 
 def test_rss_sources_defined():
-    """RSS_SOURCES should have entries for denver_post, durango_herald, and colorado_sun."""
+    """RSS_SOURCES should have entries for all 8 direct RSS sources."""
+    assert len(RSS_SOURCES) == 8
     assert "denver_post" in RSS_SOURCES
     assert "durango_herald" in RSS_SOURCES
     assert "colorado_sun" in RSS_SOURCES
+    assert "co_springs_gazette" in RSS_SOURCES
+    assert "steamboat_pilot" in RSS_SOURCES
+    assert "summit_daily" in RSS_SOURCES
+    assert "vail_daily" in RSS_SOURCES
+    assert "post_independent" in RSS_SOURCES
 
 
 @patch("news.rss_adapter.feedparser.parse")

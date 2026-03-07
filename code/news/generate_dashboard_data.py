@@ -21,6 +21,8 @@ SOURCE_TO_REGION = {
     "fort_collins_coloradoan": "Northern",
     "steamboat_pilot": "Northwest",
     "summit_daily": "Mountain",
+    "vail_daily": "Mountain",
+    "post_independent": "Western Slope",
 }
 
 

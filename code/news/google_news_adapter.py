@@ -2,21 +2,20 @@
 
 import logging
 import sqlite3
+import time
 from html import unescape
 from re import sub as re_sub
 from urllib.parse import quote_plus
 
 import feedparser
+from googlenewsdecoder import gnewsdecoder
 
 log = logging.getLogger(__name__)
 
 GOOGLE_NEWS_SOURCES: dict[str, str] = {
     "pueblo_chieftain": "site:chieftain.com",
     "gj_sentinel": "site:gjsentinel.com",
-    "co_springs_gazette": "site:gazette.com Colorado",
     "fort_collins_coloradoan": "site:coloradoan.com Colorado",
-    "steamboat_pilot": "site:steamboatpilot.com",
-    "summit_daily": "site:summitdaily.com",
 }
 
 _GOOGLE_NEWS_RSS = "https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en"
@@ -26,6 +25,23 @@ def _strip_html(html: str) -> str:
     text = re_sub(r"<[^>]+>", " ", html)
     text = unescape(text)
     return re_sub(r"\s+", " ", text).strip()
+
+
+def _decode_google_url(url: str) -> str:
+    """Decode a Google News redirect URL to the original article URL.
+
+    If the URL starts with ``https://news.google.com/``, uses
+    ``gnewsdecoder`` to resolve it. Falls back to the original URL on
+    any error or for non-Google URLs.
+    """
+    if not url.startswith("https://news.google.com/"):
+        return url
+    try:
+        result = gnewsdecoder(url)
+        return result.get("decoded_url", url)
+    except Exception:
+        log.debug("Failed to decode Google News URL: %s", url, exc_info=True)
+        return url
 
 
 def fetch_google_news_articles(conn: sqlite3.Connection, source_name: str) -> int:
@@ -45,7 +61,7 @@ def fetch_google_news_articles(conn: sqlite3.Connection, source_name: str) -> in
     inserted = 0
     for entry in feed.entries:
         title = entry.title
-        url = entry.link
+        url = _decode_google_url(entry.link)
         snippet = _strip_html(entry.summary) if hasattr(entry, "summary") else ""
         published = entry.get("published", None)
 
@@ -64,3 +80,32 @@ def fetch_google_news_articles(conn: sqlite3.Connection, source_name: str) -> in
     conn.commit()
     log.info("Inserted %d new articles from %s", inserted, source_name)
     return inserted
+
+
+def decode_existing_google_urls(conn: sqlite3.Connection) -> int:
+    """Decode all existing Google News URLs in the articles table.
+
+    Queries articles whose URL starts with ``https://news.google.com/``,
+    decodes each one, and updates the row if the decoded URL differs.
+    Sleeps 0.5 s between decodes to avoid rate-limiting.
+
+    Returns the number of rows updated.
+    """
+    rows = conn.execute(
+        "SELECT id, url FROM articles WHERE url LIKE 'https://news.google.com/%'"
+    ).fetchall()
+
+    updated = 0
+    for article_id, url in rows:
+        decoded = _decode_google_url(url)
+        if decoded != url:
+            conn.execute(
+                "UPDATE articles SET url = ? WHERE id = ?",
+                (decoded, article_id),
+            )
+            updated += 1
+        time.sleep(0.5)
+
+    conn.commit()
+    log.info("Decoded %d existing Google News URLs out of %d", updated, len(rows))
+    return updated
