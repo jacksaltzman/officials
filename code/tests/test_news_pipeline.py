@@ -25,12 +25,14 @@ def conn():
 @patch("news.pipeline.find_duplicates")
 @patch("news.pipeline.scrape_missing_bodies")
 @patch("news.pipeline.extract_issues_for_article")
+@patch("news.pipeline.filter_articles")
 @patch("news.pipeline.fetch_google_news_articles")
 @patch("news.pipeline.fetch_rss_articles")
-def test_pipeline_calls_all_sources(mock_rss, mock_gnews, mock_extract, mock_scrape, mock_dedup, conn):
-    """Pipeline should call both adapters, scraper, and extractor."""
+def test_pipeline_calls_all_sources(mock_rss, mock_gnews, mock_filter, mock_extract, mock_scrape, mock_dedup, conn):
+    """Pipeline should call both adapters, scraper, filter, and extractor."""
     mock_rss.return_value = 2
     mock_gnews.return_value = 1
+    mock_filter.return_value = 0
     mock_scrape.return_value = 0
     mock_dedup.return_value = 0
 
@@ -65,6 +67,9 @@ def test_pipeline_calls_all_sources(mock_rss, mock_gnews, mock_extract, mock_scr
     assert "co_springs_gazette" not in gnews_calls
     assert "steamboat_pilot" not in gnews_calls
     assert "summit_daily" not in gnews_calls
+
+    # Filter called once with connection
+    mock_filter.assert_called_once_with(conn)
 
     # Scraper called once with connection
     mock_scrape.assert_called_once_with(conn)

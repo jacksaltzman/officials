@@ -5,6 +5,7 @@ import sqlite3
 
 from news.rss_adapter import fetch_rss_articles, RSS_SOURCES
 from news.google_news_adapter import fetch_google_news_articles, GOOGLE_NEWS_SOURCES
+from news.filter_articles import filter_articles
 from news.extract_issues import extract_issues_for_article
 from news.scraper import scrape_missing_bodies
 from news.dedup import find_duplicates
@@ -28,14 +29,18 @@ def run_news_pipeline(conn: sqlite3.Connection) -> None:
 
     log.info("Ingested %d new articles total", total)
 
-    # Phase 1.5: Scrape full bodies for title-only articles
+    # Phase 2: Filter out obituaries, photo galleries, wire stories
+    filtered = filter_articles(conn)
+    log.info("Filtered %d junk articles", filtered)
+
+    # Phase 3: Scrape full bodies for title-only articles
     scraped = scrape_missing_bodies(conn)
     log.info("Scraped %d article bodies", scraped)
 
-    # Phase 1.7: Find cross-source duplicates
+    # Phase 4: Find cross-source duplicates
     find_duplicates(conn)
 
-    # Phase 2: Extract issues for unprocessed articles
+    # Phase 5: Extract issues for unprocessed articles
     unprocessed = conn.execute(
         "SELECT a.id FROM articles a "
         "LEFT JOIN article_issues ai ON a.id = ai.article_id "
