@@ -81,6 +81,6 @@ def test_extract_stores_issues_and_regions(mock_anthropic, conn):
     sentiment = conn.execute("SELECT sentiment FROM articles WHERE id = 1").fetchone()
     assert sentiment[0] == "negative"
 
-    # Verify county stored on regions
+    # Verify county stored on regions (normalized: "La Plata County" -> "La Plata")
     counties = conn.execute("SELECT county FROM article_regions WHERE article_id = 1").fetchall()
-    assert any(r[0] == "La Plata County" for r in counties)
+    assert any(r[0] == "La Plata" for r in counties)

@@ -6,6 +6,7 @@ import sqlite3
 from pathlib import Path
 
 from db import BASE_DIR
+from news.county_normalization import normalize_county
 
 log = logging.getLogger(__name__)
 
@@ -67,11 +68,14 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
     ).fetchall()
 
     counties = {}
-    for county, issue, cnt in county_rows:
+    for raw_county, issue, cnt in county_rows:
+        county = normalize_county(raw_county)
+        if not county:
+            continue
         if county not in counties:
             counties[county] = {"total": 0, "top_issue": issue, "issues": {}}
         counties[county]["total"] += cnt
-        counties[county]["issues"][issue] = cnt
+        counties[county]["issues"][issue] = counties[county]["issues"].get(issue, 0) + cnt
 
     county_data = [
         {
@@ -119,7 +123,7 @@ def generate_dashboard_json(conn: sqlite3.Connection) -> dict:
             "published_at": published_at,
             "issues": issue_names,
             "locations": regions,
-            "county": county_row[0] if county_row else None,
+            "county": normalize_county(county_row[0]) if county_row else None,
             "sentiment": sentiment,
         })
 

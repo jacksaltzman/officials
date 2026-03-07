@@ -8,6 +8,7 @@ from re import sub as re_sub
 import anthropic
 
 from db import BASE_DIR
+from news.county_normalization import normalize_county
 
 log = logging.getLogger(__name__)
 
@@ -121,7 +122,7 @@ def extract_issues_for_article(conn: sqlite3.Connection, article_id: int) -> Non
         )
 
     # Store county on regions
-    county = result.get("county", "")
+    county = normalize_county(result.get("county", ""))
     if county:
         conn.execute(
             "UPDATE article_regions SET county = ? WHERE article_id = ? AND county IS NULL",
