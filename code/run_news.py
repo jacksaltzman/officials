@@ -16,10 +16,16 @@ from news.generate_dashboard_data import run as run_dashboard_export
 
 def main() -> None:
     """Run news ingestion, extraction, and dashboard export."""
+    decode_urls = "--decode-urls" in sys.argv
     reextract = "--reextract" in sys.argv
 
     conn = get_connection()
     try:
+        if decode_urls:
+            from news.google_news_adapter import decode_existing_google_urls
+            count = decode_existing_google_urls(conn)
+            logging.info("Decoded %d Google News URLs", count)
+
         if reextract:
             from news.pipeline import reextract_all
             reextract_all(conn)
