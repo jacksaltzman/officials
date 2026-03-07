@@ -425,17 +425,40 @@
         text-underline-offset: 2px;
     }
 
-    /* ── Sentiment Dots ─────────────────────────────── */
-    .sentiment-dot {
-      display: inline-block;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      margin-right: 4px;
+    /* ── Sentiment Labels ─────────────────────────────── */
+    .sentiment-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
       vertical-align: middle;
     }
-    .sentiment-dot--positive { background: #27AE60; }
-    .sentiment-dot--neutral  { background: #BDC3C7; }
-    .sentiment-dot--negative { background: #C0392B; }
+    .sentiment-label--positive {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+    .sentiment-label--neutral {
+      background: #F5F5F5;
+      color: #757575;
+    }
+    .sentiment-label--negative {
+      background: #FFEBEE;
+      color: #C62828;
+    }
+    .sentiment-label::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .sentiment-label--positive::before { background: #27AE60; }
+    .sentiment-label--neutral::before  { background: #BDC3C7; }
+    .sentiment-label--negative::before { background: #C0392B; }
 
     /* ── Drawer ───────────────────────────────────── */
     .drawer {
@@ -1326,8 +1349,8 @@
 
         const dateStr = formatDate(a.published_at);
         const sourceName = SOURCE_NAMES[a.source] || a.source;
-        const sentimentDot = a.sentiment
-          ? `<span class="sentiment-dot sentiment-dot--${a.sentiment}" title="${a.sentiment}"></span>`
+        const sentimentLabel = a.sentiment
+          ? `<span class="sentiment-label sentiment-label--${a.sentiment}">${a.sentiment}</span>`
           : '';
 
         let issuePills = a.issues.map(issue => {
@@ -1347,7 +1370,7 @@
             <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>
           </div>
           <div class="feed-meta">
-            ${sentimentDot}<span class="feed-date">${dateStr}</span>
+            ${sentimentLabel}<span class="feed-date">${dateStr}</span>
             <span class="source-pill source-pill--${a.source}">${esc(sourceName)}</span>
             ${issuePills}
             ${locationNames ? `<span class="feed-locations">${esc(locationNames)}</span>` : ''}
